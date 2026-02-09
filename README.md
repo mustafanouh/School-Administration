@@ -1,61 +1,55 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+🏫 School Administration System
+A robust School Management System built with Laravel, Tailwind CSS, and MySQL. This system is designed to handle the complex lifecycle of students, staff, and academic progression with strict business logic.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+🚀 Core Functional Modules
+1. Student Admission & Enrollment
+Student Identity: Personal data is stored in the Students table (Name, Guardian info, etc.). Students are treated as administrative entities and do not have User login accounts.
 
-## About Laravel
+First Enrollment: Upon acceptance, the system automatically creates a record in the Enrollments table, linking the student to the Current Academic Year, Section, and Track.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Capacity Logic: The system strictly prevents enrollment if a Section has reached its maximum capacity defined in the database.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+2. Staff & Faculty Management
+General Staff: Administrative roles (Accountants, Managers, HR) are created in the Users table and linked to the Employees table with specific programmatic permissions.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Teachers: Specialized employees stored in the Teachers table to manage academic delivery.
 
-## Learning Laravel
+Teacher-Subject Assignment: Teachers are assigned to specific Subjects, Sections, and Academic Years.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Integrity Rule: To prevent conflicts, the system ensures a single subject cannot be assigned to the same section by two different teachers within the same academic cycle.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+3. Examination & Grading System
+Exam Creation: Teachers or Admins define exams in the Exams table, associated with a Subject and a Semester.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Mark Weights: Every exam must have a defined max_mark (Maximum Grade).
 
-## Laravel Sponsors
+Grade Validation: When recording scores in the Marks table, the system performs two critical checks:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Verifies the student is currently enrolled in the academic year associated with the exam.
 
-### Premium Partners
+Ensures the entered score does not exceed the max_mark.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+4. Automatic Promotion Logic
+The system automates the transition between academic years:
 
-## Contributing
+Success Evaluation: The system aggregates marks and compares them against the min_mark (Passing Grade) defined in the Subjects table.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Status Management: Students passing all subjects have their Enrollments status updated to "Passed".
 
-## Code of Conduct
+Grade Promotion: Successful students are automatically queued for the next Grade level in the upcoming academic year.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+5. Academic Year Lifecycle
+Active Year Control: Only one year can be marked as is_active in the Academic_Years table.
 
-## Security Vulnerabilities
+Data Locking: Grading and enrollment modifications are restricted to the active year only.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Year Closing: Closing a year archives all current Enrollments, making them read-only to preserve historical data integrity.
 
-## License
+🛠 Technical Stack
+Framework: Laravel 11.x
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Frontend: Tailwind CSS & Blade Components
+
+Authentication: Laravel Breeze
+
+Build Tool: Vite
