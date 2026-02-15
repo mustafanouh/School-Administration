@@ -15,6 +15,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
 Route::prefix('academic-years')->group(function () {
     Route::get('/', 'AcademicYearController@index');                    // عرض جميع السنوات
     Route::post('/', 'AcademicYearController@store');                   // إنشاء سنة
@@ -24,6 +25,5 @@ Route::prefix('academic-years')->group(function () {
     Route::post('/{id}/activate', 'AcademicYearController@activate');   // تفعيل سنة
     Route::get('/active/current', 'AcademicYearController@getActiveYear'); // السنة المفعلة
 });
-require __DIR__.'/auth.php';
 
-
+// require __DIR__.'/auth.php';  ← 
