@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,5 +29,19 @@ Route::prefix('academic-years')->group(function () {
     Route::get('/active/current', 'AcademicYearController@getActiveYear');
 });
 
-// استدعاء ملفات المصادقة (Breeze/Jetstream) الخاصة بك
+
+Route::resource('employees', EmployeeController::class);
+
+
+
+
+
+
+
+
+
+
+
+
+
 require __DIR__ . '/auth.php';

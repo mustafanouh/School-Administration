@@ -5,7 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
@@ -15,10 +17,16 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
+<style>
+    [x-cloak] {
+        display: none !important;
+    }
+</style>
 
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-100">
         @include('layouts.navigation')
+
 
         <!-- Page Heading -->
         @isset($header)
@@ -31,10 +39,22 @@
         @endisset
 
         <!-- Page Content -->
-        <main>
-            {{ $slot }}  
-        </main>
-      
+        <div class="py-6">
+            {{ $slot }}
+        </div>
+
+        <x-sidebar role="Admin">
+            <x-sidebar-link icon="fas fa-home" label="Home" :active="request()->routeIs('dashboard')" href="/dashboard" />
+            <x-sidebar-link icon="fas fa-users" label="Employees Management" :href="route('employees.index')" :active="request()->routeIs('employees.*')" />
+            <x-sidebar-link icon="fas fa-tasks" label="Maintenance Requests" href="/admin/maintenance" />
+
+            <x-sidebar-link icon="fas fa-building" label="Units" href="/admin/units" />
+
+            <div class="mt-4 pt-4 border-t border-gray-100 dark:border-white/10">
+                <x-sidebar-link icon="fas fa-sign-out-alt" label="Logout" href="/logout" />
+            </div>
+        </x-sidebar>
+
     </div>
 </body>
 
