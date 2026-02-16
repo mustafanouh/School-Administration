@@ -109,6 +109,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        
                                           <div x-data="{ openViewModal: false }">
                                             <button @click="openViewModal = true"
                                                 class="text-green-500 hover:text-green-700 px-2 py-1 transition-colors">

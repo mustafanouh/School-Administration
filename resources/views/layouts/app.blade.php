@@ -46,7 +46,7 @@
         <x-sidebar role="Admin">
             <x-sidebar-link icon="fas fa-home" label="Home" :active="request()->routeIs('dashboard')" href="/dashboard" />
             <x-sidebar-link icon="fas fa-users" label="Employees Management" :href="route('employees.index')" :active="request()->routeIs('employees.*')" />
-            <x-sidebar-link icon="fas fa-tasks" label="Maintenance Requests" href="/admin/maintenance" />
+            <x-sidebar-link icon="fas fa-chalkboard-user" label="Teachers Management" :href="route('teachers.index')" :active="request()->routeIs('teachers.*')"     />
 
             <x-sidebar-link icon="fas fa-building" label="Units" href="/admin/units" />
 
