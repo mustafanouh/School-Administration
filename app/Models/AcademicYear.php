@@ -11,6 +11,22 @@ use App\Models\Enrollment;
 class AcademicYear extends Model
 {
       protected $fillable = ['name', 'isActive'];
+
+      //إضافة سكوب أكتيف للسنة المفعلة حاليا
+      public function scopeActive($query)
+      {
+         return $query->where('isActive', true);
+      }
+
+      public function scopeInactive($query)
+      {
+        return $query->where('isActive',false);
+      }
+      //للتحقق من وجود قيود 
+      public function hasEnrollments()
+      {
+        return $this->enrollments()->count() > 0;
+      }
     
        public function semesters()
         {  

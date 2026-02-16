@@ -17,4 +17,16 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+// مسارات السنوات الدراسية التي أضافها زميلك
+Route::prefix('academic-years')->group(function () {
+    Route::get('/', 'AcademicYearController@index');
+    Route::post('/', 'AcademicYearController@store');
+    Route::get('/{id}', 'AcademicYearController@show');
+    Route::put('/{id}', 'AcademicYearController@update');
+    Route::delete('/{id}', 'AcademicYearController@destroy');
+    Route::post('/{id}/activate', 'AcademicYearController@activate');
+    Route::get('/active/current', 'AcademicYearController@getActiveYear');
+});
+
+// استدعاء ملفات المصادقة (Breeze/Jetstream) الخاصة بك
+require __DIR__ . '/auth.php';
