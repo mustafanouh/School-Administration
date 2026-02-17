@@ -13,4 +13,19 @@ class Student extends Model
     {
         return $this->hasMany(Enrollment::class);
     }
+     protected $casts = [
+        'date_of_birth' => 'date',
+    ];
+    
+      public function sections()
+    {
+        return $this->hasManyThrough(
+            Section::class,
+            Enrollment::class,
+            'student_id',
+            'id',
+            'id',
+            'section_id'
+        );
+    }
 }

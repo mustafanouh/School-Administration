@@ -15,6 +15,10 @@ class Teacher extends Model
     // {
     //     return $this->belongsTo(Employee::class);
     // }
+     protected $casts = [
+        'hire_date' => 'date',
+        'is_active' => 'boolean',
+    ];
     public function employee()
     {
         return $this->belongsTo(Employee::class, 'employee_id');

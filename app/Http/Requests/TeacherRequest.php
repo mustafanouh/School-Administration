@@ -26,4 +26,16 @@ class TeacherRequest extends FormRequest
         'specialization' => 'required|string|max:255',
     ];
     }
+
+     public function messages(): array
+    {
+        return [
+            'employee_id.required' => 'يجب اختيار الموظف',
+            'employee_id.exists' => 'الموظف المختار غير موجود',
+            'employee_id.unique' => 'الموظف مسجل مسبقًا كمعلم',
+            'specialization.required' => 'يجب إدخال التخصص',
+            'specialization.string' => 'التخصص يجب أن يكون نصًا',
+            'specialization.max' => 'التخصص طويل جدًا، الحد الأقصى 255 حرف',
+        ];
+    }
 }
