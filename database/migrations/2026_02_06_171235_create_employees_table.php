@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('first_name');
             $table->string('last_name');
-            $table->enum('gender', ['Male', 'Female ']);
+            $table->enum('gender', ['Male','Female']);
             $table->string('phone');
             $table->string('address');
             $table->string('notional_id')->unique();

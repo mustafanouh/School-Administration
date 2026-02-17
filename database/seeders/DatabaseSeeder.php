@@ -19,55 +19,36 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      */
-    public function run(): void
-    {
+ public function run(): void
+{
+    $this->call([
+        // 1. الأساسيات (التي لا تعتمد على غيرها)
+        RolesAndPermissionsSeeder::class,
+        AcademicYearSeeder::class, 
+        SemesterSeeder::class,
+        StageSeeder::class,             
+        TrackSeeder::class,             
+        GradeSeeder::class,              
+
+        // 2. الكيانات البشرية الأساسية (Users)
+        UserSeeder::class, 
+
+        // 3. التعريفات التفصيلية
+        SubjectSeeder::class,             
+        EmployeeSeeder::class,           
+        TeacherSeeder::class,             
+        StudentSeeder::class,             
+
+        // 4. الهيكل التنظيمي (الربط بين الصفوف والمدرسين والسنوات)
+        SectionSeeder::class,           
+
+        // 5. العمليات (لب المشروع - الربط النهائي)
+        EnrollmentSeeder::class,          
+    ]);
+}
+
+
+
         
-        $this->call(RolesAndPermissionsSeeder::class);
-
-     // 1️⃣ إنشاء معلمين
-        $teachers = Teacher::factory(5)->create();
-
-        // 2️⃣ إنشاء مواد (كل مادة مرتبط بمعلم عشوائي)
-        Subject::factory(5)->create();
-
-        // 3️⃣ إنشاء سنة دراسية
-        $academicYear = AcademicYear::factory()->create([
-            'name' => '2023-2024',
-        ]);
-
-        // 4️⃣ إنشاء مسارات (Tracks)
-        $tracks = Track::factory(3)->create();
-
-        // 5️⃣ إنشاء الشعب
-        $sections = Section::factory(3)->create([
-            'academic_year_id' => $academicYear->id,
-        ]);
-
-        // 6️⃣ إنشاء طلاب
-        $students = User::factory(50)->create([
-            'role' => 'student', // إذا كان لديك عمود role في users
-        ]);
-
-        // 7️⃣ تسجيل الطلاب في الشعب (مع التحقق من capacity)
-        foreach ($students as $student) {
-            // اختيار شعبة ومسار عشوائي
-            $section = $sections->random();
-            $track = $tracks->random();
-
-            // عدد الطلاب الحالي في الشعبة
-            $enrollmentCount = Enrollment::where('section_id', $section->id)
-                ->where('academic_year_id', $academicYear->id)
-                ->count();
-
-            if ($enrollmentCount < $section->capacity) {
-                Enrollment::create([
-                    'student_id' => $student->id,
-                    'section_id' => $section->id,
-                    'academic_year_id' => $academicYear->id,
-                    'track_id' => $track->id,
-                    'status' => 'enrolled',
-                ]);
-            }
-        }
-    }
+    
 }
