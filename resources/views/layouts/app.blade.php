@@ -51,13 +51,14 @@
             <x-sidebar-link icon="fas fa-user-graduate" label="students Management" :href="route('students.index')"
                 :active="request()->routeIs('students.*')" />
 
-            <x-sidebar-link icon="fa-solid fa-school" label="Sections Management" :href="route('sections.index')"
-                :active="request()->routeIs('sections.*')" />
+            <x-sidebar-link icon="fa-solid fa-school" label="Sections Management" :href="route('sections.index')" :active="request()->routeIs('sections.*')" />
+            <x-sidebar-link icon="fas fa-user-shield" label="Enrollments Management" :href="route('enrollments.index')"
+                :active="request()->routeIs('enrollments.*')" />
 
 
-         
 
-                
+
+
 
             <div class="mt-4 pt-4 border-t border-gray-100 dark:border-white/10">
                 <x-sidebar-link icon="fas fa-sign-out-alt" label="Logout" href="/logout" />

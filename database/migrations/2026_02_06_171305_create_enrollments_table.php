@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('enrollments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('student_id')->references('id')->on('users');
+            $table->foreignId('student_id')->references('id')->on('students');
             $table->foreignId('section_id')->references('id')->on('sections');
             $table->foreignId('academic_year_id')->references('id')->on('academic_years');
             $table->foreignId('track_id')->references('id')->on('tracks');

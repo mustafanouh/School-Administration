@@ -12,12 +12,15 @@ use App\Models\Mark;
 
 class Enrollment extends Model
 {
-     protected $fillable = [
+    protected $fillable = [
         'student_id',
         'section_id',
         'track_id',
         'academic_year_id',
         'status'
+    ];
+    protected $casts = [
+        'enrollment_date' => 'date',
     ];
 
     public function student()

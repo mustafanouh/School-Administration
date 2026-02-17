@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
+
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -34,10 +36,13 @@ Route::prefix('academic-years')->group(function () {
 });
 
 
+
+
 Route::resource('employees', EmployeeController::class);
 Route::resource('teachers', TeacherController::class);
 Route::resource('students', StudentController::class);
 Route::resource('sections', SectionController::class);
+Route::resource('enrollments', EnrollmentController::class);
 
 
 
