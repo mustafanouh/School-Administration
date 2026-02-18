@@ -19,37 +19,33 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      */
- public function run(): void
-{
-    $this->call([
-        // 1. الأساسيات (التي لا تعتمد على غيرها)
-        RolesAndPermissionsSeeder::class,
-        AcademicYearSeeder::class, 
-        SemesterSeeder::class,
-        StageSeeder::class,             
-        TrackSeeder::class,             
-        GradeSeeder::class,              
+    public function run(): void
+    {
+        $this->call([
+            // الأساسيات (التي لا تعتمد على غيرها)
+            RolesAndPermissionsSeeder::class,
+            AcademicYearSeeder::class,
+            SemesterSeeder::class,
+            StageSeeder::class,
+            TrackSeeder::class,
+            GradeSeeder::class,
 
-        // 2. الكيانات البشرية الأساسية (Users)
-        UserSeeder::class, 
+            // 2. الكيانات البشرية الأساسية (Users)
+            UserSeeder::class,
 
-        // 3. التعريفات التفصيلية
-        SubjectSeeder::class,             
-        EmployeeSeeder::class,           
-        TeacherSeeder::class,             
-        StudentSeeder::class,             
+      
+            SubjectSeeder::class,
+            EmployeeSeeder::class,
+            TeacherSeeder::class,
+            StudentSeeder::class,
 
-        // 4. الهيكل التنظيمي (الربط بين الصفوف والمدرسين والسنوات)
-        SectionSeeder::class,           
+            // 4. الهيكل التنظيمي (الربط بين الصفوف والمدرسين والسنوات)
+            SectionSeeder::class,
 
-        // 5. العمليات (لب المشروع - الربط النهائي)
-        EnrollmentSeeder::class,      
-        ExamSeeder::class,    
-    ]);
-}
-
-
-
-        
-    
+            // 5. العمليات (لب المشروع - الربط النهائي)
+            EnrollmentSeeder::class,
+            ExamSeeder::class,
+            MarkSeeder::class,
+        ]);
+    }
 }

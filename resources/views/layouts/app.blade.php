@@ -56,6 +56,7 @@
 
             <x-sidebar-link icon="fas fa-file-signature" label="Exams Management" :href="route('exams.index')"
                 :active="request()->routeIs('exams.*')" />
+            <x-sidebar-link icon="fas fa-poll-h" label="Marks Management" :href="route('marks.index')" :active="request()->routeIs('marks.*')" />
 
 
 
