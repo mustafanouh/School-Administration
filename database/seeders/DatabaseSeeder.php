@@ -43,7 +43,8 @@ class DatabaseSeeder extends Seeder
         SectionSeeder::class,           
 
         // 5. العمليات (لب المشروع - الربط النهائي)
-        EnrollmentSeeder::class,          
+        EnrollmentSeeder::class,      
+        ExamSeeder::class,    
     ]);
 }
 

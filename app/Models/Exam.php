@@ -7,9 +7,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Semester;
 use App\Models\Subject;
 use App\Models\Mark;
+
 class Exam extends Model
 {
-    protected $fillable = ['subject_id', 'semester_id', 'exam_type', 'max_mark'];
+    protected $fillable = [
+        'subject_id',
+        'semester_id',
+        'exam_type',
+        'max_mark'
+    ];
 
     public function subject()
     {

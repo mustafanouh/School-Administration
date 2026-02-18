@@ -44,18 +44,18 @@
         </div>
 
         <x-sidebar role="Admin">
-            <x-sidebar-link icon="fas fa-home" label="Home" :active="request()->routeIs('dashboard')" href="/dashboard" />
+            <x-sidebar-link icon="fa-solid fa-school" label="Sections Management" :href="route('sections.index')" :active="request()->routeIs('sections.*')" />
             <x-sidebar-link icon="fas fa-users" label="Employees Management" :href="route('employees.index')" :active="request()->routeIs('employees.*')" />
             <x-sidebar-link icon="fas fa-chalkboard-user" label="Teachers Management" :href="route('teachers.index')"
                 :active="request()->routeIs('teachers.*')" />
             <x-sidebar-link icon="fas fa-user-graduate" label="students Management" :href="route('students.index')"
                 :active="request()->routeIs('students.*')" />
 
-            <x-sidebar-link icon="fa-solid fa-school" label="Sections Management" :href="route('sections.index')" :active="request()->routeIs('sections.*')" />
             <x-sidebar-link icon="fas fa-user-shield" label="Enrollments Management" :href="route('enrollments.index')"
                 :active="request()->routeIs('enrollments.*')" />
 
-
+            <x-sidebar-link icon="fas fa-file-signature" label="Exams Management" :href="route('exams.index')"
+                :active="request()->routeIs('exams.*')" />
 
 
 
