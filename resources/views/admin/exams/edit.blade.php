@@ -21,10 +21,12 @@
                         <select name="subject_id"
                             class="w-full bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-xl px-4 py-3 text-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all @error('subject_id') border-rose-500 @enderror">
                             @foreach ($subjects as $subject)
+                            @foreach ($grades as $grade)
                                 <option value="{{ $subject->id }}"
                                     {{ old('subject_id', $exam->subject_id) == $subject->id ? 'selected' : '' }}>
-                                    {{ $subject->name }}
+                                    {{ "$subject->name ($grade->name)" }}
                                 </option>
+                            @endforeach
                             @endforeach
                         </select>
                         @error('subject_id')
@@ -39,10 +41,12 @@
                         <select name="semester_id"
                             class="w-full bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-xl px-4 py-3 text-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all @error('semester_id') border-rose-500 @enderror">
                             @foreach ($semesters as $semester)
+                              @foreach ($academicYears as $academicYear)
                                 <option value="{{ $semester->id }}"
                                     {{ old('semester_id', $exam->semester_id) == $semester->id ? 'selected' : '' }}>
-                                    {{ $semester->name }}
+                                    {{ "$semester->name ($academicYear->name)" }}
                                 </option>
+                            @endforeach
                             @endforeach
                         </select>
                         @error('semester_id')

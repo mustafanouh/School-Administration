@@ -34,7 +34,10 @@
                             @foreach ($enrollments as $enrollment)
                                 <option value="{{ $enrollment->id }}"
                                     {{ old('enrollment_id') == $enrollment->id ? 'selected' : '' }}>
-                                    {{ $enrollment->student->name }} - (ID: {{ $enrollment->id }})
+                                    {{ $enrollment->student->first_name }} {{ $enrollment->student->last_name }}
+                                    {{ $enrollment->section->grade->name }} ({{ $enrollment->section->name }})
+
+
                                 </option>
                             @endforeach
                         </select>

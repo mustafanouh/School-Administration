@@ -23,7 +23,7 @@ class MarkController extends Controller
     public function create()
     {
         // جلب الطلاب المسجلين مع أسمائهم للسهولة
-        $enrollments = Enrollment::with('student')->get();
+        $enrollments = Enrollment::with(['student', 'section.grade'])->get();
 
         // جلب الامتحانات مع المادة والترم
         $exams = Exam::with(['subject', 'semester'])->get();

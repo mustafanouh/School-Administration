@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ExamRequest;
+use App\Models\AcademicYear;
 use App\Models\Exam;
+use App\Models\Grade;
 use App\Models\Semester;
 use App\Models\Subject;
 use Illuminate\Http\Request;
@@ -20,9 +22,13 @@ class ExamController extends Controller
     public function create()
     {
         $subjects = Subject::all();
-        $semesters = Semester::all();
+        $academicYears = AcademicYear::where('is_active', true)->get();
+        $semesters = Semester::whereHas('academicYear', function ($query) {
+            $query->where('is_active', true);
+        })->get();
+        $grades = Grade::all();
 
-        return view('admin.exams.create', compact('subjects', 'semesters'));
+        return view('admin.exams.create', compact('subjects', 'semesters', 'academicYears', 'grades'));
     }
     public function store(ExamRequest $request)
     {
@@ -40,8 +46,13 @@ class ExamController extends Controller
 
         $subjects = Subject::all();
         $semesters = Semester::all();
+        $academicYears = AcademicYear::where('is_active', true)->get();
+        $semesters = Semester::whereHas('academicYear', function ($query) {
+            $query->where('is_active', true);
+        })->get();
+        $grades = Grade::all();
 
-        return view('admin.exams.edit', compact('exam', 'subjects', 'semesters'));
+        return view('admin.exams.edit', compact('exam', 'subjects', 'semesters', 'academicYears', 'grades'));
     }
 
     public function update(ExamRequest $request, Exam $exam)
@@ -55,7 +66,7 @@ class ExamController extends Controller
     public function destroy(Exam $exam)
     {
         try {
-        
+
             if ($exam->marks()->exists()) {
                 return back()->with('error', 'Cannot delete this exam because it already has student marks recorded.');
             }

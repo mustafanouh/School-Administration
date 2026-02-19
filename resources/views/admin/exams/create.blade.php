@@ -21,10 +21,12 @@
                             class="w-full bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-xl px-4 py-3 text-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all @error('subject_id') border-rose-500 @enderror">
                             <option value="">Select Subject</option>
                             @foreach ($subjects as $subject)
-                                <option value="{{ $subject->id }}"
-                                    {{ old('subject_id') == $subject->id ? 'selected' : '' }}>
-                                    {{ $subject->name }}
-                                </option>
+                                @foreach ($grades as $grade)
+                                    <option value="{{ $subject->id }}"
+                                        {{ old('subject_id') == $subject->id ? 'selected' : '' }}>
+                                        {{ "$subject->name ($grade->name)" }}
+                                    </option>
+                                @endforeach
                             @endforeach
                         </select>
                         @error('subject_id')
@@ -40,10 +42,12 @@
                             class="w-full bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-xl px-4 py-3 text-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all @error('semester_id') border-rose-500 @enderror">
                             <option value="">Select Semester</option>
                             @foreach ($semesters as $semester)
-                                <option value="{{ $semester->id }}"
-                                    {{ old('semester_id') == $semester->id ? 'selected' : '' }}>
-                                    {{ $semester->name }}
-                                </option>
+                                @foreach ($academicYears as $academicYear)
+                                    <option value="{{ $semester->id }}"
+                                        {{ old('semester_id') == $semester->id ? 'selected' : '' }}>
+                                        {{ "$semester->name ($academicYear->name)" }}
+                                    </option>
+                                @endforeach
                             @endforeach
                         </select>
                         @error('semester_id')

@@ -17,10 +17,9 @@ class EnrollmentController extends Controller
     public function index(Request $request)
     {
         // جلب البيانات مع العلاقات لتجنب مشكلة N+1
-        $enrollments = Enrollment::with(['student', 'section', 'academicYear', 'track', 'marks'])
+        $enrollments = Enrollment::with(['student', 'section.grade', 'academicYear', 'track', 'marks.exam'])
             ->latest()
             ->paginate(10); // تقسيم الصفحات
-
         return view('admin.enrollments.index', compact('enrollments'));
     }
 

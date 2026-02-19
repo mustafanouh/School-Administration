@@ -145,7 +145,8 @@
                                                         <p class="text-sm text-gray-500 mt-2 px-4">This will remove
                                                             <span
                                                                 class="font-bold">{{ $enrollment->student->name }}</span>
-                                                            from this academic session.</p>
+                                                            from this academic session.
+                                                        </p>
                                                     </div>
                                                     <div class="bg-gray-50 dark:bg-white/5 px-6 py-4 flex gap-3">
                                                         <button @click="openDel = false"
@@ -180,5 +181,54 @@
                 {{ $enrollments->links() }}
             </div>
         @endif
+        {{-- <div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Grade</th>
+                        <th>Exams & Marks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($enrollments as $enrollment)
+                        <tr>
+                            <td>{{ $enrollment->student->first_name }} {{ $enrollment->student->last_name }}</td>
+                            <td>{{ $enrollment->section->grade->name }}</td>
+                            <td>
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Exam</th>
+                                            <th>Exam type</th>
+                                            <th>Score</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($enrollment->marks as $mark)
+                                            <tr>
+                                                <td>{{ $mark->exam->name }}</td>
+                                                <td>{{ $mark->exam->exam_type }}</td>
+                                                <td>{{ $mark->score }} / {{ $mark->max_mark ?? '100' }}</td>
+                                                <td>
+                                                    <span
+                                                        class="badge {{ $mark->status == 'passed' ? 'bg-success' : 'bg-danger' }}">
+                                                        {{ ucfirst($mark->status) }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+
+
+        </div> --}}
     </div>
+
 </x-app-layout>
