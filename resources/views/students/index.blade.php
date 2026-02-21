@@ -118,109 +118,12 @@
                                             </div>
                                         </div>
 
-                                        {{-- 3. View Icon & Modal --}}
-                                        <div x-data="{ openViewModal: false }">
-                                            <button @click="openViewModal = true"
-                                                class="text-emerald-500 hover:text-emerald-700 px-2 py-1 transition-colors"
-                                                title="View Profile">
-                                                <i class="fa-solid fa-arrow-right"></i>
-                                            </button>
-
-                                            <div x-show="openViewModal"
-                                                class="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto"
-                                                x-cloak>
-
-                                                <div class="fixed inset-0 bg-black/60 transition-opacity"
-                                                    @click="openViewModal = false"></div>
-
-                                                <div
-                                                    class="relative bg-white dark:bg-[#161923] rounded-3xl shadow-2xl max-w-2xl w-full mx-4 overflow-hidden border border-gray-100 dark:border-white/5 text-left">
-
-                                                    {{-- Modal Header --}}
-                                                    <div
-                                                        class="px-8 py-6 border-b border-gray-50 dark:border-white/5 flex justify-between items-center bg-gray-50/50 dark:bg-white/5">
-                                                        <div>
-                                                            <h3 class="text-xl font-bold dark:text-white">Student Full
-                                                                Profile</h3>
-                                                            <p class="text-xs text-indigo-500 font-bold uppercase mt-1">
-                                                                {{ $student->first_name }} {{ $student->last_name }}
-                                                            </p>
-                                                        </div>
-                                                        <button @click="openViewModal = false"
-                                                            class="text-gray-400 hover:text-gray-600">
-                                                            <i class="fas fa-times"></i>
-                                                        </button>
-                                                    </div>
-
-                                                    {{-- Modal Body --}}
-                                                    <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-10">
-                                                        {{-- Personal Info --}}
-                                                        <div>
-                                                            <p
-                                                                class="text-[10px] uppercase text-gray-400 font-bold tracking-widest">
-                                                                Birth Details</p>
-                                                            <p class="text-sm dark:text-gray-200 mt-1">
-                                                                {{ $student->date_of_birth }}
-                                                                ({{ $student->place_of_birth }})</p>
-                                                        </div>
-                                                        <div>
-                                                            <p
-                                                                class="text-[10px] uppercase text-gray-400 font-bold tracking-widest">
-                                                                Gender & Blood</p>
-                                                            <p class="text-sm dark:text-gray-200 mt-1 uppercase">
-                                                                {{ $student->gender }} |
-                                                                {{ $student->blood_group ?? 'N/A' }}</p>
-                                                        </div>
-
-                                                        {{-- Parents Info --}}
-                                                        <div
-                                                            class="p-4 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5">
-                                                            <p
-                                                                class="text-[10px] uppercase text-indigo-500 font-bold tracking-widest mb-2">
-                                                                Father Information</p>
-                                                            <p class="text-sm font-bold dark:text-white">
-                                                                {{ $student->father_name }}</p>
-                                                            <p class="text-xs dark:text-gray-400 mt-1"><i
-                                                                    class="fas fa-phone mr-1"></i>
-                                                                {{ $student->father_phone_number }}</p>
-                                                            <p class="text-[11px] text-gray-400 italic mt-1">
-                                                                {{ $student->father_email }}</p>
-                                                        </div>
-
-                                                        <div
-                                                            class="p-4 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5">
-                                                            <p
-                                                                class="text-[10px] uppercase text-pink-500 font-bold tracking-widest mb-2">
-                                                                Mother Information</p>
-                                                            <p class="text-sm font-bold dark:text-white">
-                                                                {{ $student->mother_name }}</p>
-                                                            <p class="text-xs dark:text-gray-400 mt-1"><i
-                                                                    class="fas fa-phone mr-1"></i>
-                                                                {{ $student->mother_phone_number }}</p>
-                                                            <p class="text-[11px] text-gray-400 italic mt-1">
-                                                                {{ $student->mother_email }}</p>
-                                                        </div>
-
-                                                        <div
-                                                            class="md:col-span-2 border-t border-gray-50 dark:border-white/5 pt-4">
-                                                            <p
-                                                                class="text-[10px] uppercase text-gray-400 font-bold tracking-widest">
-                                                                Full Address</p>
-                                                            <p class="text-sm dark:text-gray-200 mt-1">
-                                                                {{ $student->address }}</p>
-                                                        </div>
-                                                    </div>
-
-                                                    {{-- Modal Footer --}}
-                                                    <div class="px-8 py-4 bg-gray-50 dark:bg-white/5 flex justify-end">
-                                                        <button @click="openViewModal = false"
-                                                            class="px-6 py-2 bg-gray-200 dark:bg-gray-700 rounded-xl text-sm font-bold text-gray-700 dark:text-white transition-colors">
-                                                            Close
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                       {{-- 3. View Icon & Modal --}}
+                                        <a href="{{ route('students.show', $student->id) }}"
+                                            class="text-emerald-500 hover:text-emerald-700 px-2 py-1 transition-colors"
+                                            title="View Profile">
+                                            <i class="fa-solid fa-arrow-right"></i>
+                                        </a>
 
                                     </div>
                                 </td>

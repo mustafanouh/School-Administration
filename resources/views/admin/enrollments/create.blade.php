@@ -78,7 +78,8 @@
                             <option value="">Select Section</option>
                             @foreach ($sections as $section)
                                 @foreach ($grades as $grade)
-                                    <option value="{{ $section->id }}">{{ $section->name }} ({{ $grade->name }})</option>
+                                    <option value="{{ $section->id }}">{{ $section->name }} ({{ $grade->name }})
+                                    </option>
                                 @endforeach
                             @endforeach
                         </select>
@@ -130,5 +131,25 @@
                 </div>
             </form>
         </div>
+
+
+
+        {{-- عرض رسائل الخطأ العامة --}}
+        @if ($errors->any())
+            <div class="mb-4 p-4 bg-red-100 border-l-4 border-red-500 text-red-700">
+                <ul class="list-disc ml-5">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        {{-- عرض رسالة النجاح أو الفشل من الـ Session --}}
+        @if (session('error'))
+            <div class="mb-4 p-4 bg-orange-100 border-l-4 border-orange-500 text-orange-700">
+                {{ session('error') }}
+            </div>
+        @endif
     </div>
 </x-app-layout>

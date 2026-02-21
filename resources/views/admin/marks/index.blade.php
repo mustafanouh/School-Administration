@@ -48,8 +48,8 @@
                                 <td class="px-6 py-4">
                                     <div class="flex items-center">
                                         <div class="mr-3">
-                                            <p class="font-bold text-gray-800 dark:text-gray-200 uppercase text-sm">
-                                                {{ $mark->enrollment->student->name }}
+                                            <p class="font-bold text-gray-800 dark:text-gray-200  text-sm">
+                                                {{ $mark->enrollment->student->first_name }} {{ $mark->enrollment->student->last_name }}
                                             </p>
                                             <p class="text-xs text-indigo-500 font-medium">
                                                 {{ $mark->exam->subject->name }} ({{ $mark->exam->semester->name }})

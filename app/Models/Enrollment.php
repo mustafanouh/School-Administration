@@ -15,9 +15,10 @@ class Enrollment extends Model
     protected $fillable = [
         'student_id',
         'section_id',
-        'track_id',
         'academic_year_id',
-        'status'
+        'track_id',
+        'status',
+        'enrollment_date',
     ];
     protected $casts = [
         'enrollment_date' => 'date',

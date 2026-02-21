@@ -14,19 +14,36 @@ class EnrollmentRequest extends FormRequest
     }
 
 
+    // public function rules(): array
+    // {
+    //     return [
+    //         'student_id' => [
+    //             'required',
+    //             'exists:students,id',
+    //             Rule::unique('enrollments')
+    //                 ->where('academic_year_id', $this->academic_year_id)
+    //                 ->ignore($this->route('enrollment'))
+    //         ],
+
+    //         'section_id' => ['required', 'exists:sections,id'],
+    //         'academic_year_id' => ['required', 'exists:academic_years,id'],
+    //         'track_id' => ['required', 'exists:tracks,id'],
+    //         'status' => ['required', Rule::in(['enrolled', 'graduated', 'dropped'])],
+    //         'enrollment_date' => ['required', 'date'],
+    //     ];
+    // }
     public function rules(): array
     {
         return [
             'student_id' => [
                 'required',
                 'exists:students,id',
-                Rule::unique('enrollments')
-                    ->where('academic_year_id', $this->academic_year_id)
-                    ->ignore($this->route('enrollment'))
-
-
+                Rule::unique('enrollments', 'student_id')
+                    ->where(function ($query) {
+                        return $query->where('academic_year_id', $this->academic_year_id);
+                    })
+                    ->ignore($this->route('enrollment')) // سيعمل في التحديث ويتجاهله في الإضافة
             ],
-
             'section_id' => ['required', 'exists:sections,id'],
             'academic_year_id' => ['required', 'exists:academic_years,id'],
             'track_id' => ['required', 'exists:tracks,id'],

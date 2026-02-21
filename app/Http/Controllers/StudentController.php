@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
-    
+
     public function index()
     {
 
@@ -21,10 +21,10 @@ class StudentController extends Controller
         return view('students.create');
     }
 
-    
+
     public function store(StudentRequest $request)
     {
-      
+
         Student::create($request->validated());
 
         return redirect()
@@ -32,9 +32,13 @@ class StudentController extends Controller
             ->with('success', 'Student has been registered successfully.');
     }
 
-    
+
     public function show(Student $student)
     {
+        
+        $student->load(['enrollments' => function ($query) {
+            $query->orderBy('academic_year_id', 'desc');
+        }, 'enrollments.academicYear', 'enrollments.section.grade', 'enrollments.marks.exam.subject']);
 
         return view('students.show', compact('student'));
     }
@@ -44,10 +48,10 @@ class StudentController extends Controller
         return view('students.edit', compact('student'));
     }
 
-   
+
     public function update(StudentRequest $request, Student $student)
     {
-     
+
         $student->update($request->validated());
 
         return redirect()
@@ -55,7 +59,7 @@ class StudentController extends Controller
             ->with('success', 'Student information updated successfully.');
     }
 
-    
+
     public function destroy(Student $student)
     {
         $student->delete();

@@ -51,9 +51,7 @@ class EnrollmentController extends Controller
                 ->with('success', 'Student has been successfully enrolled in the system.');
         } catch (\Exception $e) {
 
-            return back()
-                ->withInput()
-                ->with('error', 'Something went wrong while saving the enrollment.');
+            return back()->withInput()->with('error', $e->getMessage());
         }
     }
     public function destroy(Enrollment $enrollment)

@@ -18,12 +18,12 @@ class SectionController extends Controller
 
     public function show(Section $section)
     {
-        // تحميل العلاقات: الصف، السنة، التسجيلات مع بيانات الطلاب، والمدرسين مع المواد
+
         $section->load([
             'grade',
             'academicYear',
-            'enrollments.student', // افترضنا وجود علاقة student داخل موديل Enrollment
-            'teacherSubjects.teacher.employee', // الوصول لاسم المدرس من خلال الموظف
+            'enrollments.student',
+            'teacherSubjects.teacher.employee',
             'teacherSubjects.subject'
         ]);
 
