@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AcademicYearController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EnrollmentController;
@@ -7,6 +8,7 @@ use App\Http\Controllers\ExamController;
 use App\Http\Controllers\MarkController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 
@@ -47,6 +49,10 @@ Route::resource('sections', SectionController::class);
 Route::resource('enrollments', EnrollmentController::class);
 Route::resource('exams', ExamController::class);
 Route::resource('marks', MarkController::class);
+Route::resource('academic_years', AcademicYearController::class);
+Route::resource('semesters', SemesterController::class);
+
+
 
 
 

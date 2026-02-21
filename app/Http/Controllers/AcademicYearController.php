@@ -3,123 +3,99 @@
 namespace App\Http\Controllers;
 
 use App\Models\AcademicYear;
+use App\Http\Requests\AcademicYearRequest;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\DB;
 
 class AcademicYearController extends Controller
 {
-    //عرض جميع السنوات الدراسية
-    public function index()
+
+    public function index(AcademicYear $academicYear)
     {
-         $academicYears = AcademicYear::all();
-         return response()->json($academicYears);
+        // تحميل الفصول المرتبطة بهذه السنة فقط
+        // $semester = $academicYear->semesters;
+        $academicYears  = AcademicYear::paginate(10);
+        return view('admin.academic_years.index', compact('academicYears'));
     }
-    //عرض سنة دراسية واحدة
-    public function show($id)
+
+
+    public function create()
     {
-        $academicYear = AcademicYear::findOrFail($id);
-        return response()->json($academicYear);
+        return view('admin.academic_years.create');
     }
-    //إنشاء سنة دراسية جديدي
-    public function store(Request $request)
+
+
+    public function store(AcademicYearRequest $request)
     {
-         $validated = $request->validate([
-            'name'=>'required|string|unique:academic_years',
-            'is_active' => 'boolean',
-         ] );
-         $academicYear = AcademicYear::create($validated);
+        try {
+            DB::transaction(function () use ($request) {
+                $data = $request->validated();
 
-    // إذا كانت السنة الجديدة مفعلة، عطّل السنة القديمة
-         if ($validated['is_active'] ?? false){
-            $this->deactivateOtherAcademicYears($academicYear->id);
-         }
-        return response()->json([
-             'message' => 'تم إنشاء السنة الدراسية بنجاح',
-            'data' => $academicYear
-        ],201); 
+                // 1. إدارة الحالة النشطة: جعل السنة المختارة هي الوحيدة النشطة
+                if ($request->boolean('is_active')) {
+                    AcademicYear::query()->update(['is_active' => false]);
+                }
 
-    }
-    //تحديث سنة دراسية
-    public function update(Request $request, $id)
-    {
-        $academicYear =AcademicYear::findOrFail($id);
+                // 2. إنشاء السنة الدراسية
+                $year = AcademicYear::create($data);
 
-        $validated = $request->validate([
-             'name' => 'required|string|unique:academic_years,name,' . $id,
-            'is_active' => 'boolean'
-        ]);
-    // إذا تم تفعيل هذه السنة، عطّل السنوات الأخرى
-    if ($validated['is_active'] ?? false){
-        $this->deactivateOtherAcademicYears($academicYear->id);
+                // 3. الأتمتة: إنشاء الفصول الثلاثة تلقائياً لهذه السنة
+                $semesters = [
+                    ['name' => 'First Semester'],
+                    ['name' => 'Second Semester'],
+                    // ['name' => 'Summer Semester'],
+                ];
 
-    }
-    
-    $academicYear->update($validated);
+                foreach ($semesters as $semester) {
+                    $year->semesters()->create($semester);
+                }
+            });
 
-    return  response()->json([
-        'massage' =>'تم تحديث السنة الدراسية بنجاح',
-        'data' => $academicYear
-    ]);
-
-    }
-     // تفعيل سنة دراسية
-    public function activate($id)
-    {
-        $academicYear = AcademicYear::findOrFail($id);
-         // عطّل جميع السنوات الأخرى
-        $this->deactivateOtherAcademicYears($id);
-        // فعّل السنة الحالية
-        $academicYear->update(['is_active' => true]);
-
-        return response()->json([
-            'message' => 'تم تفعيل السنة الدراسية بنجاح',
-            'data' => $academicYear
-        ]);
-
-
-    }
-    public function destroy($id){
-        $academicYear = AcademicYear::findOrFail($id);
-
-        //التحقق من وجود قيود طلاب
-        if($academicYear->hasEnrollments()){
-            return response()->json([
-                'message' =>'لا يمكن حذف هذه السنة الدراسية لأنها تحوي قيود طلاب',
-                'enrollments_count' =>$academicYear->enrollments()->count()
-            ],409);
+            return redirect()->route('academic_years.index')
+                ->with('success', 'Academic year created with First, Second, and Summer semesters!');
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error', 'Error: ' . $e->getMessage());
         }
-        // التحقق من وجود فصول دراسية
-        if ($academicYear->sections()->count() > 0) {
-            return response()->json([
-                'message' => 'لا يمكن حذف هذه السنة الدراسية لأنها تحتوي على فصول دراسية',
-                'sections_count' => $academicYear->sections()->count()
-            ], 409);
+    }
+
+
+    public function edit(AcademicYear $academicYear)
+    {
+        return view('admin.academic_years.edit', compact('academicYear'));
+    }
+
+
+    public function update(AcademicYearRequest $request, AcademicYear $academicYear)
+    {
+        try {
+            DB::transaction(function () use ($request, $academicYear) {
+                $data = $request->validated();
+
+                // إذا تم تفعيل هذه السنة، نقوم بتعطيل البقية
+                if ($request->boolean('is_active')) {
+                    AcademicYear::where('id', '!=', $academicYear->id)->update(['is_active' => false]);
+                }
+
+                $academicYear->update($data);
+            });
+
+            return redirect()->route('academic-years.index')
+                ->with('success', 'Academic year updated successfully.');
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error', 'Error updating year.');
+        }
+    }
+
+
+    public function destroy(AcademicYear $academicYear)
+    {
+        // تحقق إضافي: لا تسمح بحذف السنة إذا كان بها طلاب مسجلين (Enrollments)
+        if ($academicYear->enrollments()->count() > 0) {
+            return back()->with('error', 'Cannot delete year because it has active enrollments.');
         }
 
         $academicYear->delete();
-
-        return response()->json([
-            'message' => 'تم حذف السنة الدراسية بنجاح'
-        ]);
+        return redirect()->route('academic-years.index')
+            ->with('success', 'Academic year deleted successfully.');
     }
-    // تعطيل جميع السنوات الأخرى
-    private function deactivateOtherAcademicYears($exceptId){
-        AcademicYear::where('id' , '!=' , $exceptId)
-        ->update(['is_active' => false]);
-    }
-     // الحصول على السنة المفعلة الحالية
-     public function getActiveYear()
-     {
-        $activeYear = AcademicYear::active()->first();
-
-        if(!$activeYear){
-            return response()->json([
-                'message' =>'لا توجد سنة دراسية مفعلة حاليا'
-            ], 404);
-        }
-         return response()->json($activeYear);
-     }
-
-    }
-
-
+}
