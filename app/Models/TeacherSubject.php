@@ -8,13 +8,14 @@ use App\Models\Teacher;
 use App\Models\Subject;
 use App\Models\Section;
 use App\Models\AcademicYear;
+
 class TeacherSubject extends Model
 {
-       protected $fillable = [
+    protected $fillable = [
         'teacher_id',
         'subject_id',
-        'section_id',
-        'academic_year_id'
+        'academic_year_id',
+        'section_id'
     ];
 
     public function teacher()

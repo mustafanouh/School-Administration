@@ -10,7 +10,7 @@
                     <span class="mx-2">/</span>
                     <span class="text-gray-600 dark:text-gray-200">Edit Semester</span>
                 </nav>
-                <h1 class="text-3xl font-black text-gray-800 dark:text-white italic">
+                        <h1 class="text-3xl font-black text-gray-800 dark:text-white italic">
                     {{ $semester->name }}
                 </h1>
                 <p class="text-sm text-gray-500 mt-1">Refine the timeline for <span

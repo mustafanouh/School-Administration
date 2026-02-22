@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('subject_id')->references('id')->on('subjects');
             $table->foreignId('academic_year_id')->references('id')->on('academic_years');
             $table->foreignId('section_id')->references('id')->on('sections');
+            $table->unique(['subject_id', 'section_id', 'academic_year_id'], 'unique_assignment');
             $table->timestamps();
         });
     }

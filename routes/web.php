@@ -11,7 +11,7 @@ use App\Http\Controllers\SectionController;
 use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
-
+use App\Http\Controllers\TeacherSubjectController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -51,6 +51,9 @@ Route::resource('exams', ExamController::class);
 Route::resource('marks', MarkController::class);
 Route::resource('academic_years', AcademicYearController::class);
 Route::resource('semesters', SemesterController::class);
+Route::resource('teacher_subjects', TeacherSubjectController::class);
+
+
 
 
 
