@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SemesterRequest;
 use App\Models\Semester;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SemesterController extends Controller
 {
@@ -17,17 +18,31 @@ class SemesterController extends Controller
 
     public function update(SemesterRequest $request, Semester $semester)
     {
-        $data = $request->validated();
+        try {
+            return DB::transaction(function () use ($request, $semester) {
+                $data = $request->validated();
 
-        // منطق الفصل النشط للسنة الحالية فقط
-        if ($request->boolean('is_active')) {
-            Semester::where('academic_year_id', $semester->academic_year_id)
-                ->update(['is_active' => false]);
+               
+                $isActive = $request->boolean('is_active');
+
+                if ($isActive) {
+                 
+                    if (!$semester->academicYear->is_active) {
+                   
+                        throw new \Exception('Cannot activate this semester because the associated Academic Year is not active.');
+                    }
+
+                  
+                    Semester::where('id', '!=', $semester->id)->update(['is_active' => false]);
+                }
+               
+                $semester->update($data);
+
+                return redirect()->route('academic_years.index')
+                    ->with('success', 'Semester details updated successfully!');
+            });
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error', $e->getMessage());
         }
-
-        $semester->update($data);
-
-        return redirect()->route('admin.academic_years.index')
-            ->with('success', 'Semester details updated successfully!');
     }
 }

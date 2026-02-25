@@ -16,7 +16,8 @@
             <div>
                 <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Edit Student Grade</h1>
                 <p class="text-sm text-gray-500 italic">Updating record for: <span
-                        class="text-indigo-600 font-bold">{{ $mark->enrollment->student->name }}</span></p>
+                        class="text-indigo-600 font-bold">{{ $mark->enrollment->student->first_name }}
+                        {{ $mark->enrollment->student->last_name }}</span></p>
             </div>
             <div class="text-right">
                 <span class="text-[10px] font-black uppercase text-gray-400 block tracking-widest">Record ID</span>
@@ -39,7 +40,7 @@
                         <select name="enrollment_id"
                             class="w-full bg-gray-100 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-xl px-4 py-3 text-gray-500 cursor-not-allowed"
                             disabled>
-                            <option value="{{ $mark->enrollment_id }}">{{ $mark->enrollment->student->name }}</option>
+                            <option value="{{ $mark->enrollment_id }}">{{ $mark->enrollment->student->first_name }} {{ $mark->enrollment->student->last_name }}</option>
                         </select>
                         <input type="hidden" name="enrollment_id" value="{{ $mark->enrollment_id }}">
                     </div>

@@ -10,7 +10,7 @@
                     <span class="mx-2">/</span>
                     <span class="text-gray-600 dark:text-gray-200">Edit Semester</span>
                 </nav>
-                        <h1 class="text-3xl font-black text-gray-800 dark:text-white italic">
+                <h1 class="text-3xl font-black text-gray-800 dark:text-white italic">
                     {{ $semester->name }}
                 </h1>
                 <p class="text-sm text-gray-500 mt-1">Refine the timeline for <span
@@ -30,8 +30,8 @@
                             <label
                                 class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-3 ml-1">Semester
                                 Name</label>
-                            <input type="text" name="name" value="{{ old('name', $semester->name) }}"
-                                class="w-full px-6 py-4 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl text-gray-700 dark:text-white font-bold focus:ring-4 focus:ring-indigo-500/10 outline-none">
+                            <input type="text" name="name" value="{{ old('name', $semester->name) }}" 
+                               class="w-full px-6 py-4 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl text-gray-700 dark:text-white font-bold focus:ring-4 focus:ring-indigo-500/10 outline-none">
                         </div>
 
                         {{-- Start Date --}}
@@ -42,7 +42,7 @@
                             <div class="relative">
                                 <div
                                     class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-indigo-500">
-                                 
+
                                 </div>
                                 <input type="date" name="start_date" id="start_date"
                                     value="{{ old('start_date', $semester->start_date) }}"
@@ -61,7 +61,7 @@
                             <div class="relative">
                                 <div
                                     class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-rose-500">
-                                   
+
                                 </div>
                                 <input type="date" name="end_date" id="end_date"
                                     value="{{ old('end_date', $semester->end_date) }}"
@@ -101,7 +101,7 @@
 
                     <div class="mt-12 flex gap-4">
                         <button type="submit"
-                            class="flex-1 px-8 py-4 bg-gray-900 dark:bg-indigo-600 hover:bg-black dark:hover:bg-indigo-700 text-white font-black rounded-2xl shadow-lg transition-all transform hover:-translate-y-1">
+                            class="flex-1 px-8 py-4 bg-green-800 dark:bg-indigo-600 hover:bg-green-700 dark:hover:bg-indigo-700 text-white font-black rounded-2xl shadow-lg transition-all transform hover:-translate-y-1">
                             Update Semester
                         </button>
                         <a href="{{ route('academic_years.index') }}"

@@ -82,22 +82,29 @@
 
                         {{-- Semesters Preview --}}
                         <div class="mt-6 pt-6 border-t border-gray-50 dark:border-gray-700">
+
                             <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Linked
                                 Semesters</p>
 
                             <div class="flex flex-wrap gap-2">
                                 @forelse($year->semesters as $semester)
                                     <span>
+
                                         <a href="{{ route('semesters.edit', $semester) }}"
-                                            class="px-3 py-1 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 text-[10px] font-bold rounded-lg border border-indigo-100 dark:border-indigo-800">
+                                            class="px-3 py-1 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 {{ $semester->is_active ? 'text-green-900 border-green-600 bg-green-50' : 'text-gray-400 border-indigo-100' }}   dark:text-indigo-400 text-[10px] font-bold rounded-lg border border-indigo-100 dark:border-indigo-800">
                                             {{ $semester->name }}
 
 
                                         </a>
                                     </span>
 
+
+
+
+
                                 @empty
-                                    <span class="text-xs text-gray-400 italic font-medium text-rose-500">No semesters
+                                    <span class="text-xs text-gray-400 italic font-medium text-rose-500">No
+                                        semesters
                                         generated yet.</span>
                                 @endforelse
                             </div>

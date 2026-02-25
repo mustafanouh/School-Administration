@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AcademicYear;
 use App\Http\Requests\AcademicYearRequest;
+use App\Models\Semester;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -12,10 +13,11 @@ class AcademicYearController extends Controller
 
     public function index(AcademicYear $academicYear)
     {
-        // تحميل الفصول المرتبطة بهذه السنة فقط
-        // $semester = $academicYear->semesters;
+       
+        $semester = $academicYear->semesters()->where('is_active', true);
+        // dd($semester);
         $academicYears  = AcademicYear::paginate(10);
-        return view('admin.academic_years.index', compact('academicYears'));
+        return view('admin.academic_years.index', compact('academicYears', 'semester'));
     }
 
 
