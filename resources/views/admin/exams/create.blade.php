@@ -19,7 +19,7 @@
                             class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Subject</label>
                         <select name="subject_id"
                             class="w-full bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-xl px-4 py-3 text-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all @error('subject_id') border-rose-500 @enderror">
-                            <option value="">Select Subject</option>
+                            <option disabled>Select Subject</option>
                             @foreach ($subjects as $subject)
                                 @foreach ($grades as $grade)
                                     <option value="{{ $subject->id }}"
@@ -40,8 +40,8 @@
                             class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Semester</label>
                         <select name="semester_id"
                             class="w-full bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-xl px-4 py-3 text-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all @error('semester_id') border-rose-500 @enderror">
-                            <option value="">Select Semester</option>
-                            @foreach ($semesters as $semester)
+                            <option disabled >Select Semester</option>
+                            @foreach ($semesters->where('is_active', true) as $semester)
                                 @foreach ($academicYears as $academicYear)
                                     <option value="{{ $semester->id }}"
                                         {{ old('semester_id') == $semester->id ? 'selected' : '' }}>
@@ -72,10 +72,10 @@
                         <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Maximum
                             Mark</label>
                         <div class="relative">
-                            <input type="number" step="0.1" name="max_mark" placeholder="100"
+                            <input type="number"  name="max_mark" placeholder="100"
                                 value="{{ old('max_mark') }}"
                                 class="w-full bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-xl px-4 py-3 text-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all @error('max_mark') border-rose-500 @enderror">
-                            <div class="absolute right-4 top-3.5 text-gray-400 font-bold text-xs uppercase">Pts</div>
+                           
                         </div>
                         @error('max_mark')
                             <p class="text-rose-500 text-xs mt-1 font-bold">{{ $message }}</p>

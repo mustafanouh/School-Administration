@@ -1,257 +1,274 @@
 <x-app-layout>
-    <div class="py-12 bg-gray-50 dark:bg-gray-900 max-w-5xl mx-auto sm:px-6 lg:px-8 min-h-screen">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+    <div class="py-12 bg-gray-50/50 dark:bg-gray-950 min-h-screen">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
 
-            {{-- رأس الصفحة - Header --}}
+            {{-- 1. بطاقة الهوية الشخصية - Student Hero Card --}}
             <div
-                class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700">
-                <div class="flex items-center space-x-4 rtl:space-x-reverse">
-                    <div
-                        class="h-16 w-16 bg-indigo-100 dark:bg-indigo-900/40 rounded-2xl flex items-center justify-center text-indigo-600 dark:text-indigo-400 text-2xl font-bold">
-                        {{ substr($student->first_name, 0, 1) }}
-                    </div>
-                    <div>
-                        <h1 class="text-2xl font-extrabold text-gray-800 dark:text-white">
-                            {{ $student->first_name }} {{ $student->last_name }}
-                        </h1>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 flex items-center mt-1">
-                            <span
-                                class="bg-green-100 text-green-700 text-[10px] px-2 py-0.5 rounded-full mr-2 rtl:ml-2 font-bold uppercase">Active
-                                Student</span>
-                         
-                        </p>
+                class="relative overflow-hidden bg-white dark:bg-gray-800 rounded-[2.5rem] shadow-xl shadow-gray-200/50 dark:shadow-none border border-gray-100 dark:border-gray-700">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full -mr-16 -mt-16"></div>
+
+                <div class="relative p-8 md:p-10">
+                    <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
+                        {{-- الصورة الشخصية أو الحرف الأول --}}
+                        <div class="flex-none">
+                            <div
+                                class="h-28 w-28 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-3xl flex items-center justify-center text-white text-4xl font-black shadow-lg shadow-indigo-200 dark:shadow-none ring-4 ring-white dark:ring-gray-700">
+                                {{ substr($student->first_name, 0, 1) }}
+                            </div>
+                        </div>
+
+                        {{-- المعلومات الأساسية --}}
+                        <div class="flex-grow text-center md:text-left rtl:md:text-right">
+                            <div class="flex flex-col md:flex-row md:items-center gap-3">
+                                <h1 class="text-3xl font-black text-gray-900 dark:text-white tracking-tight">
+                                    {{ $student->first_name }} {{ $student->last_name }}
+                                </h1>
+                                <span
+                                    class="inline-flex items-center px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase rounded-full w-fit mx-auto md:mx-0">
+                                    Active Student
+                                </span>
+                            </div>
+
+                            {{-- شبكة البيانات التفصيلية --}}
+                            <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-6">
+                                {{-- جنس الطالب --}}
+                                <div>
+                                    <p class="text-[10px] text-gray-400 font-black uppercase tracking-widest"><i
+                                            class="fas fa-venus-mars mr-1"></i> Gender</p>
+                                    <p class="text-sm font-bold text-gray-700 dark:text-gray-200 mt-1 uppercase">
+                                        {{ $student->gender }}</p>
+                                </div>
+                                {{-- تاريخ الميلاد --}}
+                                <div>
+                                    <p class="text-[10px] text-gray-400 font-black uppercase tracking-widest"><i
+                                            class="fas fa-calendar-alt mr-1"></i> Birth Date</p>
+                                    <p class="text-sm font-bold text-gray-700 dark:text-gray-200 mt-1">
+                                        {{ $student->date_of_birth }}</p>
+                                </div>
+                                {{-- مكان الميلاد --}}
+                                <div>
+                                    <p class="text-[10px] text-gray-400 font-black uppercase tracking-widest"><i
+                                            class="fas fa-map-marker-alt mr-1"></i> Place of Birth</p>
+                                    <p class="text-sm font-bold text-gray-700 dark:text-gray-200 mt-1">
+                                        {{ $student->place_of_birth }}</p>
+                                </div>
+                                {{-- الجنسية --}}
+                                <div>
+                                    <p class="text-[10px] text-gray-400 font-black uppercase tracking-widest"><i
+                                            class="fas fa-flag mr-1"></i> Nationality</p>
+                                    <p class="text-sm font-bold text-gray-700 dark:text-gray-200 mt-1">
+                                        {{ $student->nationality }}</p>
+                                </div>
+                                {{-- فصيلة الدم --}}
+                                <div>
+                                    <p class="text-[10px] text-gray-400 font-black uppercase tracking-widest"><i
+                                            class="fas fa-tint mr-1"></i> Blood Group</p>
+                                    <p class="text-sm font-bold text-rose-600 dark:text-rose-400 mt-1">
+                                        {{ $student->blood_group ?? 'N/A' }}</p>
+                                </div>
+                                {{-- هاتف الطالب --}}
+                                <div>
+                                    <p class="text-[10px] text-gray-400 font-black uppercase tracking-widest"><i
+                                            class="fas fa-phone mr-1"></i> Personal Phone</p>
+                                    <p class="text-sm font-bold text-gray-700 dark:text-gray-200 mt-1">
+                                        {{ $student->phone_number }}</p>
+                                </div>
+                                {{-- العنوان --}}
+                                <div class="col-span-2">
+                                    <p class="text-[10px] text-gray-400 font-black uppercase tracking-widest"><i
+                                            class="fas fa-home mr-1"></i> Address</p>
+                                    <p class="text-sm font-bold text-gray-700 dark:text-gray-200 mt-1">
+                                        {{ $student->address }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- أزرار التحكم --}}
+                        <div class="flex-none">
+                            <a href="{{ url()->previous() }}"
+                                class="inline-flex items-center px-6 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-2xl text-xs font-black hover:bg-gray-200 transition-all uppercase tracking-widest">
+                                <i class="fas fa-arrow-left mr-2 rtl:ml-2"></i> Back
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <div class="flex items-center gap-3">
-                    <a href="{{ url()->previous() }}"
-                        class="flex items-center px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-xl text-sm font-bold hover:bg-gray-200 dark:hover:bg-gray-600 transition-all">
-                        <svg class="w-4 h-4 mr-2 rtl:ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                        </svg>
-                        Back
-                    </a>
+
+                {{-- 2. قسم بيانات الوالدين - Family Contacts Section --}}
+                <div class="bg-gray-50/80 dark:bg-gray-900/50 border-t border-gray-100 dark:border-gray-700 px-8 py-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {{-- بيانات الأب --}}
+                        <div
+                            class="flex items-start gap-4 p-4 rounded-3xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
+                            <div
+                                class="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 flex-none">
+                                <i class="fas fa-user-tie text-xl"></i>
+                            </div>
+                            <div class="space-y-1">
+                                <p class="text-[10px] font-black text-indigo-500 uppercase tracking-widest">Father's
+                                    Information</p>
+                                <h3 class="text-sm font-black text-gray-800 dark:text-white">
+                                    {{ $student->father_name }}</h3>
+                                <div class="flex flex-col gap-1 mt-2">
+                                    <span class="text-xs text-gray-500 dark:text-gray-400"><i
+                                            class="fas fa-phone-alt mr-2"></i>
+                                        {{ $student->father_phone_number }}</span>
+                                    @if ($student->father_email)
+                                        <span class="text-xs text-gray-500 dark:text-gray-400"><i
+                                                class="fas fa-envelope mr-2"></i> {{ $student->father_email }}</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- بيانات الأم --}}
+                        <div
+                            class="flex items-start gap-4 p-4 rounded-3xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
+                            <div
+                                class="w-12 h-12 rounded-2xl bg-rose-50 dark:bg-rose-900/30 flex items-center justify-center text-rose-600 dark:text-rose-400 flex-none">
+                                <i class="fas fa-female text-xl"></i>
+                            </div>
+                            <div class="space-y-1">
+                                <p class="text-[10px] font-black text-rose-500 uppercase tracking-widest">Mother's
+                                    Information</p>
+                                <h3 class="text-sm font-black text-gray-800 dark:text-white">
+                                    {{ $student->mother_name }}</h3>
+                                <div class="flex flex-col gap-1 mt-2">
+                                    <span class="text-xs text-gray-500 dark:text-gray-400"><i
+                                            class="fas fa-phone-alt mr-2"></i>
+                                        {{ $student->mother_phone_number }}</span>
+                                    @if ($student->mother_email)
+                                        <span class="text-xs text-gray-500 dark:text-gray-400"><i
+                                                class="fas fa-envelope mr-2"></i> {{ $student->mother_email }}</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-
-                {{-- العمود الجانبي: المعلومات الشخصية والعائلة --}}
-                <div class="lg:col-span-4 space-y-6">
-
-                    {{-- بطاقة المعلومات الشخصية --}}
-                    <div
-                        class="bg-white dark:bg-gray-800 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
-                        <div
-                            class="px-6 py-4 border-b border-gray-50 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-700/30">
-                            <h3 class="text-sm font-bold text-gray-800 dark:text-white uppercase tracking-wider">
-                                Personal Profile</h3>
-                        </div>
-                        <div class="p-6 space-y-5">
-                            <div class="flex items-start">
-                                <div class="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-blue-600 mr-3 rtl:ml-3">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
-                                        </path>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p class="text-[10px] text-gray-400 font-bold uppercase">Date & Place of Birth</p>
-                                    <p class="text-sm font-semibold dark:text-gray-200">{{ $student->date_of_birth }}
-                                        <span class="text-gray-400 font-normal">({{ $student->place_of_birth }})</span>
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="flex items-start">
-                                <div
-                                    class="p-2 bg-purple-50 dark:bg-purple-900/20 rounded-lg text-purple-600 mr-3 rtl:ml-3">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
-                                        </path>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p class="text-[10px] text-gray-400 font-bold uppercase">Gender & Blood Group</p>
-                                    <p class="text-sm font-semibold dark:text-gray-200 uppercase">{{ $student->gender }}
-                                        <span class="mx-2 text-gray-300">|</span>
-                                        {{ $student->blood_group ?? 'Not Set' }}
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="flex items-start">
-                                <div
-                                    class="p-2 bg-amber-50 dark:bg-amber-900/20 rounded-lg text-amber-600 mr-3 rtl:ml-3">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
-                                        </path>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p class="text-[10px] text-gray-400 font-bold uppercase">Residential Address</p>
-                                    <p class="text-sm font-semibold dark:text-gray-200">{{ $student->address }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- contact with family--}}
-                    <div
-                        class="bg-white dark:bg-gray-800 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
-                        <div
-                            class="px-6 py-4 border-b border-gray-50 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-700/30 font-bold text-sm text-gray-800 dark:text-white uppercase tracking-wider">
-                            Family Contacts
-                        </div>
-                        <div class="p-6 space-y-4">
-                            <div
-                                class="group p-4 rounded-2xl bg-indigo-50/50 dark:bg-indigo-900/10 border border-indigo-100/50 dark:border-indigo-800/30 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-colors">
-                                <div class="flex justify-between items-center mb-2">
-                                    <span
-                                        class="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase">Father</span>
-                                    <i class="fas fa-phone-alt text-indigo-300 text-xs"></i>
-                                </div>
-                                <p class="text-sm font-bold dark:text-white">{{ $student->father_name }}</p>
-                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                    {{ $student->father_phone_number }}</p>
-                            </div>
-
-                            <div
-                                class="group p-4 rounded-2xl bg-rose-50/50 dark:bg-rose-900/10 border border-rose-100/50 dark:border-rose-800/30 hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-colors">
-                                <div class="flex justify-between items-center mb-2">
-                                    <span
-                                        class="text-[10px] font-black text-rose-600 dark:text-rose-400 uppercase">Mother</span>
-                                    <i class="fas fa-phone-alt text-rose-300 text-xs"></i>
-                                </div>
-                                <p class="text-sm font-bold dark:text-white">{{ $student->mother_name }}</p>
-                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                    {{ $student->mother_phone_number }}</p>
-                            </div>
-                        </div>
-                    </div>
+            {{-- 3. السجل الأكاديمي - Academic Journey --}}
+            <div class="space-y-10">
+                <div class="flex items-center gap-4 px-2">
+                    <h2 class="text-2xl font-black text-gray-800 dark:text-white tracking-tight italic">Academic Journey
+                    </h2>
+                    <div class="flex-grow h-px bg-gradient-to-r from-gray-200 to-transparent dark:from-gray-700"></div>
                 </div>
 
-                {{-- العمود الرئيسي: السجل الأكاديمي والدرجات --}}
-                <div class="lg:col-span-8 space-y-6">
-                    <h3 class="text-xl font-black text-gray-800 dark:text-white flex items-center px-2">
-                        Academic Timeline
-                    </h3>
-
-                    @forelse ($student->enrollments as $enrollment)
+                @forelse ($student->enrollments->sortByDesc('academicYear.name') as $enrollment)
+                    <div
+                        class="bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden mb-12">
+                        {{-- ترويسة السنة - هادئة وبسيطة --}}
                         <div
-                            class="bg-white dark:bg-gray-800 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden transition-all hover:shadow-md">
-                            {{-- شريط السنة الدراسية --}}
-                            <div
-                                class="px-6 py-4 bg-white dark:bg-gray-800 flex flex-wrap justify-between items-center border-b border-gray-50 dark:border-gray-700">
-                                <div class="flex items-center space-x-3 rtl:space-x-reverse">
-                                    <div
-                                        class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
-                                        <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
-                                            </path>
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <p class="text-xs text-gray-400 font-bold uppercase">Academic Year</p>
+                            class="px-8 py-5 border-b border-gray-50 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/50 flex justify-between items-center">
+                            <div class="flex items-center gap-4">
+                                <span class="w-1 h-8 bg-indigo-500 rounded-full"></span>
+                                <div>
+                                    <h4 class="text-lg font-bold text-gray-800 dark:text-white">
+                                        {{ $enrollment->academicYear->name }}</h4>
+                                    <p class="text-[10px] text-gray-400 uppercase tracking-widest">
+                                        {{ $enrollment->section->grade->name }} — {{ $enrollment->section->name }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-0"> {{-- إزالة الحواف الداخلية للسماح للجدول بالتمدد --}}
+                            @php $groupedBySemester = $enrollment->marks->groupBy('exam.semester_id'); @endphp
+
+                            @forelse($groupedBySemester as $semesterId => $marksInThisSemester)
+                                @php
+                                    $semesterInfo = $marksInThisSemester->first()->exam->semester;
+                                    $semesterName = $semesterInfo ? $semesterInfo->name : 'General Semester';
+                                @endphp
+
+                                <div class="mt-4">
+                                    {{-- عنوان الفصل --}}
+                                    <div class="px-8 py-2 bg-indigo-50/30 dark:bg-indigo-900/10">
                                         <span
-                                            class="font-black text-gray-800 dark:text-gray-100">{{ $enrollment->academicYear->name }}</span>
+                                            class="text-[11px] font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400">
+                                            {{ $semesterName }}
+                                        </span>
+                                    </div>
+
+                                    {{-- جدول العلامات --}}
+                                    <div class="overflow-x-auto">
+                                        <table class="w-full text-left rtl:text-right">
+                                            <thead class="bg-white dark:bg-gray-900">
+                                                <tr>
+                                                    <th
+                                                        class="px-8 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+                                                        Subject</th>
+                                                    <th
+                                                        class="px-8 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+                                                        Exam Type</th>
+                                                    <th
+                                                        class="px-8 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider text-center">
+                                                        Score</th>
+                                                    <th
+                                                        class="px-8 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider text-center">
+                                                        Status</th>
+                                                    <th
+                                                        class="px-8 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider min-w-[150px]">
+                                                        Performance</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="divide-y divide-gray-50 dark:divide-gray-800">
+                                                @foreach ($marksInThisSemester as $mark)
+                                                    <tr
+                                                        class="hover:bg-gray-50/50 dark:hover:bg-gray-800/50 transition-colors">
+                                                        <td class="px-8 py-4">
+                                                            <span
+                                                                class="text-sm font-semibold text-gray-700 dark:text-gray-200">
+                                                                {{ $mark->exam->subject->name ?? 'N/A' }}
+                                                            </span>
+                                                        </td>
+                                                        <td
+                                                            class="px-8 py-4 text-xs text-gray-500 dark:text-gray-400 font-medium italic">
+                                                            {{ $mark->exam->exam_type }}
+                                                        </td>
+                                                        <td class="px-8 py-4 text-center">
+                                                            <span
+                                                                class="text-sm font-bold dark:text-white">{{ $mark->score }}</span>
+                                                            <span
+                                                                class="text-[10px] text-gray-400">/{{ $mark->max_mark ?? 100 }}</span>
+                                                        </td>
+                                                        <td class="px-8 py-4 text-center">
+                                                            <span
+                                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase {{ $mark->status == 'passed' ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-900/20' : 'text-rose-600 bg-rose-50 dark:bg-rose-900/20' }}">
+                                                                {{ $mark->status }}
+                                                            </span>
+                                                        </td>
+                                                        <td class="px-8 py-4">
+                                                            <div
+                                                                class="w-full h-1.5 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+                                                                @php $percent = ($mark->score / ($mark->max_mark ?? 100)) * 100; @endphp
+                                                                <div class="h-full {{ $mark->status == 'passed' ? 'bg-indigo-500/80' : 'bg-rose-500/80' }} transition-all duration-500"
+                                                                    style="width: {{ $percent }}%"></div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
-                                <div class="mt-2 sm:mt-0">
-                                    <span
-                                        class="inline-flex items-center px-4 py-1.5 rounded-xl bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-xs font-black uppercase tracking-tight">
-                                        {{ $enrollment->section->grade->name }} — {{ $enrollment->section->name }}
-                                    </span>
+                            @empty
+                                <div class="text-center py-12">
+                                    <p class="text-sm text-gray-400 italic">No academic marks recorded for this period.
+                                    </p>
                                 </div>
-                            </div>
-
-                            {{-- جدول الدرجات --}}
-                            <div class="p-0 sm:p-6">
-                                <div class="overflow-x-auto">
-                                    <table class="w-full text-left rtl:text-right border-collapse">
-                                        <thead>
-                                            <tr
-                                                class="hidden sm:table-row text-[10px] uppercase text-gray-400 font-bold tracking-widest">
-                                                <th class="px-6 py-3">Exam Name</th>
-                                                <th class="px-6 py-3">Exam Type</th>
-
-                                                <th class="px-6 py-3 text-center">Result Score</th>
-                                                <th class="px-6 py-3 text-right">Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="divide-y divide-gray-50 dark:divide-gray-700/50">
-                                            @forelse($enrollment->marks as $mark)
-                                                <tr
-                                                    class="group hover:bg-gray-50 dark:hover:bg-gray-700/20 transition-colors">
-                                                    <td class="px-6 py-4">
-                                                        <div
-                                                            class="text-sm font-bold text-gray-700 dark:text-gray-200">
-                                                            {{ $mark->exam->subject->name }}</div>
-                                                        <div
-                                                            class="sm:hidden text-[10px] text-gray-400 uppercase mt-1">
-                                                            Exam Name</div>
-                                                    </td>
-                                                    <td class="px-6 py-4">
-                                                        <div
-                                                            class="text-sm font-bold text-gray-700 dark:text-gray-200">
-                                                            {{ $mark->exam->exam_type }}</div>
-                                                        <div
-                                                            class="sm:hidden text-[10px] text-gray-400 uppercase mt-1">
-                                                            Exam Type</div>
-                                                    </td>
-                                                    <td class="px-6 py-4 text-center">
-                                                        <div class="text-sm font-black dark:text-white">
-                                                            {{ $mark->score }}
-                                                            <span class="text-gray-400 font-medium text-xs">/
-                                                                {{ $mark->max_mark ?? 100 }}</span>
-                                                        </div>
-                                                        <div
-                                                            class="w-full bg-gray-100 dark:bg-gray-700 h-1.5 rounded-full mt-2 overflow-hidden">
-                                                            @php $percent = ($mark->score / ($mark->max_mark ?? 100)) * 100; @endphp
-                                                            <div class="h-full {{ $mark->status == 'passed' ? 'bg-emerald-500' : 'bg-rose-500' }}"
-                                                                style="width: {{ $percent }}%"></div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="px-6 py-4 text-right">
-                                                        <span
-                                                            class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase {{ $mark->status == 'passed' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' : 'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400' }}">
-                                                            <span
-                                                                class="w-1.5 h-1.5 rounded-full mr-1.5 rtl:ml-1.5 {{ $mark->status == 'passed' ? 'bg-emerald-500' : 'bg-rose-500' }}"></span>
-                                                            {{ $mark->status }}
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            @empty
-                                                <tr>
-                                                    <td colspan="3" class="px-6 py-10 text-center">
-                                                        <img src="https://cdn-icons-png.flaticon.com/512/7486/7486744.png"
-                                                            class="w-12 h-12 mx-auto opacity-20 mb-3" alt="No data">
-                                                        <p class="text-sm text-gray-400 italic font-medium">No exam
-                                                            marks recorded for this session.</p>
-                                                    </td>
-                                                </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                            @endforelse
                         </div>
-                    @empty
-                        <div
-                            class="bg-white dark:bg-gray-800 rounded-3xl p-12 text-center border-2 border-dashed border-gray-100 dark:border-gray-700">
-                            <p class="text-gray-400 font-medium">This student has no enrollment history recorded.</p>
-                        </div>
-                    @endforelse
+                    </div>
+                @empty
+                  
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-[3rem] p-20 text-center border-2 border-dashed border-gray-200 dark:border-gray-700">
+                    <p class="text-gray-400 font-black uppercase tracking-widest">No enrollment records available.
+                    </p>
                 </div>
+                @endforelse
             </div>
-
         </div>
     </div>
 </x-app-layout>

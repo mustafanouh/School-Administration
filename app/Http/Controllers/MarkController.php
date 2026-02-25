@@ -22,10 +22,16 @@ class MarkController extends Controller
     }
     public function create()
     {
-       
-        $enrollments = Enrollment::with(['student', 'section.grade'])->get();
 
-        $exams = Exam::with(['subject', 'semester'])->get();
+        $enrollments = Enrollment::with(['student', 'section.grade', 'academicYear'])
+            ->whereHas('academicYear', function ($query) {
+                $query->where('is_active', true);
+            })
+            ->get();
+
+        $exams = Exam::with(['subject', 'semester'])->whereHas('semester', function ($query) {
+            $query->where('is_active', true);
+        })->get();
 
         return view('admin.marks.create', compact('enrollments', 'exams'));
     }

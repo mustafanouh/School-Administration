@@ -31,7 +31,7 @@ class EnrollmentController extends Controller
         $sections = Section::all();
         $tracks = Track::all();
         $grades = Grade::all();
-        $academicYears = AcademicYear::all();
+        $academicYears = AcademicYear::where('is_active',true)->get();
 
         return view('admin.enrollments.create', compact('students', 'sections', 'tracks', 'academicYears', 'grades'));
     }
