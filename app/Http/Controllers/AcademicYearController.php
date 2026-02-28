@@ -13,7 +13,7 @@ class AcademicYearController extends Controller
 
     public function index(AcademicYear $academicYear)
     {
-       
+
         $semester = $academicYear->semesters()->where('is_active', true);
         // dd($semester);
         $academicYears  = AcademicYear::paginate(10);
@@ -33,23 +33,25 @@ class AcademicYearController extends Controller
             DB::transaction(function () use ($request) {
                 $data = $request->validated();
 
-                // 1. إدارة الحالة النشطة: جعل السنة المختارة هي الوحيدة النشطة
+              
                 if ($request->boolean('is_active')) {
                     AcademicYear::query()->update(['is_active' => false]);
                 }
 
-                // 2. إنشاء السنة الدراسية
+            
                 $year = AcademicYear::create($data);
 
-                // 3. الأتمتة: إنشاء الفصول الثلاثة تلقائياً لهذه السنة
+            
                 $semesters = [
-                    ['name' => 'First Semester'],
-                    ['name' => 'Second Semester'],
+                    ['name' => 'First Semester','is_active'=>true],
+
+                    ['name' => 'Second Semester','is_active'=>false],
                     // ['name' => 'Summer Semester'],
                 ];
 
                 foreach ($semesters as $semester) {
                     $year->semesters()->create($semester);
+      
                 }
             });
 

@@ -91,7 +91,8 @@
                                     <span>
 
                                         <a href="{{ route('semesters.edit', $semester) }}"
-                                            class="px-3 py-1 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 {{ $semester->is_active ? 'text-green-900 border-green-600 bg-green-50' : 'text-gray-400 border-indigo-100' }}   dark:text-indigo-400 text-[10px] font-bold rounded-lg border border-indigo-100 dark:border-indigo-800">
+                                            class="px-3 py-1 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700    dark:text-indigo-400 text-[10px] font-bold rounded-lg border border-indigo-100 dark:border-indigo-800"
+                                            {{ $semester->is_active ? ' text-green-900 border-green-600 bg-green-500' : 'text-gray-400 border-indigo-100' }}>
                                             {{ $semester->name }}
 
 

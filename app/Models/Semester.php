@@ -9,7 +9,7 @@ use App\Models\Stage;
 use App\Models\Exam;
 class Semester extends Model
 {
-     protected $fillable = ['academic_year_id', 'name'];
+     protected $fillable = ['academic_year_id', 'name',"is_active"];
      public function academicYear()
      {
         return $this->belongsTo(AcademicYear::class);

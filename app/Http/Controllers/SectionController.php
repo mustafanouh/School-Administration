@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SectionRequest;
 use App\Models\Section;
 use App\Models\Grade;
 use App\Models\AcademicYear;
@@ -9,23 +10,30 @@ use Illuminate\Http\Request;
 
 class SectionController extends Controller
 {
-    public function index()
+    public function index(Section $section)
     {
-        $sections = Section::with(['grade', 'academicYear'])->get();
-
+        $sections = Section::whereHas('academicYear', function ($query) {
+            $query->where('is_active', true);
+        })
+            ->with('grade')
+            ->get();
         return view('sections.index', compact('sections'));
     }
 
-    public function show(Section $section)
+    public function show($sectionId)
     {
 
-        $section->load([
-            'grade',
-            'academicYear',
-            'enrollments.student',
-            'teacherSubjects.teacher.employee',
-            'teacherSubjects.subject'
-        ]);
+
+        $activeYear = AcademicYear::where('is_active', true)->first();
+        $section = Section::with([
+            'enrollments' =>
+            function ($query) use ($activeYear) {
+                $query->where('academic_year_id', $activeYear->id)->with('student');
+            }
+        ])->findOrFail($sectionId);
+
+        $students = $section->enrollments->pluck('student');
+        // dd($students);
 
         return view('sections.show', compact('section'));
     }
@@ -36,14 +44,9 @@ class SectionController extends Controller
         return view('sections.create', compact('grades', 'academicYears'));
     }
 
-    public function store(Request $request)
+    public function store(SectionRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'grade_id' => 'required|exists:grades,id',
-            'academic_year_id' => 'required|exists:academic_years,id',
-            'capacity' => 'required|integer|min:1',
-        ]);
+        $request->validated();
 
         Section::create($request->all());
         return redirect()->route('sections.index')->with('success', 'تم إضافة الشعبة بنجاح');
@@ -56,14 +59,9 @@ class SectionController extends Controller
         return view('sections.edit', compact('section', 'grades', 'academicYears'));
     }
 
-    public function update(Request $request, Section $section)
+    public function update(SectionRequest $request, Section $section)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'grade_id' => 'required|exists:grades,id',
-            'academic_year_id' => 'required|exists:academic_years,id',
-            'capacity' => 'required|integer|min:1',
-        ]);
+        $request->validated();
 
         $section->update($request->all());
         return redirect()->route('sections.index')->with('success', 'تم تحديث البيانات بنجاح');
@@ -72,6 +70,6 @@ class SectionController extends Controller
     public function destroy(Section $section)
     {
         $section->delete();
-        return redirect()->route('sections.index')->with('success', 'تم حذف الشعبة');
+        return redirect()->route('sections.index')->with('success', 'Deleted section successfully');
     }
 }
