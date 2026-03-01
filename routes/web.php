@@ -13,6 +13,8 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TeacherSubjectController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ChatController;
+use App\Models\User;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,18 +29,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-// مسارات السنوات الدراسية التي أضافها زميلك
-Route::prefix('academic-years')->group(function () {
-    Route::get('/', 'AcademicYearController@index');
-    Route::post('/', 'AcademicYearController@store');
-    Route::get('/{id}', 'AcademicYearController@show');
-    Route::put('/{id}', 'AcademicYearController@update');
-    Route::delete('/{id}', 'AcademicYearController@destroy');
-    Route::post('/{id}/activate', 'AcademicYearController@activate');
-    Route::get('/active/current', 'AcademicYearController@getActiveYear');
-});
-
 
 
 
@@ -56,6 +46,13 @@ Route::resource('teacher_subjects', TeacherSubjectController::class);
 
 
 
+
+
+
+    
+    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+    Route::get('/messages/{receiverId}', [ChatController::class, 'getMessages'])->name('chat.messages');
+    Route::post('/send-message', [ChatController::class, 'store'])->name('chat.send');
 
 
 

@@ -32,7 +32,7 @@
                             <select name="student_id"
                                 class="w-full bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-xl px-4 py-3 text-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all appearance-none"
                                 required>
-                                <option value="">Choose a student...</option>
+                                <option disabled value="">Choose a student...</option>
                                 @foreach ($students as $student)
                                     <option value="{{ $student->id }}">{{ "$student->first_name $student->last_name" }}
                                     </option>
@@ -52,9 +52,9 @@
                         <select name="academic_year_id"
                             class="w-full bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-xl px-4 py-3 text-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all appearance-none"
                             required>
-                            @foreach ($academicYears as $year)
-                                <option value="{{ $year->id }}">{{ $year->name }}</option>
-                            @endforeach
+
+                            <option value="{{ $activeYear->id }}">{{ $activeYear->name }}</option>
+
                         </select>
                     </div>
 
@@ -74,12 +74,15 @@
                         <select name="section_id"
                             class="w-full bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-xl px-4 py-3 text-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all appearance-none"
                             required>
-                            <option value="">Select Section</option>
-                            @foreach ($sections as $section)
-                                @foreach ($grades as $grade)
-                                    <option value="{{ $section->id }}">{{ $section->name }} ({{ $grade->name }})
-                                    </option>
-                                @endforeach
+                            <option disabled value="">Select Section</option>
+                            @foreach ($sectionsGroupedByGrade as $gradeName => $sections)
+                                <optgroup label="Grade: {{ $gradeName }}">
+                                    @foreach ($sections as $section)
+                                        <option value="{{ $section->id }}">
+                                            {{ $section->name }} (Capacity: {{ $section->capacity }})
+                                        </option>
+                                    @endforeach
+                                </optgroup>
                             @endforeach
                         </select>
                     </div>
@@ -91,7 +94,7 @@
                         <select name="track_id"
                             class="w-full bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-xl px-4 py-3 text-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all appearance-none"
                             required>
-                            <option value="">Select Track</option>
+                            <option disabled value="">Select Track</option>
                             @foreach ($tracks as $track)
                                 <option value="{{ $track->id }}">{{ $track->name }}</option>
                             @endforeach

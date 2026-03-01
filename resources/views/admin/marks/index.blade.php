@@ -1,5 +1,5 @@
 <x-app-layout>
-    {{-- إضافة x-data هنا للتحكم في الـ Modal --}}
+  
     <div x-data="{ openDel: false, deleteRoute: '', studentName: '' }" 
          class="p-6 bg-gray-50 dark:bg-[#0f111a] max-w-5xl mx-auto sm:px-6 lg:px-8 min-h-screen rounded-2xl"
          dir="ltr">

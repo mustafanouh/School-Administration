@@ -61,11 +61,13 @@
 
             <x-sidebar-link icon="fas fa-calendar-check" label="Academic Years Management" :href="route('academic_years.index')"
                 :active="request()->routeIs('academic_years.*')" />
-
+            <x-sidebar-link icon="fas fa-message" label="Conversation" :href="route('chat.index')"
+                :active="request()->routeIs('chat.*')" />
 
             <div class="mt-4 pt-4 border-t border-gray-100 dark:border-white/10">
                 <x-sidebar-link icon="fas fa-sign-out-alt" label="Logout" href="/logout" />
             </div>
+
         </x-sidebar>
 
     </div>

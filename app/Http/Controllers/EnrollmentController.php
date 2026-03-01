@@ -16,10 +16,10 @@ class EnrollmentController extends Controller
 {
     public function index(Request $request)
     {
-        // جلب البيانات مع العلاقات لتجنب مشكلة N+1
+
         $enrollments = Enrollment::with(['student', 'section.grade', 'academicYear', 'track', 'marks.exam'])
             ->latest()
-            ->paginate(10); // تقسيم الصفحات
+            ->paginate(10);
         return view('admin.enrollments.index', compact('enrollments'));
     }
 
@@ -27,13 +27,36 @@ class EnrollmentController extends Controller
     public function create()
     {
 
-        $students = Student::all();
-        $sections = Section::all();
-        $tracks = Track::all();
-        $grades = Grade::all();
-        $academicYears = AcademicYear::where('is_active',true)->get();
+        $activeYear = AcademicYear::where('is_active', true)->first();
 
-        return view('admin.enrollments.create', compact('students', 'sections', 'tracks', 'academicYears', 'grades'));
+        if (!$activeYear) {
+            return redirect()->back()->with('error', 'Please activate an academic year first.');
+        }
+
+        if ($activeYear) {
+            $sectionsGroupedByGrade = Section::where('academic_year_id', $activeYear->id)
+                ->with('grade')
+                ->get()
+                ->groupBy(function ($item) {
+                    return $item->grade->name; // التجميع حسب اسم الصف
+                });
+        } else {
+            $sectionsGroupedByGrade = collect();
+        }
+
+        $tracks = Track::all();
+        // $grades = Grade::with('nextGrade')->get();
+
+        $students = Student::whereDoesntHave('enrollments', function ($query) use ($activeYear) {
+            $query->where('academic_year_id', $activeYear->id);
+        })->get();
+
+        return view('admin.enrollments.create', [
+            'students' => $students,
+            'sectionsGroupedByGrade' => $sectionsGroupedByGrade,
+            'tracks' => $tracks,
+            'activeYear' => $activeYear
+        ]);
     }
 
     public function store(EnrollmentRequest $request)
