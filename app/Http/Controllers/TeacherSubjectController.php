@@ -3,75 +3,66 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTeacherSubjectRequest;
-use App\Models\AcademicYear;
-use App\Models\Section;
-use App\Models\Subject;
-use App\Models\Teacher;
 use App\Models\TeacherSubject;
+use App\Services\TeacherSubjectService;
 use Illuminate\Http\Request;
+use Exception;
 
 class TeacherSubjectController extends Controller
 {
+    protected $service;
 
-    public function index()
+    public function __construct(TeacherSubjectService $service)
     {
-        return redirect()->route('sections.index');
+        $this->service = $service;
     }
+
     public function create(Request $request)
     {
-      
-        $teachers = Teacher::with('employee')->get();
-        $subjects = Subject::all();
-        $sections = Section::all();
-
-       
-        $selectedSectionId = $request->query('section_id');
-        $selectedYearId = $request->query('academic_year_id');
-
-        $activeYear = AcademicYear::where('is_active', true)->first();
-        $targetYearId = $selectedYearId ?? ($activeYear ? $activeYear->id : null);
-
-        return view('admin.teacher_subjects.create', compact(
-            'teachers',
-            'subjects',
-            'sections',
-            'selectedSectionId',
-            'targetYearId'
-        ));
+        $data = $this->service->getCreateData($request->all());
+        return view('admin.teacher_subjects.create', $data);
     }
-    public function edit(TeacherSubject $teacherSubject)
-    {
-        $teachers = Teacher::all();
-        $subjects = Subject::all();
-        $sections = Section::all();
-        $academicYears = AcademicYear::all();
-
-        return view('admin.teacher_subjects.edit', compact('teacherSubject', 'teachers', 'subjects', 'sections', 'academicYears'));
-    }
-
-
-    public function update(StoreTeacherSubjectRequest $request, TeacherSubject $teacherSubject)
-    {
-        $teacherSubject->update($request->validated());
-
-        return redirect()->route('sections.show', $teacherSubject->section_id)
-            ->with('success', 'Teacher-subject assignment updated successfully.');
-    }
-
 
     public function store(StoreTeacherSubjectRequest $request)
     {
+        try {
+            $assignment = $this->service->assignTeacher($request->validated());
 
-        TeacherSubject::create($request->validated());
-
-        return redirect()->route('sections.show', $request->section_id)
-            ->with('success', 'Teacher assigned to subject successfully.');
+            return redirect()->route('sections.show', $assignment->section_id)
+                ->with('success', 'Teacher assigned to subject successfully.');
+        } catch (Exception $e) {
+            return back()->withInput()->with('error', 'Failed to assign teacher.');
+        }
     }
+
+    public function edit(TeacherSubject $teacherSubject)
+    {
+        $data = $this->service->getEditData($teacherSubject);
+        return view('admin.teacher_subjects.edit', $data);
+    }
+
+    public function update(StoreTeacherSubjectRequest $request, TeacherSubject $teacherSubject)
+    {
+        try {
+            $this->service->updateAssignment($teacherSubject, $request->validated());
+
+            return redirect()->route('sections.show', $teacherSubject->section_id)
+                ->with('success', 'Assignment updated successfully.');
+        } catch (Exception $e) {
+            return back()->with('error', 'Update failed.');
+        }
+    }
+
     public function destroy(TeacherSubject $teacherSubject)
     {
-        $teacherSubject->delete();
+        try {
+            $sectionId = $teacherSubject->section_id;
+            $this->service->removeAssignment($teacherSubject);
 
-        return redirect()->route('sections.show', $teacherSubject->section_id)
-            ->with('success', 'Teacher-subject assignment deleted successfully.');
+            return redirect()->route('sections.show', $sectionId)
+                ->with('success', 'Assignment deleted successfully.');
+        } catch (Exception $e) {
+            return back()->with('error', 'Could not delete assignment.');
+        }
     }
 }

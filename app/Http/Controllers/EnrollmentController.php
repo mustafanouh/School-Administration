@@ -3,110 +3,100 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EnrollmentRequest;
-use App\Models\AcademicYear;
 use App\Models\Enrollment;
-use App\Models\Grade;
-use App\Models\Section;
-use App\Models\Student;
-use App\Models\Track;
-use App\Models\User;
+use App\Services\EnrollmentService;
 use Illuminate\Http\Request;
+use Exception;
 
 class EnrollmentController extends Controller
 {
-    public function index(Request $request)
-    {
+    protected $enrollmentService;
 
-        $enrollments = Enrollment::with(['student', 'section.grade', 'academicYear', 'track', 'marks.exam'])
-            ->latest()
-            ->paginate(10);
+    /**
+     * حقن التبعيات (Dependency Injection)
+     */
+    public function __construct(EnrollmentService $enrollmentService)
+    {
+        $this->enrollmentService = $enrollmentService;
+    }
+
+    /**
+     * عرض قائمة التسجيلات
+     */
+    public function index()
+    {
+        $enrollments = $this->enrollmentService->getIndexData();
         return view('admin.enrollments.index', compact('enrollments'));
     }
 
-
+    /**
+     * عرض نموذج تسجيل جديد
+     */
     public function create()
     {
-
-        $activeYear = AcademicYear::where('is_active', true)->first();
-
-        if (!$activeYear) {
-            return redirect()->back()->with('error', 'Please activate an academic year first.');
+        try {
+            $data = $this->enrollmentService->getCreateFormData();
+            return view('admin.enrollments.create', $data);
+        } catch (Exception $e) {
+            // في حال عدم وجود سنة نشطة أو أي خطأ منطقي آخر من السيرفس
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        if ($activeYear) {
-            $sectionsGroupedByGrade = Section::where('academic_year_id', $activeYear->id)
-                ->with('grade')
-                ->get()
-                ->groupBy(function ($item) {
-                    return $item->grade->name; // التجميع حسب اسم الصف
-                });
-        } else {
-            $sectionsGroupedByGrade = collect();
-        }
-
-        $tracks = Track::all();
-        // $grades = Grade::with('nextGrade')->get();
-
-        $students = Student::whereDoesntHave('enrollments', function ($query) use ($activeYear) {
-            $query->where('academic_year_id', $activeYear->id);
-        })->get();
-
-        return view('admin.enrollments.create', [
-            'students' => $students,
-            'sectionsGroupedByGrade' => $sectionsGroupedByGrade,
-            'tracks' => $tracks,
-            'activeYear' => $activeYear
-        ]);
     }
 
+    /**
+     * حفظ عملية التسجيل
+     */
     public function store(EnrollmentRequest $request)
     {
         try {
-
-            $data = $request->validated();
-
-
-            Enrollment::create($data);
-
+            $this->enrollmentService->storeEnrollment($request->validated());
 
             return redirect()
                 ->route('enrollments.index')
-                ->with('success', 'Student has been successfully enrolled in the system.');
-        } catch (\Exception $e) {
-
+                ->with('success', 'Student has been successfully enrolled.');
+        } catch (Exception $e) {
             return back()->withInput()->with('error', $e->getMessage());
         }
     }
-    public function destroy(Enrollment $enrollment)
-    {
-        try {
-            $enrollment->delete();
-            return redirect()->route('enrollments.index')
-                ->with('success', 'Enrollment record deleted successfully.');
-        } catch (\Exception $e) {
-            return back()->with('error', 'Error occurred while deleting the record.');
-        }
-    }
 
+    /**
+     * عرض نموذج التعديل
+     */
     public function edit(Enrollment $enrollment)
     {
-        $students = Student::all();
-        $sections = Section::all();
-        $tracks = Track::all();
-        $academicYears = AcademicYear::all();
-        $grades = Grade::all();
-
-        return view('admin.enrollments.edit', compact('enrollment', 'students', 'sections', 'tracks', 'academicYears', 'grades'));
+        $data = $this->enrollmentService->getEditFormData($enrollment);
+        return view('admin.enrollments.edit', $data);
     }
+
+    /**
+     * تحديث بيانات التسجيل
+     */
     public function update(EnrollmentRequest $request, Enrollment $enrollment)
     {
         try {
-            $enrollment->update($request->validated());
+            $this->enrollmentService->updateEnrollment($enrollment, $request->validated());
 
-            return redirect()->route('enrollments.index')
+            return redirect()
+                ->route('enrollments.index')
                 ->with('success', 'Enrollment details updated successfully.');
-        } catch (\Exception $e) {
-            return back()->with('error', 'Update failed.');
+        } catch (Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
+    /**
+     * حذف سجل التسجيل
+     */
+    public function destroy(Enrollment $enrollment)
+    {
+        try {
+            $this->enrollmentService->deleteEnrollment($enrollment);
+
+            return redirect()
+                ->route('enrollments.index')
+                ->with('success', 'Enrollment record deleted successfully.');
+        } catch (Exception $e) {
+            return back()->with('error', $e->getMessage());
         }
     }
 }

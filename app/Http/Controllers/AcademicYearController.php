@@ -1,23 +1,55 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\AcademicYear;
 use App\Http\Requests\AcademicYearRequest;
-use App\Models\Semester;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Models\AcademicYear;
+use App\Services\AcademicYearService;
+use Exception;
 
 class AcademicYearController extends Controller
 {
+    protected $service;
 
-    public function index(AcademicYear $academicYear)
+    public function __construct(AcademicYearService $service)
     {
+        $this->service = $service;
+    }
 
-        $semester = $academicYear->semesters()->where('is_active', true);
-        // dd($semester);
-        $academicYears  = AcademicYear::paginate(10);
-        return view('admin.academic_years.index', compact('academicYears', 'semester'));
+    public function index()
+    {
+        $academicYears = AcademicYear::paginate(10);
+        return view('admin.academic_years.index', compact('academicYears'));
+    }
+
+    public function store(AcademicYearRequest $request)
+    {
+        try {
+            $this->service->storeYearWithSemesters($request->validated());
+            return redirect()->route('academic_years.index')
+                ->with('success', 'Academic year created with default semesters!');
+        } catch (Exception $e) {
+            return back()->withInput()->with('error', $e->getMessage());
+        }
+    }
+
+    public function update(AcademicYearRequest $request, AcademicYear $academicYear)
+    {
+        try {
+            $this->service->updateYear($academicYear, $request->validated());
+            return redirect()->route('academic_years.index')->with('success', 'Updated successfully.');
+        } catch (Exception $e) {
+            return back()->withInput()->with('error', 'Error: ' . $e->getMessage());
+        }
+    }
+
+    public function destroy(AcademicYear $academicYear)
+    {
+        try {
+            $this->service->deleteYear($academicYear);
+            return redirect()->route('academic_years.index')->with('success', 'Deleted successfully.');
+        } catch (Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
     }
 
 
@@ -26,80 +58,8 @@ class AcademicYearController extends Controller
         return view('admin.academic_years.create');
     }
 
-
-    public function store(AcademicYearRequest $request)
-    {
-        try {
-            DB::transaction(function () use ($request) {
-                $data = $request->validated();
-
-              
-                if ($request->boolean('is_active')) {
-                    AcademicYear::query()->update(['is_active' => false]);
-                }
-
-            
-                $year = AcademicYear::create($data);
-
-            
-                $semesters = [
-                    ['name' => 'First Semester','is_active'=>true],
-
-                    ['name' => 'Second Semester','is_active'=>false],
-                    // ['name' => 'Summer Semester'],
-                ];
-
-                foreach ($semesters as $semester) {
-                    $year->semesters()->create($semester);
-      
-                }
-            });
-
-            return redirect()->route('academic_years.index')
-                ->with('success', 'Academic year created with First, Second, and Summer semesters!');
-        } catch (\Exception $e) {
-            return back()->withInput()->with('error', 'Error: ' . $e->getMessage());
-        }
-    }
-
-
     public function edit(AcademicYear $academicYear)
     {
         return view('admin.academic_years.edit', compact('academicYear'));
-    }
-
-
-    public function update(AcademicYearRequest $request, AcademicYear $academicYear)
-    {
-        try {
-            DB::transaction(function () use ($request, $academicYear) {
-                $data = $request->validated();
-
-                // إذا تم تفعيل هذه السنة، نقوم بتعطيل البقية
-                if ($request->boolean('is_active')) {
-                    AcademicYear::where('id', '!=', $academicYear->id)->update(['is_active' => false]);
-                }
-
-                $academicYear->update($data);
-            });
-
-            return redirect()->route('academic-years.index')
-                ->with('success', 'Academic year updated successfully.');
-        } catch (\Exception $e) {
-            return back()->withInput()->with('error', 'Error updating year.');
-        }
-    }
-
-
-    public function destroy(AcademicYear $academicYear)
-    {
-        // تحقق إضافي: لا تسمح بحذف السنة إذا كان بها طلاب مسجلين (Enrollments)
-        if ($academicYear->enrollments()->count() > 0) {
-            return back()->with('error', 'Cannot delete year because it has active enrollments.');
-        }
-
-        $academicYear->delete();
-        return redirect()->route('academic-years.index')
-            ->with('success', 'Academic year deleted successfully.');
     }
 }

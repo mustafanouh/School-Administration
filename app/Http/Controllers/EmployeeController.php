@@ -4,45 +4,55 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EmployeeRequest;
 use App\Models\Employee;
-use Illuminate\Http\Request;
+use App\Services\EmployeeService;
 
 class EmployeeController extends Controller
 {
+    protected $employeeService;
+
+    // Dependency Injection
+    public function __construct(EmployeeService $employeeService)
+    {
+        $this->employeeService = $employeeService;
+    }
+
     public function index()
     {
-        $employees = Employee::paginate(10);
+        $employees = $this->employeeService->getAllEmployees();
         return view('employees.index', compact('employees'));
     }
-    public function create()
-    {
-        return view('employees.create');
-    }
+
     public function store(EmployeeRequest $request)
     {
+        $this->employeeService->storeEmployee($request->validated());
 
-        Employee::create($request->validated());
+        return redirect()->route('employees.index')
+            ->with('success', 'Employee created successfully!');
+    }
 
-        return redirect()
-            ->route('employees.index')
-            ->with('success', 'Employee created successfully with all details!');
-    }
-    public function edit(Employee $employee)
-    {
-        return view('employees.edit', compact('employee'));
-    }
     public function update(EmployeeRequest $request, Employee $employee)
     {
-
-        $employee->update($request->validated());
+        $this->employeeService->updateEmployee($employee, $request->validated());
 
         return redirect()->route('employees.index')
             ->with('success', 'Employee updated successfully!');
     }
+
     public function destroy(Employee $employee)
     {
-        $employee->delete();
+        $this->employeeService->deleteEmployee($employee);
 
         return redirect()->route('employees.index')
             ->with('success', 'Employee deleted successfully!');
+    }
+
+  
+    public function create()
+    {
+        return view('employees.create');
+    }
+    public function edit(Employee $employee)
+    {
+        return view('employees.edit', compact('employee'));
     }
 }

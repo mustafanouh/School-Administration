@@ -4,15 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use App\Http\Requests\StudentRequest;
-use Illuminate\Http\Request;
+use App\Services\StudentService;
 
 class StudentController extends Controller
 {
+    protected $studentService;
+
+    public function __construct(StudentService $studentService)
+    {
+        $this->studentService = $studentService;
+    }
 
     public function index()
     {
-
-        $students = Student::latest()->paginate(10);
+        $students = $this->studentService->getAllStudents();
         return view('students.index', compact('students'));
     }
 
@@ -21,25 +26,15 @@ class StudentController extends Controller
         return view('students.create');
     }
 
-
     public function store(StudentRequest $request)
     {
-
-        Student::create($request->validated());
-
-        return redirect()
-            ->route('students.index')
-            ->with('success', 'Student has been registered successfully.');
+        $this->studentService->registerStudent($request->validated());
+        return redirect()->route('students.index')->with('success', 'Student registered successfully.');
     }
-
 
     public function show(Student $student)
     {
-        
-        $student->load(['enrollments' => function ($query) {
-            $query->orderBy('academic_year_id', 'desc');
-        }, 'enrollments.academicYear', 'enrollments.section.grade', 'enrollments.marks.exam.subject']);
-
+        $student = $this->studentService->getStudentProfile($student);
         return view('students.show', compact('student'));
     }
 
@@ -48,24 +43,23 @@ class StudentController extends Controller
         return view('students.edit', compact('student'));
     }
 
-
     public function update(StudentRequest $request, Student $student)
     {
-
-        $student->update($request->validated());
-
-        return redirect()
-            ->route('students.index')
-            ->with('success', 'Student information updated successfully.');
+        $this->studentService->updateStudent($student, $request->validated());
+        return redirect()->route('students.index')->with('success', 'Information updated.');
     }
-
 
     public function destroy(Student $student)
     {
-        $student->delete();
+        try {
+            $this->studentService->deleteStudent($student);
 
-        return redirect()
-            ->route('students.index')
-            ->with('success', 'Student record deleted successfully.');
+            return redirect()
+                ->route('students.index')
+                ->with('success', 'Student record deleted successfully.');
+        } catch (\Exception $e) {
+        
+            return back()->with('error', 'Action failed: ' . $e->getMessage());
+        }
     }
 }

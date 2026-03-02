@@ -4,72 +4,66 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SectionRequest;
 use App\Models\Section;
-use App\Models\Grade;
-use App\Models\AcademicYear;
-use Illuminate\Http\Request;
+use App\Services\SectionService;
+use Exception;
 
 class SectionController extends Controller
 {
-    public function index(Section $section)
+    protected $sectionService;
+
+    public function __construct(SectionService $sectionService)
     {
-        $sections = Section::whereHas('academicYear', function ($query) {
-            $query->where('is_active', true);
-        })
-            ->with('grade')
-            ->get();
+        $this->sectionService = $sectionService;
+    }
+
+    public function index()
+    {
+        $sections = $this->sectionService->getSectionsForIndex();
         return view('sections.index', compact('sections'));
     }
 
     public function show($sectionId)
     {
-
-
-        $activeYear = AcademicYear::where('is_active', true)->first();
-        $section = Section::with([
-            'enrollments' =>
-            function ($query) use ($activeYear) {
-                $query->where('academic_year_id', $activeYear->id)->with('student');
-            }
-        ])->findOrFail($sectionId);
-
-        $students = $section->enrollments->pluck('student');
-        // dd($students);
-
-        return view('sections.show', compact('section'));
+        try {
+            $section = $this->sectionService->getSectionDetails($sectionId);
+            return view('sections.show', compact('section'));
+        } catch (Exception $e) {
+            return redirect()->route('sections.index')->with('error', $e->getMessage());
+        }
     }
+
     public function create()
     {
-        $grades = Grade::all();
-        $academicYears = AcademicYear::all();
-        return view('sections.create', compact('grades', 'academicYears'));
+        $data = $this->sectionService->getFormData();
+        return view('sections.create', $data);
     }
 
     public function store(SectionRequest $request)
     {
-        $request->validated();
-
-        Section::create($request->all());
+        $this->sectionService->storeSection($request->validated());
         return redirect()->route('sections.index')->with('success', 'تم إضافة الشعبة بنجاح');
     }
 
     public function edit(Section $section)
     {
-        $grades = Grade::all();
-        $academicYears = AcademicYear::all();
-        return view('sections.edit', compact('section', 'grades', 'academicYears'));
+        $data = $this->sectionService->getFormData();
+        $data['section'] = $section;
+        return view('sections.edit', $data);
     }
 
     public function update(SectionRequest $request, Section $section)
     {
-        $request->validated();
-
-        $section->update($request->all());
-        return redirect()->route('sections.index')->with('success', 'تم تحديث البيانات بنجاح');
+        $this->sectionService->updateSection($section, $request->validated());
+        return redirect()->route('sections.index')->with('success', 'section updated successfully.');
     }
 
     public function destroy(Section $section)
     {
-        $section->delete();
-        return redirect()->route('sections.index')->with('success', 'Deleted section successfully');
+        try {
+            $this->sectionService->deleteSection($section);
+            return redirect()->route('sections.index')->with('success', 'section deleted successfully.');
+        } catch (Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
     }
 }

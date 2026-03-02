@@ -3,80 +3,58 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ExamRequest;
-use App\Models\AcademicYear;
 use App\Models\Exam;
-use App\Models\Grade;
-use App\Models\Semester;
-use App\Models\Subject;
-use Illuminate\Http\Request;
+use App\Services\ExamService;
 
 class ExamController extends Controller
 {
+    protected $examService;
+
+    public function __construct(ExamService $examService)
+    {
+        $this->examService = $examService;
+    }
+
     public function index()
     {
-
-        $exams = Exam::with(['subject', 'semester'])->latest()->paginate(10);
-
+        $exams = $this->examService->getIndexData();
         return view('admin.exams.index', compact('exams'));
     }
+
     public function create()
     {
-        $subjects = Subject::all();
-        $academicYears = AcademicYear::where('is_active', true)->get();
-        $semesters = Semester::whereHas('academicYear', function ($query) {
-            $query->where('is_active', true);
-        })->get();
-        $grades = Grade::all();
-
-        return view('admin.exams.create', compact('subjects', 'semesters', 'academicYears', 'grades'));
+      
+        $data = $this->examService->getFormData();
+        return view('admin.exams.create', $data);
     }
+
     public function store(ExamRequest $request)
     {
-
-        $validated = $request->validated();
-
-
-        Exam::create($validated);
-
-        return redirect()->route('exams.index')
-            ->with('success', 'New exam type has been defined successfully.');
+        $this->examService->storeExam($request->validated());
+        return redirect()->route('exams.index')->with('success', 'New exam created successfully.');
     }
+
     public function edit(Exam $exam)
     {
-
-        $subjects = Subject::all();
-        $semesters = Semester::all();
-        $academicYears = AcademicYear::where('is_active', true)->get();
-        $semesters = Semester::whereHas('academicYear', function ($query) {
-            $query->where('is_active', true);
-        })->get();
-        $grades = Grade::all();
-
-        return view('admin.exams.edit', compact('exam', 'subjects', 'semesters', 'academicYears', 'grades'));
+        $data = $this->examService->getFormData();
+        $data['exam'] = $exam;
+        return view('admin.exams.edit', $data);
     }
 
     public function update(ExamRequest $request, Exam $exam)
     {
-
-        $exam->update($request->validated());
-
-        return redirect()->route('exams.index')
-            ->with('success', 'Exam definition updated successfully.');
+        $this->examService->updateExam($exam, $request->validated());
+        return redirect()->route('exams.index')->with('success', 'Exam updated successfully.');
     }
+
     public function destroy(Exam $exam)
     {
         try {
-
-            if ($exam->marks()->exists()) {
-                return back()->with('error', 'Cannot delete this exam because it already has student marks recorded.');
-            }
-
-            $exam->delete();
-
-            return redirect()->route('exams.index')
-                ->with('success', 'Exam definition has been deleted successfully.');
+            $this->examService->deleteExam($exam);
+            return redirect()->route('exams.index')->with('success', 'Exam deleted successfully.');
         } catch (\Exception $e) {
-            return back()->with('error', 'An error occurred while trying to delete the exam.');
+          
+            return back()->with('error', $e->getMessage());
         }
     }
 }
