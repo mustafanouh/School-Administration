@@ -7,6 +7,7 @@ use App\Models\Enrollment;
 use App\Services\EnrollmentService;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 class EnrollmentController extends Controller
 {
@@ -99,4 +100,5 @@ class EnrollmentController extends Controller
             return back()->with('error', $e->getMessage());
         }
     }
+   
 }

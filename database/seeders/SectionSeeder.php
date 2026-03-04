@@ -18,8 +18,7 @@ class SectionSeeder extends Seeder
         // 1. جلب الصفوف والعام الدراسي الحالي
         $grades = Grade::all();
         // نفترض وجود عام دراسي رقمه 1 (مثل 2023-2024)
-        $academicYearId = DB::table('academic_years')->first()->id ?? 1;
-
+        $academicYearId = DB::table('academic_years')->max('id') ?? 3;
         // 2. إنشاء شعبتين لكل صف
         $sectionNames = ['Section A', 'Section B'];
 

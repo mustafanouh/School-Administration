@@ -14,6 +14,7 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TeacherSubjectController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\StatisticsController;
 use App\Models\User;
 
 Route::get('/', function () {
@@ -31,7 +32,6 @@ Route::middleware('auth')->group(function () {
 });
 
 
-
 Route::resource('employees', EmployeeController::class);
 Route::resource('teachers', TeacherController::class);
 Route::resource('students', StudentController::class);
@@ -44,15 +44,20 @@ Route::resource('semesters', SemesterController::class);
 Route::resource('teacher_subjects', TeacherSubjectController::class);
 
 
+// مسار محدد لإحصائيات التسجيل فقط
+Route::get('statistics/chart', [StatisticsController::class, 'getEnrollmentStats'])
+    ->name('stats.chart');
 
 
 
 
 
-    
-    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
-    Route::get('/messages/{receiverId}', [ChatController::class, 'getMessages'])->name('chat.messages');
-    Route::post('/send-message', [ChatController::class, 'store'])->name('chat.send');
+
+
+    // reveb route
+Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+Route::get('/messages/{receiverId}', [ChatController::class, 'getMessages'])->name('chat.messages');
+Route::post('/send-message', [ChatController::class, 'store'])->name('chat.send');
 
 
 

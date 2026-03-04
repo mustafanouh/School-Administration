@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
@@ -61,9 +62,9 @@
 
             <x-sidebar-link icon="fas fa-calendar-check" label="Academic Years Management" :href="route('academic_years.index')"
                 :active="request()->routeIs('academic_years.*')" />
-            <x-sidebar-link icon="fas fa-message" label="Conversation" :href="route('chat.index')"
-                :active="request()->routeIs('chat.*')" />
-
+            <x-sidebar-link icon="fas fa-message" label="Conversation" :href="route('chat.index')" :active="request()->routeIs('chat.*')" />
+            <x-sidebar-link icon="fas fa-chart-pie" label="statistics" :href="route('stats.chart')"
+                :active="request()->routeIs('stats.chart')" />
             <div class="mt-4 pt-4 border-t border-gray-100 dark:border-white/10">
                 <x-sidebar-link icon="fas fa-sign-out-alt" label="Logout" href="/logout" />
             </div>
@@ -71,6 +72,7 @@
         </x-sidebar>
 
     </div>
+    @stack('scripts')
 </body>
 
 </html>
