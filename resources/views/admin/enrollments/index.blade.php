@@ -33,7 +33,7 @@
                                 Status</th>
                             <th
                                 class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider text-center">
-                                Latest Grade</th>
+                                 Grade</th>
                             <th
                                 class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider text-center">
                                 Actions</th>
@@ -95,21 +95,16 @@
                                     </span>
                                 </td>
 
-                                {{-- Latest Grade --}}
+                                {{--  Grade --}}
                                 <td class="px-6 py-4 text-center">
-                                    @if ($enrollment->marks->isNotEmpty())
-                                        @php $lastMark = $enrollment->marks->last(); @endphp
+                                    @if ($enrollment->section->grade['name'])
                                         <div class="flex flex-col">
-                                            <span
-                                                class="text-sm font-bold text-gray-700 dark:text-gray-200">{{ $lastMark->score }}/{{ $lastMark->max_mark }}</span>
-                                            <span
-                                                class="text-[9px] font-bold {{ $lastMark->status == 'passed' ? 'text-emerald-500' : 'text-rose-500' }}">
-                                                {{ strtoupper($lastMark->status) }}
-                                            </span>
+                                            {{ $enrollment->section->grade['name'] }}
                                         </div>
                                     @else
-                                        <span class="text-[10px] text-gray-400 italic">No Marks</span>
+                                        <span class="text-[10px] text-gray-400 italic"></span>
                                     @endif
+
                                 </td>
 
                                 {{-- Actions --}}
@@ -181,7 +176,7 @@
                 {{ $enrollments->links() }}
             </div>
         @endif
-   
+
     </div>
 
 </x-app-layout>

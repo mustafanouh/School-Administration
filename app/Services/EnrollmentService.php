@@ -23,8 +23,7 @@ class EnrollmentService
     }
 
     /**
-     * تحضير البيانات اللازمة لنماذج الإدخال (Create/Edit)
-     * @throws Exception في حال عدم وجود سنة دراسية نشطة
+     * @throws Exception 
      */
     public function getCreateFormData()
     {
@@ -33,6 +32,7 @@ class EnrollmentService
         if (!$activeYear) {
             throw new Exception('Please activate an academic year first.');
         }
+        
 
         return [
             'activeYear'             => $activeYear,
@@ -42,9 +42,7 @@ class EnrollmentService
         ];
     }
 
-    /**
-     * جلب بيانات التعديل
-     */
+   
     public function getEditFormData(Enrollment $enrollment)
     {
         return [
@@ -57,9 +55,7 @@ class EnrollmentService
         ];
     }
 
-    /**
-     * تنفيذ عملية التسجيل في قاعدة البيانات
-     */
+   
     public function storeEnrollment(array $data)
     {
         try {
@@ -69,9 +65,7 @@ class EnrollmentService
         }
     }
 
-    /**
-     * تحديث بيانات التسجيل
-     */
+  
     public function updateEnrollment(Enrollment $enrollment, array $data)
     {
         try {
@@ -81,13 +75,9 @@ class EnrollmentService
         }
     }
 
-    /**
-     * حذف سجل التسجيل
-     */
     public function deleteEnrollment(Enrollment $enrollment)
     {
         try {
-            // يمكنك هنا إضافة منطق فحص قبل الحذف (مثلاً إذا كان الطالب لديه درجات)
             return $this->repo->delete($enrollment);
         } catch (Exception $e) {
             throw new Exception("Error occurred while deleting the record.");

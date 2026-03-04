@@ -21,32 +21,24 @@ class EnrollmentController extends Controller
         $this->enrollmentService = $enrollmentService;
     }
 
-    /**
-     * عرض قائمة التسجيلات
-     */
+   
     public function index()
     {
         $enrollments = $this->enrollmentService->getIndexData();
         return view('admin.enrollments.index', compact('enrollments'));
     }
 
-    /**
-     * عرض نموذج تسجيل جديد
-     */
     public function create()
     {
         try {
             $data = $this->enrollmentService->getCreateFormData();
             return view('admin.enrollments.create', $data);
         } catch (Exception $e) {
-            // في حال عدم وجود سنة نشطة أو أي خطأ منطقي آخر من السيرفس
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
-    /**
-     * حفظ عملية التسجيل
-     */
+   
     public function store(EnrollmentRequest $request)
     {
         try {
@@ -60,18 +52,14 @@ class EnrollmentController extends Controller
         }
     }
 
-    /**
-     * عرض نموذج التعديل
-     */
+   
     public function edit(Enrollment $enrollment)
     {
         $data = $this->enrollmentService->getEditFormData($enrollment);
         return view('admin.enrollments.edit', $data);
     }
 
-    /**
-     * تحديث بيانات التسجيل
-     */
+  
     public function update(EnrollmentRequest $request, Enrollment $enrollment)
     {
         try {
@@ -85,9 +73,7 @@ class EnrollmentController extends Controller
         }
     }
 
-    /**
-     * حذف سجل التسجيل
-     */
+    
     public function destroy(Enrollment $enrollment)
     {
         try {

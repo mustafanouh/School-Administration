@@ -8,7 +8,11 @@ class ExamRepository
 {
     public function getPaginated($perPage = 10)
     {
-        return Exam::with(['subject', 'semester'])->latest()->paginate($perPage);
+        return Exam::with(['subject', 'semester'])
+            ->whereHas('semester', function ($query) {
+                $query->where('is_active', true);
+            })
+            ->latest()->paginate($perPage);
     }
 
     public function create(array $data)

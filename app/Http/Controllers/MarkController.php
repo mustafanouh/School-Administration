@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MarkRequest;
+use App\Models\AcademicYear;
 use App\Models\Enrollment;
 use App\Models\Exam;
 use App\Models\Mark;
@@ -16,10 +17,15 @@ class MarkController extends Controller
             'enrollment.student',
             'exam.subject',
             'exam.semester'
-        ])->latest()->paginate(15);
-
+        ])
+            ->whereHas('enrollment.academicYear', function ($query) {
+                $query->where('is_active', true);
+            })
+            ->latest()
+            ->paginate(15);
         return view('admin.marks.index', compact('marks'));
     }
+
     public function create()
     {
 

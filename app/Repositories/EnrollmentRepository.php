@@ -9,6 +9,9 @@ class EnrollmentRepository
     public function getAllPaginated($perPage = 10)
     {
         return Enrollment::with(['student', 'section.grade', 'academicYear', 'track', 'marks.exam'])
+            ->whereHas('academicYear', function ($query) {
+                $query->where('is_active', true);
+            })
             ->latest()
             ->paginate($perPage);
     }
@@ -32,6 +35,7 @@ class EnrollmentRepository
             $query->where('academic_year_id', $yearId);
         })->get();
     }
+
 
     public function create(array $data)
     {
