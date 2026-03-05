@@ -25,9 +25,9 @@ class SubjectFactory extends Factory
         $maxMark = $this->faker->numberBetween($minMark + 1, 100);
 
         return [
-             'name' => $this->faker->word(), // اسم المادة
-            'track_id' => Track::factory(), // ينشئ Track عشوائي
-            'grade_id' => Grade::factory(), // ينشئ Grade عشوائي
+             'name' => $this->faker->word(),
+            'track_id' => Track::factory(),
+            'grade_id' => Grade::factory(), 
             'min_mark' => $minMark,
             'max_mark' => $maxMark,
         ];

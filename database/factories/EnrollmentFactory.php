@@ -25,10 +25,10 @@ class EnrollmentFactory extends Factory
     public function definition(): array
     {
         return [
-             'student_id' => User::factory(), // ينشئ مستخدم جديد (طالب)
-            'section_id' => Section::factory(), // ينشئ قسم جديد
-            'academic_year_id' => AcademicYear::factory(), // ينشئ سنة دراسية جديدة
-            'track_id' => Track::factory(), // ينشئ مسار جديد
+             'student_id' => User::factory(), 
+            'section_id' => Section::factory(), 
+            'academic_year_id' => AcademicYear::factory(), 
+            'track_id' => Track::factory(),
             'status' => $this->faker->randomElement(['enrolled', 'graduated', 'dropped']),
         ];
     }

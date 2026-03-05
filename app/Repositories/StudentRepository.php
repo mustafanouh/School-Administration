@@ -17,6 +17,7 @@ class StudentRepository
         return $student->load([
             'enrollments' => function ($query) {
                 $query->orderBy('academic_year_id', 'desc');
+               
             },
             'enrollments.academicYear',
             'enrollments.section.grade',

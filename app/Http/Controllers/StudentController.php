@@ -37,6 +37,7 @@ class StudentController extends Controller
         $student = $this->studentService->getStudentProfile($student);
         return view('students.show', compact('student'));
     }
+   
 
     public function edit(Student $student)
     {
@@ -58,7 +59,7 @@ class StudentController extends Controller
                 ->route('students.index')
                 ->with('success', 'Student record deleted successfully.');
         } catch (\Exception $e) {
-        
+
             return back()->with('error', 'Action failed: ' . $e->getMessage());
         }
     }

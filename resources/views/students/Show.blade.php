@@ -155,24 +155,34 @@
                     <div class="flex-grow h-px bg-gradient-to-r from-gray-200 to-transparent dark:from-gray-700"></div>
                 </div>
 
+
                 @forelse ($student->enrollments->sortByDesc('academicYear.name') as $enrollment)
                     <div
                         class="bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden mb-12">
-                        {{-- ترويسة السنة - هادئة وبسيطة --}}
+
                         <div
                             class="px-8 py-5 border-b border-gray-50 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/50 flex justify-between items-center">
-                            <div class="flex items-center gap-4">
+                            <div class="flex justify-between  gap-20">
                                 <span class="w-1 h-8 bg-indigo-500 rounded-full"></span>
                                 <div>
                                     <h4 class="text-lg font-bold text-gray-800 dark:text-white">
-                                        {{ $enrollment->academicYear->name }}</h4>
+                                        {{ $enrollment->academicYear->name }} </h4>
                                     <p class="text-[10px] text-gray-400 uppercase tracking-widest">
                                         {{ $enrollment->section->grade->name }} — {{ $enrollment->section->name }}</p>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-bold text-gray-800 dark:text-white">
+                                        Avarage :
+                                        {{ $enrollment->average }} </h4>
+                                    <p class="text-[10px] text-gray-400 uppercase tracking-widest  {{ $enrollment->status == 'passed' ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-900/20' : 'text-rose-600 bg-rose-50 dark:bg-rose-900/20' }}">
+                                          Status :
+                                        {{ $enrollment->status}} </p>
+
                                 </div>
                             </div>
                         </div>
 
-                        <div class="p-0"> {{-- إزالة الحواف الداخلية للسماح للجدول بالتمدد --}}
+                        <div class="p-0">
                             @php $groupedBySemester = $enrollment->marks->groupBy('exam.semester_id'); @endphp
 
                             @forelse($groupedBySemester as $semesterId => $marksInThisSemester)
@@ -241,7 +251,11 @@
                                                         <td class="px-8 py-4">
                                                             <div
                                                                 class="w-full h-1.5 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
-                                                                @php $percent = ($mark->score / ($mark->max_mark ?? 100)) * 100; @endphp
+                                                                @php
+                                                                    $maxMark =
+                                                                        $mark->max_mark > 0 ? $mark->max_mark : 100;
+                                                                    $percent = ($mark->score / $maxMark) * 100;
+                                                                @endphp
                                                                 <div class="h-full {{ $mark->status == 'passed' ? 'bg-indigo-500/80' : 'bg-rose-500/80' }} transition-all duration-500"
                                                                     style="width: {{ $percent }}%"></div>
                                                             </div>
@@ -261,12 +275,12 @@
                         </div>
                     </div>
                 @empty
-                  
-                <div
-                    class="bg-white dark:bg-gray-800 rounded-[3rem] p-20 text-center border-2 border-dashed border-gray-200 dark:border-gray-700">
-                    <p class="text-gray-400 font-black uppercase tracking-widest">No enrollment records available.
-                    </p>
-                </div>
+
+                    <div
+                        class="bg-white dark:bg-gray-800 rounded-[3rem] p-20 text-center border-2 border-dashed border-gray-200 dark:border-gray-700">
+                        <p class="text-gray-400 font-black uppercase tracking-widest">No enrollment records available.
+                        </p>
+                    </div>
                 @endforelse
             </div>
         </div>

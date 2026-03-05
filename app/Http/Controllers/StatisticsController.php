@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\DB;
 
 class StatisticsController extends Controller
 {
-    // مسمى يعبر عن وظيفة جلب إحصائيات التسجيل
     public function getEnrollmentStats()
     {
         $enrollmentData = Enrollment::with('academicYear')

@@ -22,10 +22,10 @@ class SectionFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => 'Section ' . $this->faker->unique()->letter(), // اسم القسم مثل Section A
-            'grade_id' => Grade::factory(), // ينشئ Grade عشوائي
-            'academic_year_id' => AcademicYear::factory(), // ينشئ AcademicYear عشوائي
-            'capacity' => $this->faker->numberBetween
+            'name' => 'Section ' . $this->faker->unique()->letter(), 
+            'grade_id' => Grade::factory(), 
+            'academic_year_id' => AcademicYear::factory(),
+            'capacity' => $this->faker->numberBetween(20, 40),
         ];
     }
 }

@@ -20,7 +20,7 @@ class StudentFactory extends Factory
              'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'gender' => $this->faker->gender(),
-            'date_of_birth' => $this->faker->date('Y-m-d', '2008-01-01'), // تغيير حسب عمر الطلاب
+            'date_of_birth' => $this->faker->date('Y-m-d', '2008-01-01'), 
             'place_of_birth' => $this->faker->city(),
             'nationality' => $this->faker->country(),
             'address' => $this->faker->address(),

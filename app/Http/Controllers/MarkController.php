@@ -7,6 +7,7 @@ use App\Models\AcademicYear;
 use App\Models\Enrollment;
 use App\Models\Exam;
 use App\Models\Mark;
+use App\Services\MarkService;
 use Illuminate\Http\Request;
 
 class MarkController extends Controller
@@ -19,6 +20,9 @@ class MarkController extends Controller
             'exam.semester'
         ])
             ->whereHas('enrollment.academicYear', function ($query) {
+                $query->where('is_active', true);
+            })
+            ->whereHas('exam.semester', function ($query) {
                 $query->where('is_active', true);
             })
             ->latest()

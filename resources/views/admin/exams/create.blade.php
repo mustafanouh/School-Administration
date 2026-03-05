@@ -40,7 +40,7 @@
                             class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Semester</label>
                         <select name="semester_id"
                             class="w-full bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-xl px-4 py-3 text-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all @error('semester_id') border-rose-500 @enderror">
-                            <option disabled >Select Semester</option>
+                            <option disabled>Select Semester</option>
                             @foreach ($semesters->where('is_active', true) as $semester)
                                 @foreach ($academicYears as $academicYear)
                                     <option value="{{ $semester->id }}"
@@ -59,9 +59,17 @@
                     <div>
                         <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Exam
                             Type</label>
-                        <input type="text" name="exam_type" placeholder="e.g. Midterm, Final, Quiz"
-                            value="{{ old('exam_type') }}"
+                     
+
+
+                        <select name="exam_type"
                             class="w-full bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-xl px-4 py-3 text-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all @error('exam_type') border-rose-500 @enderror">
+                            <option disabled>Select Exam Type</option>
+                            <option  value="final" {{ old('exam_type') == 'final' ? 'selected' : '' }}>Final</option>
+                            <option disabled value="project" {{ old('exam_type') == 'project' ? 'selected' : '' }}>project</option>
+                            <option  disabled value="quiz" {{ old('exam_type') == 'quiz' ? 'selected' : '' }}>Quiz</option>
+                        </select>
+                    
                         @error('exam_type')
                             <p class="text-rose-500 text-xs mt-1 font-bold">{{ $message }}</p>
                         @enderror
@@ -72,10 +80,9 @@
                         <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Maximum
                             Mark</label>
                         <div class="relative">
-                            <input type="number"  name="max_mark" placeholder="100"
-                                value="{{ old('max_mark') }}"
+                            <input type="number" name="max_mark" placeholder="100" value="{{ old('max_mark') }}"
                                 class="w-full bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-xl px-4 py-3 text-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all @error('max_mark') border-rose-500 @enderror">
-                           
+
                         </div>
                         @error('max_mark')
                             <p class="text-rose-500 text-xs mt-1 font-bold">{{ $message }}</p>

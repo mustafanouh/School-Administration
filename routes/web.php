@@ -15,6 +15,7 @@ use App\Http\Controllers\TeacherSubjectController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\StatisticsController;
+use App\Models\Student;
 use App\Models\User;
 
 Route::get('/', function () {
@@ -62,6 +63,17 @@ Route::post('/send-message', [ChatController::class, 'store'])->name('chat.send'
 
 
 
+Route::get('/api/students/{student}/previous-info', function (Student $student) {
+   
+    $lastEnrollment = $student->enrollments()->with(['section', 'academicYear'])->latest()->first();
+
+    return response()->json([
+        'has_previous' => (bool)$lastEnrollment,
+        'status' => $lastEnrollment?->status ?? 'N/A',
+        'grade' => $lastEnrollment?->section->grade->name ?? 'N/A',
+        'year' => $lastEnrollment?->academicYear?->name ?? 'N/A',
+    ]);
+})->name('api.student.previous-info');
 
 
 

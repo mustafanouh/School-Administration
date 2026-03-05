@@ -19,8 +19,7 @@ class TeacherFactory extends Factory
     {
         return [
           'employee_id' => Employee::factory(),
-          'speciality' => $this->faker->randomElement(['الرياضيات', 'العلوم', 'العربية', 'الإنجليزية','دراسات الاجتماعية']),
- // تخصص عشوائي
+          'speciality' => $this->faker->randomElement(['math', 'science', 'arabic', 'english','social studies']),
     
         ];
     }
