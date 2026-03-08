@@ -57,22 +57,22 @@
                                         {{ $employee->status }}
                                     </span>
                                 </td>
-                              
+
 
                                 <td class="px-6 py-4">
                                     <div class="flex items-center justify-center gap-2">
 
-                                      
+
 
                                         <a href="{{ route('employees.edit', $employee->id) }}"
                                             class="text-indigo-600 hover:text-indigo-900 px-2 py-1">
-                                         <i class="fa-solid fa-user-pen"></i>
+                                            <i class="fa-solid fa-user-pen"></i>
                                         </a>
 
                                         <div x-data="{ openDeleteModal: false }">
                                             <button @click="openDeleteModal = true"
                                                 class="text-rose-500 hover:text-rose-700 px-2 py-1 transition-colors">
-                                              <i class="fa-solid fa-trash"></i>
+                                                <i class="fa-solid fa-trash"></i>
                                             </button>
 
                                             <div x-show="openDeleteModal"
@@ -85,7 +85,7 @@
                                                     <div class="p-6">
                                                         <div
                                                             class="w-12 h-12 mx-auto bg-rose-100 rounded-full mb-4 flex items-center justify-center">
-                                                          <i class="fa-regular fa-trash-can"></i>
+                                                            <i class="fa-regular fa-trash-can"></i>
                                                         </div>
                                                         <h3 class="text-lg font-bold dark:text-white">Confirm Delete
                                                         </h3>
@@ -109,102 +109,38 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                          <div x-data="{ openViewModal: false }">
-                                            <button @click="openViewModal = true"
-                                                class="text-green-500 hover:text-green-700 px-2 py-1 transition-colors">
-                                            <i class="fa-solid fa-arrow-right"></i>
-                                            </button>
 
-                                            <div x-show="openViewModal"
-                                                class="fixed inset-0 z-[60] flex items-center justify-center overflow-y-auto"
-                                                x-cloak>
-                                                <div class="fixed inset-0 bg-black/60 transition-opacity"
-                                                    @click="openViewModal = false"></div>
-                                                <div
-                                                    class="relative bg-white dark:bg-[#161923] rounded-2xl shadow-2xl max-w-2xl w-full mx-4 overflow-hidden border border-gray-200 dark:border-gray-700">
-                                                    <div
-                                                        class="px-6 py-4 border-b border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/5 flex justify-between items-center">
-                                                        <h3 class="text-lg font-bold text-gray-800 dark:text-white">
-                                                            Employee Profile</h3>
-                                                        <button @click="openViewModal = false"
-                                                            class="text-gray-400 hover:text-gray-600"><i
-                                                                class="fas fa-times"></i></button>
-                                                    </div>
-                                                    <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                        <div>
-                                                            <p class="text-[10px] uppercase text-gray-400 font-bold">
-                                                                Name</p>
-                                                            <p class="text-sm dark:text-white">
-                                                                {{ $employee->first_name }} {{ $employee->last_name }}
-                                                            </p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-[10px] uppercase text-gray-400 font-bold">
-                                                                National ID</p>
-                                                            <p class="text-sm dark:text-white">
-                                                                {{ $employee->notional_id }}</p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-[10px] uppercase text-gray-400 font-bold">Job
-                                                            </p>
-                                                            <p class="text-sm text-indigo-500 font-bold">
-                                                                {{ $employee->job_title }}</p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-[10px] uppercase text-gray-400 font-bold">
-                                                                Salary</p>
-                                                            <p class="text-sm dark:text-white">
-                                                                {{ number_format($employee->salary, 2) }}</p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-[10px] uppercase text-gray-400 font-bold">
-                                                                Phone</p>
-                                                            <p class="text-sm dark:text-white">{{ $employee->phone }}
-                                                            </p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-[10px] uppercase text-gray-400 font-bold">
-                                                                Hire Date</p>
-                                                            <p class="text-sm dark:text-white">
-                                                                {{ $employee->hire_data }}</p>
-                                                        </div>
-                                                        <div class="md:col-span-2">
-                                                            <p class="text-[10px] uppercase text-gray-400 font-bold">
-                                                                Address</p>
-                                                            <p class="text-sm dark:text-white">{{ $employee->address }}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="px-6 py-4 bg-gray-50 dark:bg-white/5 flex justify-end">
-                                                        <button @click="openViewModal = false"
-                                                            class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-xs font-bold rounded-lg">Close</button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <div>
+                                            <a href="{{ route('employees.show', $employee->id) }}"
+                                                class="text-emerald-500 hover:text-emerald-700 px-2 py-1 transition-colors"
+                                                title="View Profile">
+                                                <i class="fa-solid fa-arrow-right"></i>
+                                            </a>
+
+
                                         </div>
 
                                     </div>
                                 </td>
 
-            
-            </tr>
-        @empty
-            <tr>
-                <td colspan="4"
-                    class="px-6 py-10 text-center text-gray-500 italic uppercase tracking-widest text-sm">
-                    No records found in the database.
-                </td>
-            </tr>
-            @endforelse
-            </tbody>
-            </table>
-        </div>
-    </div>
 
-    <div class="mt-6">
-        {{ $employees->links() }}
-    </div>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="4"
+                                    class="px-6 py-10 text-center text-gray-500 italic uppercase tracking-widest text-sm">
+                                    No records found in the database.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="mt-6">
+            {{ $employees->links() }}
+        </div>
 
     </div>
 </x-app-layout>

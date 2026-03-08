@@ -37,7 +37,10 @@ class EmployeeController extends Controller
         return redirect()->route('employees.index')
             ->with('success', 'Employee updated successfully!');
     }
-
+    public function show(Employee $employee)
+    {
+        return view('employees.show', compact('employee'));
+    }
     public function destroy(Employee $employee)
     {
         $this->employeeService->deleteEmployee($employee);
@@ -46,7 +49,7 @@ class EmployeeController extends Controller
             ->with('success', 'Employee deleted successfully!');
     }
 
-  
+
     public function create()
     {
         return view('employees.create');

@@ -16,7 +16,8 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js']);
+    @vite(['resources/js/search.js']);
 </head>
 <style>
     [x-cloak] {
@@ -63,8 +64,7 @@
             <x-sidebar-link icon="fas fa-calendar-check" label="Academic Years Management" :href="route('academic_years.index')"
                 :active="request()->routeIs('academic_years.*')" />
             <x-sidebar-link icon="fas fa-message" label="Conversation" :href="route('chat.index')" :active="request()->routeIs('chat.*')" />
-            <x-sidebar-link icon="fas fa-chart-pie" label="statistics" :href="route('stats.chart')"
-                :active="request()->routeIs('stats.chart')" />
+            <x-sidebar-link icon="fas fa-chart-pie" label="statistics" :href="route('stats.chart')" :active="request()->routeIs('stats.chart')" />
             <div class="mt-4 pt-4 border-t border-gray-100 dark:border-white/10">
                 <x-sidebar-link icon="fas fa-sign-out-alt" label="Logout" href="/logout" />
             </div>
