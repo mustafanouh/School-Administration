@@ -3,9 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Employee extends Model
 {
+
+    use Searchable;
+
+
+    public function toSearchableArray()
+    {
+        return [
+            'id'    => (int) $this->id,
+            'name'  => $this->first_name . ' ' . $this->last_name,
+        ];
+    }
     protected $fillable = [
         'first_name',
         'last_name',

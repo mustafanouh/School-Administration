@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\StatisticsController;
 use App\Models\Student;
+use App\Http\Controllers\SearchController;
+
 use App\Models\User;
 
 Route::get('/', function () {
@@ -55,7 +57,7 @@ Route::get('statistics/chart', [StatisticsController::class, 'getEnrollmentStats
 
 
 
-    // reveb route
+// reveb route
 Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
 Route::get('/messages/{receiverId}', [ChatController::class, 'getMessages'])->name('chat.messages');
 Route::post('/send-message', [ChatController::class, 'store'])->name('chat.send');
@@ -64,7 +66,7 @@ Route::post('/send-message', [ChatController::class, 'store'])->name('chat.send'
 
 
 Route::get('/api/students/{student}/previous-info', function (Student $student) {
-   
+
     $lastEnrollment = $student->enrollments()->with(['section', 'academicYear'])->latest()->first();
 
     return response()->json([
@@ -75,7 +77,8 @@ Route::get('/api/students/{student}/previous-info', function (Student $student) 
     ]);
 })->name('api.student.previous-info');
 
-
+// fore search route
+Route::get('/global-search', [SearchController::class, 'globalSearch'])->name('search.global');
 
 
 

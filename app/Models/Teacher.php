@@ -11,10 +11,6 @@ class Teacher extends Model
 {
     protected $fillable = ['employee_id', 'specialization'];
 
-    // public function employee()
-    // {
-    //     return $this->belongsTo(Employee::class);
-    // }
      protected $casts = [
         'hire_date' => 'date',
         'is_active' => 'boolean',
