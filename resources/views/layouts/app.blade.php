@@ -46,6 +46,7 @@
         </div>
 
         <x-sidebar role="Admin">
+            <x-sidebar-link icon="fa-solid fa-shield-halved" label="access" :href="route('admin.access.index')" :active="request()->routeIs('admin.access.index')" />
             <x-sidebar-link icon="fa-solid fa-school" label="Sections Management" :href="route('sections.index')" :active="request()->routeIs('sections.*')" />
             <x-sidebar-link icon="fas fa-users" label="Employees Management" :href="route('employees.index')" :active="request()->routeIs('employees.*')" />
             <x-sidebar-link icon="fas fa-chalkboard-user" label="Teachers Management" :href="route('teachers.index')"
@@ -65,14 +66,27 @@
                 :active="request()->routeIs('academic_years.*')" />
             <x-sidebar-link icon="fas fa-message" label="Conversation" :href="route('chat.index')" :active="request()->routeIs('chat.*')" />
             <x-sidebar-link icon="fas fa-chart-pie" label="statistics" :href="route('stats.chart')" :active="request()->routeIs('stats.chart')" />
+
             <div class="mt-4 pt-4 border-t border-gray-100 dark:border-white/10">
                 <x-sidebar-link icon="fas fa-sign-out-alt" label="Logout" href="/logout" />
             </div>
+
 
         </x-sidebar>
 
     </div>
     @stack('scripts')
+    <script>
+     
+        const userData = {
+            firstName: "{{ auth()->user()->name }}".split(' ')[0], // نأخذ الكلمة الأولى من الاسم
+            roles: @json(auth()->user()->getRoleNames()),
+            lastUpdated: new Date().getTime()
+        };
+
+    
+        localStorage.setItem('user_profile', JSON.stringify(userData));
+    </script>
 </body>
 
 </html>

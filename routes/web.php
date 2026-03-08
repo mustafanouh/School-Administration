@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AcademicYearController;
+use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EnrollmentController;
@@ -24,32 +25,69 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    // Profile Management
+    Route::controller(ProfileController::class)->group(function () {
+        Route::get('/profile', 'edit')->name('profile.edit');
+        Route::patch('/profile', 'update')->name('profile.update');
+        Route::delete('/profile', 'destroy')->name('profile.destroy');
+    });
+    // School Resources
+    Route::resources([
+        'employees' => EmployeeController::class,
+        'teachers' => TeacherController::class,
+        'students' => StudentController::class,
+        'sections' => SectionController::class,
+        'enrollments' => EnrollmentController::class,
+        'exams' => ExamController::class,
+        'marks' => MarkController::class,
+        'academic_years' => AcademicYearController::class,
+        'semesters' => SemesterController::class,
+        'teacher_subjects' => TeacherSubjectController::class,
+    ]);
+    // chart
+    Route::get('statistics/chart', [StatisticsController::class, 'getEnrollmentStats'])
+        ->name('stats.chart');
+
+    // reveb route
+    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+    Route::get('/messages/{receiverId}', [ChatController::class, 'getMessages'])->name('chat.messages');
+    Route::post('/send-message', [ChatController::class, 'store'])->name('chat.send');
+
+    // enrollment stats
+    Route::get('/api/students/{student}/previous-info', function (Student $student) {
+
+        $lastEnrollment = $student->enrollments()->with(['section', 'academicYear'])->latest()->first();
+
+        return response()->json([
+            'has_previous' => (bool)$lastEnrollment,
+            'status' => $lastEnrollment?->status ?? 'N/A',
+            'grade' => $lastEnrollment?->section->grade->name ?? 'N/A',
+            'year' => $lastEnrollment?->academicYear?->name ?? 'N/A',
+        ]);
+    })->name('api.student.previous-info');
+
+    // fore search route
+    Route::get('/global-search', [SearchController::class, 'globalSearch'])->name('search.global');
 });
 
 
-Route::resource('employees', EmployeeController::class);
-Route::resource('teachers', TeacherController::class);
-Route::resource('students', StudentController::class);
-Route::resource('sections', SectionController::class);
-Route::resource('enrollments', EnrollmentController::class);
-Route::resource('exams', ExamController::class);
-Route::resource('marks', MarkController::class);
-Route::resource('academic_years', AcademicYearController::class);
-Route::resource('semesters', SemesterController::class);
-Route::resource('teacher_subjects', TeacherSubjectController::class);
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
 
+    Route::get('/security/access-control', [RolePermissionController::class, 'index'])
+        ->name('access.index');
 
-// مسار محدد لإحصائيات التسجيل فقط
-Route::get('statistics/chart', [StatisticsController::class, 'getEnrollmentStats'])
-    ->name('stats.chart');
+    Route::post('/security/access-control/{user}/sync', [RolePermissionController::class, 'syncUserAccess'])
+        ->name('sync-access');
+});
 
 
 
@@ -57,28 +95,11 @@ Route::get('statistics/chart', [StatisticsController::class, 'getEnrollmentStats
 
 
 
-// reveb route
-Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
-Route::get('/messages/{receiverId}', [ChatController::class, 'getMessages'])->name('chat.messages');
-Route::post('/send-message', [ChatController::class, 'store'])->name('chat.send');
 
 
 
 
-Route::get('/api/students/{student}/previous-info', function (Student $student) {
 
-    $lastEnrollment = $student->enrollments()->with(['section', 'academicYear'])->latest()->first();
-
-    return response()->json([
-        'has_previous' => (bool)$lastEnrollment,
-        'status' => $lastEnrollment?->status ?? 'N/A',
-        'grade' => $lastEnrollment?->section->grade->name ?? 'N/A',
-        'year' => $lastEnrollment?->academicYear?->name ?? 'N/A',
-    ]);
-})->name('api.student.previous-info');
-
-// fore search route
-Route::get('/global-search', [SearchController::class, 'globalSearch'])->name('search.global');
 
 
 
