@@ -19,7 +19,7 @@ class TeacherController extends Controller
     public function create()
     {
         $employees = Employee::all();
-        
+
         return view('teachers.create', compact('employees'));
     }
 
@@ -39,6 +39,10 @@ class TeacherController extends Controller
     {
         $teacher->update($request->validated());
         return redirect()->route('teachers.index')->with('success', 'Teacher updated successfully!');
+    }
+    public function show(Teacher $teacher)
+    {
+        return view('teachers.show', compact('teacher'));
     }
 
     public function destroy(Teacher $teacher)

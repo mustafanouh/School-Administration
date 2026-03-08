@@ -127,104 +127,12 @@
                                             </div>
                                         </div>
                                         {{-- View Icon/Modal --}}
+                                        <a href="{{ route('teachers.show', $teacher->id) }}"
+                                            class="text-emerald-500 hover:text-emerald-700 px-2 py-1 transition-colors"
+                                            title="View Profile">
+                                            <i class="fa-solid fa-arrow-right"></i>
+                                        </a>
 
-                                        <div x-data="{ openViewModal: false }">
-                                            <button @click="openViewModal = true"
-                                                class="text-emerald-500 hover:text-emerald-700 px-2 py-1 transition-colors">
-                                                <i class="fa-solid fa-arrow-right"></i>
-                                            </button>
-
-                                            <div x-show="openViewModal"
-                                                class="fixed inset-0 z-[60] flex items-center justify-center overflow-y-auto"
-                                                x-cloak>
-
-                                                <div class="fixed inset-0 bg-black/60 transition-opacity"
-                                                    @click="openViewModal = false"></div>
-
-                                                <div
-                                                    class="relative bg-white dark:bg-[#161923] rounded-2xl shadow-2xl max-w-2xl w-full mx-4 overflow-hidden border border-gray-200 dark:border-gray-700">
-
-                                                    <div
-                                                        class="px-6 py-4 border-b border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/5 flex justify-between items-center">
-                                                        <h3 class="text-lg font-bold text-gray-800 dark:text-white">
-                                                            Teacher Profile</h3>
-                                                        <button @click="openViewModal = false"
-                                                            class="text-gray-400 hover:text-gray-600">
-                                                            <i class="fas fa-times"></i>
-                                                        </button>
-                                                    </div>
-
-                                                    <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
-                                                        <div>
-                                                            <p
-                                                                class="text-[10px] uppercase text-gray-400 font-bold tracking-wider">
-                                                                Full Name</p>
-                                                            <p class="text-sm font-semibold dark:text-white mt-1">
-                                                                {{ $teacher->employee?->first_name }}
-                                                                {{ $teacher->employee?->last_name }}
-                                                            </p>
-                                                        </div>
-
-                                                        <div>
-                                                            <p
-                                                                class="text-[10px] uppercase text-gray-400 font-bold tracking-wider">
-                                                                Specialization</p>
-                                                            <p class="text-sm text-emerald-500 font-bold mt-1">
-                                                                {{ $teacher->specialization }}
-                                                            </p>
-                                                        </div>
-
-                                                        <div>
-                                                            <p
-                                                                class="text-[10px] uppercase text-gray-400 font-bold tracking-wider">
-                                                                National ID</p>
-                                                            <p class="text-sm dark:text-white mt-1">
-                                                                {{ $teacher->employee?->notional_id }}</p>
-                                                        </div>
-
-                                                        <div>
-                                                            <p
-                                                                class="text-[10px] uppercase text-gray-400 font-bold tracking-wider">
-                                                                Salary</p>
-                                                            <p class="text-sm dark:text-white mt-1 font-mono">
-                                                                ${{ number_format($teacher->employee?->salary ?? 0, 2) }}
-                                                            </p>
-                                                        </div>
-
-                                                        <div>
-                                                            <p
-                                                                class="text-[10px] uppercase text-gray-400 font-bold tracking-wider">
-                                                                Phone Number</p>
-                                                            <p class="text-sm dark:text-white mt-1">
-                                                                {{ $teacher->employee?->phone }}</p>
-                                                        </div>
-
-                                                        <div>
-                                                            <p
-                                                                class="text-[10px] uppercase text-gray-400 font-bold tracking-wider">
-                                                                Hire Date</p>
-                                                            <p class="text-sm dark:text-white mt-1">
-                                                                {{ $teacher->employee?->hire_data }}</p>
-                                                        </div>
-
-                                                        <div class="md:col-span-2">
-                                                            <p
-                                                                class="text-[10px] uppercase text-gray-400 font-bold tracking-wider">
-                                                                Home Address</p>
-                                                            <p class="text-sm dark:text-white mt-1">
-                                                                {{ $teacher->employee?->address }}</p>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="px-6 py-4 bg-gray-50 dark:bg-white/5 flex justify-end">
-                                                        <button @click="openViewModal = false"
-                                                            class="px-5 py-2 bg-gray-200 dark:bg-gray-700 text-xs font-bold rounded-xl text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 transition-all">
-                                                            Close
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </td>
                             </tr>

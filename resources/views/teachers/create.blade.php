@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="p-6 bg-gray-50 dark:bg-[#0f111a] max-w-3xl mx-auto min-h-screen rounded-2xl">
+    <div class="p-6 bg-gray-50 dark:bg-[#0f111a] max-w-3xl mx-auto  mt-10 rounded-2xl">
         <div class="mb-8">
             <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Add New Teacher</h1>
             <p class="text-sm text-gray-500">Assign an existing employee to a teaching specialization</p>
@@ -33,9 +33,37 @@
                     <div>
                         <label
                             class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Specialization</label>
-                        <input type="text" name="specialization" value="{{ old('specialization') }}"
-                            class="w-full rounded-xl border-gray-200 dark:border-white/10 dark:bg-[#161923] dark:text-white focus:ring-indigo-500 @error('specialization') border-rose-500 @enderror"
-                            placeholder="e.g. Mathematics, Physics, Arabic">
+                        <select name="specialization"
+                            class="w-full rounded-xl border-gray-200 dark:border-white/10 dark:bg-[#161923] dark:text-white focus:ring-indigo-500 @error('specialization') border-rose-500 @enderror">
+
+                            <option value="" disabled {{ old('specialization') ? '' : 'selected' }}>Select
+                                Specialization</option>
+
+                            <option value="Mathematics" {{ old('specialization') == 'Mathematics' ? 'selected' : '' }}>
+                                Mathematics</option>
+                            <option value="Physics" {{ old('specialization') == 'Physics' ? 'selected' : '' }}>Physics
+                            </option>
+                            <option value="Arabic" {{ old('specialization') == 'Arabic' ? 'selected' : '' }}>Arabic
+                            </option>
+                            <option value="English" {{ old('specialization') == 'English' ? 'selected' : '' }}>English
+                            </option>
+                            <option value="Chemistry" {{ old('specialization') == 'Chemistry' ? 'selected' : '' }}>
+                                Chemistry</option>
+                            <option value="Informatics" {{ old('specialization') == 'Informatics' ? 'selected' : '' }}>
+                                Informatics</option>
+                            <option value="French" {{ old('specialization') == 'French' ? 'selected' : '' }}>
+                                French</option>
+                            <option value="History" {{ old('specialization') == 'History' ? 'selected' : '' }}>
+                                History</option>
+                            <option value="Biology" {{ old('specialization') == 'Biology' ? 'selected' : '' }}>
+                                Biology</option>
+                                 <option value="Geography" {{ old('specialization') == 'Geography' ? 'selected' : '' }}>
+                                Geography</option>
+                                 <option value="Informatics" {{ old('specialization') == 'Informatics' ? 'selected' : '' }}>
+                                Informatics</option>
+                                 <option value="Physical Education" {{ old('specialization') == 'Physical Education' ? 'selected' : '' }}>
+
+                        </select>
                         @error('specialization')
                             <span class="text-rose-500 text-xs mt-1">{{ $message }}</span>
                         @enderror
