@@ -56,9 +56,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'teacher_subjects' => TeacherSubjectController::class,
     ]);
     // chart
-    Route::get('statistics/chart', [StatisticsController::class, 'getEnrollmentStats'])
-        ->name('stats.chart');
-
+    Route::get('statistics/chart', [StatisticsController::class, 'showCharts'])->name('stats.chart');
     // reveb route
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
     Route::get('/messages/{receiverId}', [ChatController::class, 'getMessages'])->name('chat.messages');

@@ -1,19 +1,31 @@
 <x-app-layout>
-   
+ 
 
-    <div class="py-12 max-w-5xl mx-auto sm:px-6 lg:px-8">
-        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 gap-6">
-
-                {{-- Global Chart Component --}}
-                <x-chart-card id="enrollmentYearlyChart" title="Student Enrollment per Academic Year" :labels="$labels"
-                    :values="$values" type="bar" />
-
-                {{-- Placeholder for future metrics --}}
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                </div>
-
+    <div class="py-12  max-w-5xl mx-auto sm:px-6 lg:px-8 ">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-8">
+            
+            <div>
+                <x-chart-card 
+                    id="enrollmentChart" 
+                    title="Student Enrollment Analysis" 
+                    :labels="$enrollmentLabels" 
+                    :values="$enrollmentValues" 
+                    type="bar" 
+                />
             </div>
+
+            <hr class="border-gray-200">
+
+            <div>
+                <x-chart-card 
+                    id="gpaChart" 
+                    title="Average Students Performance (GPA)" 
+                    :labels="$gpaLabels" 
+                    :values="$gpaValues" 
+                    type="line" 
+                />
+            </div>
+
         </div>
     </div>
 </x-app-layout>
