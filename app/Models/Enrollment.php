@@ -10,8 +10,15 @@ use App\Models\AcademicYear;
 use App\Models\Track;
 use App\Models\Mark;
 
+
 class Enrollment extends Model
 {
+
+
+
+
+
+
     protected $fillable = [
         'student_id',
         'section_id',

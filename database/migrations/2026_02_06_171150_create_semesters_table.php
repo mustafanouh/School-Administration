@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('academic_year_id')->references('id')->on('academic_years');
             $table->enum('name', ['First Semester', 'Second Semester', 'Summer Semester']);
             $table->boolean('is_active')->default(false);
-            $table->float('average')->nullable();
             $table->timestamps();
         });
     }

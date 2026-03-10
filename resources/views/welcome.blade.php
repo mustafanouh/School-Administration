@@ -7,54 +7,105 @@
     <title>Welcome - School Administration</title>
 
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=figtree:300,400,600,800&display=swap" rel="stylesheet" />
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
     <style>
-        /* تعريف الحركة المتدرجة */
-        @keyframes gradient-move {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        [x-cloak] {
+            display: none !important;
         }
-        .animate-gradient {
-            background-size: 200% 200%;
-            animation: gradient-move 6s ease infinite;
+
+     
+        .glass-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.4;
         }
     </style>
 </head>
 
-<body class="antialiased bg-gradient-to-br from-black via-green-900 to-black animate-gradient flex flex-col items-center justify-center h-screen m-0 text-white">
+<body class="antialiased bg-[#020617] text-white overflow-hidden selection:bg-green-500 selection:text-black">
 
-    <div class="absolute top-5 right-5">
-        @if (Route::has('login'))
-            <nav class="flex space-x-4">
-                @auth
-                    <a href="{{ url('/dashboard') }}"
-                        class="font-semibold text-green-300 hover:text-white transition duration-300">Dashboard</a>
-                @else
-                    <a href="{{ route('login') }}"
-                        class="font-semibold text-green-300 hover:text-white transition duration-300">Log in</a>
+    <div class="glass-circle bg-green-600 w-[500px] h-[500px] -top-20 -left-20"></div>
+    <div class="glass-circle bg-emerald-900 w-[400px] h-[400px] bottom-0 right-0"></div>
 
-                    @if (Route::has('register'))
-                        <a href="{{ route('register') }}"
-                            class="font-semibold text-green-300 hover:text-white transition duration-300 border border-green-500 px-4 py-1 rounded-md hover:bg-green-600">Register</a>
-                    @endif
-                @endauth
-            </nav>
-        @endif
-    </div>
+    <main class="relative h-screen flex flex-col items-center justify-center px-6 text-center">
+        <div id="hero-content">
 
-    <div class="text-center px-4">
-        <h1 class="text-5xl md:text-6xl font-extrabold text-white tracking-tight drop-shadow-lg">
-            Hi, welcome to <span class="text-green-400">School Administration!</span>
-        </h1>
-        <p class="mt-4 text-gray-300 text-lg md:text-xl font-light">
-            Your System is ready to go.
-        </p>
-    </div>
 
+
+
+            <h1 class="text-6xl md:text-8xl font-extrabold tracking-tighter mb-6" id="wave-text">
+                Hi, welcome to School Administration!
+            </h1>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center opacity-0" id="cta-buttons">
+                <a href="{{ route('login') }}"
+                    class="w-full sm:w-auto px-8 py-4 bg-green-500 text-black font-extrabold rounded-2xl hover:bg-green-400 transition-all shadow-lg shadow-green-500/20 active:scale-95">
+                    Launch Dashboard
+                </a>
+                <a href="{{ route('register') }}"
+                class="w-full sm:w-auto px-8 py-4 bg-gray-900 border border-gray-800 text-white font-bold rounded-2xl hover:bg-gray-800 transition shadow-xl">
+                Get Started
+                </a>
+            </div>
+        </div>
+
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-0" id="scroll-hint">
+            <div class="w-px h-12 bg-gradient-to-b from-green-500 to-transparent"></div>
+        </div>
+    </main>
+
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const textContainer = document.querySelector('#wave-text');
+            const text = textContainer.innerText;
+
+            // 1. تفكيك النص إلى أحرف داخل span لسهولة تحريكها
+            textContainer.innerHTML = text.split('').map(char => {
+                if (char === " ") return `<span style="display:inline-block; width:0.3em;">&nbsp;</span>`;
+                return `<span class="char inline-block opacity-0 translate-y-10 text-green-400">${char}</span>`;
+            }).join('');
+
+            // 2. إنشاء التايم لاين للتحريك
+            const tl = gsap.timeline();
+
+            // تحريك النافبار أولاً
+            tl.to("#navbar", {
+                opacity: 1,
+                y: 0,
+                duration: 0.8
+            });
+
+            // 3. تأثير الموجة (Wave/Stagger) للأحرف
+            tl.to(".char", {
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                stagger: 0.05, // الفارق الزمني بين كل حرف والآخر (سرعة الموجة)
+                ease: "back.out(1.7)", // حركة ارتدادية خفيفة
+                color: "white", // يتغير اللون من الأخضر للأبيض عند الاستقرار
+            }, "-=0.4");
+
+            // 4. تحريك بقية العناصر (الوصف والأزرار) بعد انتهاء موجة الأحرف
+            tl.to("#sub-title", {
+                opacity: 1,
+                y: 0,
+                duration: 1
+            }, "-=0.2");
+            tl.to("#cta-buttons", {
+                opacity: 1,
+                y: 0,
+                duration: 1
+            }, "-=0.8");
+        });
+    </script>
 </body>
 
 </html>

@@ -7,9 +7,24 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Grade;
 use App\Models\Track;
 use App\Models\Exam;
+use Laravel\Scout\Searchable;
+
 class Subject extends Model
 {
-        protected $fillable = ['name', 'grade_id', 'track_id', 'min_mark'];
+
+    use Searchable;
+
+
+    public function toSearchableArray()
+    {
+        return [
+            'id'    => (int) $this->id,
+            'name'  => $this->name,
+            'min_mark' => $this->min_mark,
+            'max_mark' => $this->max_mark,
+        ];
+    }
+    protected $fillable = ['name', 'grade_id', 'track_id', 'min_mark'];
 
     public function grade()
     {

@@ -15,17 +15,17 @@ return new class extends Migration
             $table->id();
             $table->string('first_name');
             $table->string('last_name');
-            $table->enum('gender', ['Male','Female']);
+            $table->enum('gender', ['Male', 'Female']);
             $table->string('phone');
             $table->string('address');
             $table->string('notional_id')->unique();
             $table->decimal('salary', 10, 2)->default(0);
             $table->date('birth_date');
-            $table->enum('status', ['active', 'on_leave','resigned'])->default('active');
-            $table->foreignId('user_id')->references('id')->on('users');
+            $table->enum('status', ['active', 'on_leave', 'resigned'])->default('active');
+            $table->foreignId('user_id')->references('id')->on('users')->unique();
             $table->date('hire_data');
             $table->string('job_title');
-            
+
             $table->timestamps();
         });
     }

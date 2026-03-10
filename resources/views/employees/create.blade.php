@@ -11,9 +11,19 @@
                     @csrf
 
 
-                    <input type="hidden" name="user_id" value="{{ auth()->id() }}">
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">User Email </label>
+                            <select name="user_id" required
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 dark:bg-[#0f111a] dark:text-white">
+                                <option value="" disabled>Select a User</option>
+                                @foreach ($user as $users)
+                                    <option value="{{ $users->id }}">{{ $users->email }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">First Name</label>
                             <input type="text" name="first_name" required
@@ -75,7 +85,7 @@
                             <input type="text" name="phone" required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-[#0f111a] dark:text-white">
                         </div>
-                        <div class="md:col-span-2">
+                        <div >
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Address</label>
                             <input type="text" name="address" required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-[#0f111a] dark:text-white">

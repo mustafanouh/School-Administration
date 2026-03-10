@@ -8,10 +8,24 @@ use App\Models\Grade;
 use App\Models\AcademicYear;
 use App\Models\Enrollment;
 use App\Models\TeacherSubject;
+use Laravel\Scout\Searchable;
 
 class Section extends Model
 {
-      protected $fillable = ['name', 'grade_id', 'academic_year_id', 'capacity'];
+
+
+    use Searchable;
+
+
+    public function toSearchableArray()
+    {
+        return [
+            'id'    => (int) $this->id,
+            'name'  => $this->name,
+            'capacity' => $this->capacity,
+        ];
+    }
+    protected $fillable = ['name', 'grade_id', 'academic_year_id', 'capacity'];
 
     public function grade()
     {

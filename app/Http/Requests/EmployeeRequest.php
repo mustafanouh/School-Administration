@@ -33,7 +33,7 @@ class EmployeeRequest extends FormRequest
             'status'      => 'required|in:active,on_leave,resigned',
             'hire_data'   => 'required|date',
             'job_title'   => 'required|string|max:255',
-            'user_id'     => 'required|exists:users,id',
+            'user_id'     => 'required|unique:employees,user_id|exists:users,id',
         ];
     }
     public function messages(): array

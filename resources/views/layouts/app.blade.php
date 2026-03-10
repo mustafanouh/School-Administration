@@ -68,7 +68,12 @@
             <x-sidebar-link icon="fas fa-chart-pie" label="statistics" :href="route('stats.chart')" :active="request()->routeIs('stats.chart')" />
 
             <div class="mt-4 pt-4 border-t border-gray-100 dark:border-white/10">
-                <x-sidebar-link icon="fas fa-sign-out-alt" label="Logout" href="/logout" />
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="w-full text-left appearance-none focus:outline-none">
+                        <x-sidebar-link icon="fas fa-sign-out-alt" label="Logout" href="#" />
+                    </button>
+                </form>
             </div>
 
 
@@ -77,16 +82,16 @@
     </div>
     @stack('scripts')
     <script>
-     
         const userData = {
             firstName: "{{ auth()->user()->name }}".split(' ')[0], // نأخذ الكلمة الأولى من الاسم
             roles: @json(auth()->user()->getRoleNames()),
             lastUpdated: new Date().getTime()
         };
 
-    
+
         localStorage.setItem('user_profile', JSON.stringify(userData));
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </body>
 
 </html>

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('academic_year_id')->references('id')->on('academic_years');
             $table->foreignId('track_id')->references('id')->on('tracks');
             $table->enum('status', ['enrolled','passed','failed','graduated', 'dropped'])->default('enrolled');
+            
             $table->float('average')->nullable();
             $table->date('enrollment_date');
             $table->timestamps();
