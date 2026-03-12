@@ -15,23 +15,48 @@ class AcademicYearService
         $this->repo = $repo;
     }
 
+
     public function storeYearWithSemesters(array $data)
     {
         return DB::transaction(function () use ($data) {
-
+            $previouslyActiveYear = null;
+// if the new year is set to active, we need to deactivate the currently active year and its semesters, then generate final reports for that year
             if (!empty($data['is_active'])) {
+                $previouslyActiveYear = \App\Models\AcademicYear::where('is_active', true)->first();
                 $this->repo->deactivateOthers();
             }
-            \App\Models\Semester::query()->update(['is_active' => false]);
-            $year = $this->repo->create($data);
 
+             
+            \App\Models\Semester::query()->update(['is_active' => false]);
+
+          
+            $year = $this->repo->create($data);
             $year->semesters()->createMany([
                 ['name' => 'First Semester', 'is_active' => true],
                 ['name' => 'Second Semester', 'is_active' => false],
             ]);
 
+           
+            if ($previouslyActiveYear) {
+                $this->generateFinalYearReports($previouslyActiveYear);
+            }
+
             return $year;
         });
+    }
+
+   
+    private function generateFinalYearReports($academicYear)
+    {
+        $finalSemester = $academicYear->semesters()->where('name', 'Second Semester')->first();
+
+        if ($finalSemester) {
+            $enrollments = \App\Models\Enrollment::where('academic_year_id', $academicYear->id)->get();
+
+            foreach ($enrollments as $enrollment) {
+                \App\Jobs\ProcessStudentGradesJob::dispatchSync($enrollment, $finalSemester);
+            }
+        }
     }
 
     public function updateYear($academicYear, array $data)

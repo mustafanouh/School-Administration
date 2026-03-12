@@ -17,8 +17,8 @@ class SemesterRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'start_date' => 'nullable|date',
-            'end_date' => 'nullable|date|after_or_equal:start_date',
+            // 'start_date' => 'nullable|date',
+            // 'end_date' => 'nullable|date|after_or_equal:start_date',
             'is_active' => 'nullable|boolean',
         ];
     }
@@ -28,8 +28,8 @@ class SemesterRequest extends FormRequest
     {
         return [
             'name' => 'Semester Name',
-            'start_date' => 'Start Date',
-            'end_date' => 'End Date',
+            // 'start_date' => 'Start Date',
+            // 'end_date' => 'End Date',
             'is_active' => 'Active Status',
         ];
     }

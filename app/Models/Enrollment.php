@@ -25,10 +25,12 @@ class Enrollment extends Model
         'academic_year_id',
         'track_id',
         'status',
+        'average',
         'enrollment_date',
     ];
     protected $casts = [
         'enrollment_date' => 'date',
+        'average' => 'float',
     ];
 
     public function student()

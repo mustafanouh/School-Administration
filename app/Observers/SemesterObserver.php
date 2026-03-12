@@ -1,55 +1,28 @@
 <?php
-
 namespace App\Observers;
 
 use App\Models\Semester;
 use App\Models\Enrollment;
-use Illuminate\Support\Facades\DB;
+use App\Jobs\ProcessStudentGradesJob;
 
 class SemesterObserver
 {
+    /**
+     * Handle the Semester "updated" event.
+     */
     public function updated(Semester $semester)
     {
-
-        if ($semester->name === 'Second Semester' && $semester->is_active == false) {
-
-            $academicYearId = $semester->academic_year_id;
-
-
-            $enrollments = Enrollment::where('academic_year_id', $academicYearId)->get();
-
-            foreach ($enrollments as $enrollment) {
-                $this->calculateYearlyResult($enrollment);
-            }
+        // Detect if the semester was deactivated (end of semester)
+        if ($semester->wasChanged('is_active') && !$semester->is_active) {
+            
+            // Process all students enrolled in this academic year
+            Enrollment::where('academic_year_id', $semester->academic_year_id)
+                ->whereIn('status', ['enrolled', 'failed']) // Process only active or re-evaluating students
+                ->chunk(100, function ($enrollments) use ($semester) {
+                    foreach ($enrollments as $enrollment) {
+                        ProcessStudentGradesJob::dispatch($enrollment, $semester);
+                    }
+                });
         }
-    }
-
-    private function calculateYearlyResult(Enrollment $enrollment)
-    {
-
-        $s1Average = DB::table('marks')
-            ->join('exams', 'marks.exam_id', '=', 'exams.id')
-            ->join('semesters', 'exams.semester_id', '=', 'semesters.id')
-            ->where('marks.enrollment_id', $enrollment->id)
-            ->where('semesters.name', 'First Semester')
-            ->avg('marks.score');
-
-
-        $s2Average = DB::table('marks')
-            ->join('exams', 'marks.exam_id', '=', 'exams.id')
-            ->join('semesters', 'exams.semester_id', '=', 'semesters.id')
-            ->where('marks.enrollment_id', $enrollment->id)
-            ->where('semesters.name', 'Second Semester')
-            ->avg('marks.score');
-
-
-        $finalAverage = ($s1Average + $s2Average) / 2;
-
-        $status = ($finalAverage >= 60) ? 'passed' : 'failed';
-
-        $enrollment->update([
-            'average' => $finalAverage,
-            'status' => $status
-        ]);
     }
 }

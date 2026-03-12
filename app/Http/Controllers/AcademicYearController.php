@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Requests\AcademicYearRequest;
 use App\Models\AcademicYear;
 use App\Services\AcademicYearService;
@@ -17,7 +18,7 @@ class AcademicYearController extends Controller
 
     public function index()
     {
-        $academicYears = AcademicYear::paginate(10);
+        $academicYears = AcademicYear::latest()->paginate(9);
         return view('admin.academic_years.index', compact('academicYears'));
     }
 
