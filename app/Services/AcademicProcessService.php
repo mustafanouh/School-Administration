@@ -41,7 +41,7 @@ class AcademicProcessService
 
         $semesterAverages = $allMarks->groupBy('exam.semester_id')
             ->map(function ($marks) {
-                return $marks->avg('score'); // حساب متوسط درجات الفصل الواحد
+                return $marks->avg('score'); 
             });
 
         if ($semesterAverages->count() > 0) {
