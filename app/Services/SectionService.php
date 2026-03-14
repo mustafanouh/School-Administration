@@ -34,7 +34,7 @@ class SectionService
     {
         return [
             'grades' => Grade::all(),
-            'academicYears' => AcademicYear::all(),
+            'academicYears' => AcademicYear::where('is_active', true)->get(),
         ];
     }
 

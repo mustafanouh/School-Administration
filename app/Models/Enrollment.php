@@ -57,4 +57,8 @@ class Enrollment extends Model
     {
         return $this->hasMany(Mark::class);
     }
+    public function attendances()
+    {
+        return $this->hasMany(StudentAttendance::class, 'enrollment_id');
+    }
 }
