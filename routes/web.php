@@ -19,6 +19,8 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\StatisticsController;
 use App\Models\Student;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\AttendanceController;
+
 
 use App\Models\User;
 
@@ -90,10 +92,21 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 });
 
 
+// attendance routes
+
+Route::get('/attendance/sections', [AttendanceController::class, 'index'])->name('attendance.sections.index');
+
+
+Route::get('/attendance/section/{id}', [AttendanceController::class, 'showSectionAttendance'])->name('attendance.section');
+
+Route::post('/attendance/student/store', [AttendanceController::class, 'storeStudentAttendance'])->name('attendance.student.store');
 
 
 
+Route::get('/attendance/staff', [AttendanceController::class, 'showStaffAttendance'])->name('attendance.staff.show');
 
+
+Route::post('/attendance/staff/store', [AttendanceController::class, 'storeStaffAttendance'])->name('attendance.staff.store');
 
 
 

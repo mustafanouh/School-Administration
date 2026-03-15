@@ -65,7 +65,13 @@
             <x-sidebar-link icon="fas fa-calendar-check" label="Academic Years Management" :href="route('academic_years.index')"
                 :active="request()->routeIs('academic_years.*')" />
             <x-sidebar-link icon="fas fa-message" label="Conversation" :href="route('chat.index')" :active="request()->routeIs('chat.*')" />
-            <x-sidebar-link icon="fas fa-chart-pie" label="statistics" :href="route('stats.chart')" :active="request()->routeIs('stats.chart')" />
+            <x-sidebar-link icon="fas fa-chart-pie" label="Statistics" :href="route('stats.chart')" :active="request()->routeIs('stats.chart')" />
+            {{-- <x-sidebar-link icon="fas fa-chart-pie" label="Student Attendance" :href="route('attendance.section')" :active="request()->routeIs('attendance.section')" /> --}}
+            <x-sidebar-link icon="fas fa-user-clock" label="Student Attendance" :href="route('attendance.sections.index')" :active="request()->routeIs('attendance.*')" />
+
+            <x-sidebar-link icon="fas fa-users-viewfinder" label="staff Attendance" :href="route('attendance.staff.show')"
+                :active="request()->routeIs('attendance.staff.show')" />
+
 
             <div class="mt-4 pt-4 border-t border-gray-100 dark:border-white/10">
                 <form method="POST" action="{{ route('logout') }}">
@@ -75,6 +81,8 @@
                     </button>
                 </form>
             </div>
+
+
 
 
         </x-sidebar>
