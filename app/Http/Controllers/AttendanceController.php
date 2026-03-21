@@ -69,7 +69,11 @@ class AttendanceController extends Controller
 
     public function storeStaffAttendance(Request $request)
     {
+
         $activeSemester = Semester::where('is_active', true)->first();
+        if(! $activeSemester){
+            return redirect()->back()->with('error', 'No active semester found. Please activate a semester before recording attendance.');  
+        }
 
         if (!$activeSemester) {
             return redirect()->back()->with('error', 'No active semester found. Please activate a semester before recording attendance.');

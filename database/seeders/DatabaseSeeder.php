@@ -35,17 +35,19 @@ class DatabaseSeeder extends Seeder
 
       
             SubjectSeeder::class,
-            EmployeeSeeder::class,
             TeacherSeeder::class,
             StudentSeeder::class,
-
+            
             // 4. الهيكل التنظيمي (الربط بين الصفوف والمدرسين والسنوات)
             SectionSeeder::class,
-
+            
             // 5. العمليات (لب المشروع - الربط النهائي)
             EnrollmentSeeder::class,
             ExamSeeder::class,
             MarkSeeder::class,
+
+            
+            EmployeeSeeder::class,
         ]);
     }
 }

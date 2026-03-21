@@ -94,6 +94,18 @@
                                                 <span
                                                     class="px-3 py-1 text-xs font-bold rounded-lg border border-gray-200 dark:border-white/5 peer-checked:bg-rose-500 peer-checked:text-white text-gray-500 transition-all">Absent</span>
                                             </label>
+                                            <label class="cursor-pointer">
+                                                <input type="radio" name="attendance[{{ $employee->id }}]"
+                                                    value="late" class="hidden peer">
+                                                <span
+                                                    class="px-3 py-1 text-xs font-bold rounded-lg border border-gray-200 dark:border-white/5 peer-checked:bg-rose-500 peer-checked:text-white text-gray-500 transition-all">Late</span>
+                                            </label>
+                                            <label class="cursor-pointer">
+                                                <input type="radio" name="attendance[{{ $employee->id }}]"
+                                                    value="on_leave" class="hidden peer">
+                                                <span
+                                                    class="px-3 py-1 text-xs font-bold rounded-lg border border-gray-200 dark:border-white/5 peer-checked:bg-blue-500 peer-checked:text-white text-gray-500 transition-all">on leave</span>
+                                            </label>
                                         </div>
                                     </td>
                                     <td class="px-6 py-4">

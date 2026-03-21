@@ -126,8 +126,133 @@
 
                     </div>
                 </div>
-            </div>
 
+                {{-- Attendance Overview --}}
+            </div>
+            <div class="mt-8 space-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-center">
+                        <div
+                            class="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center text-green-500 mr-3">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold text-gray-400 uppercase">Present</p>
+                            <p class="text-lg font-bold text-gray-800">
+                                {{ $employee->staffAttendances->where('status', 'present')->count() }}</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-center">
+                        <div
+                            class="w-10 h-10 bg-yellow-50 rounded-full flex items-center justify-center text-yellow-500 mr-3">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold text-gray-400 uppercase">Late</p>
+                            <p class="text-lg font-bold text-gray-800">
+                                {{ $employee->staffAttendances->where('status', 'late')->count() }}</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-center">
+                        <div
+                            class="w-10 h-10 bg-red-50 rounded-full flex items-center justify-center text-red-500 mr-3">
+                            <i class="fas fa-user-times"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold text-gray-400 uppercase">Absent</p>
+                            <p class="text-lg font-bold text-gray-800">
+                                {{ $employee->staffAttendances->where('status', 'absent')->count() }}</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-center">
+                        <div
+                            class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-500 mr-3">
+                            <i class="fas fa-plane-departure"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold text-gray-400 uppercase">On Leave</p>
+                            <p class="text-lg font-bold text-gray-800">
+                                {{ $employee->staffAttendances->where('status', 'on_leave')->count() }}</p>
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-50 flex justify-between items-center bg-gray-50/30">
+                        <h3 class="text-xs font-bold text-gray-600 uppercase tracking-widest">Employee Attendance
+                            Log
+                        </h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr class="bg-gray-50/50">
+                                    <th class="px-6 py-4 text-[11px] font-bold text-gray-500 uppercase">Date</th>
+                                    <th class="px-6 py-4 text-[11px] font-bold text-gray-500 uppercase">Check In
+                                    </th>
+                                    <th class="px-6 py-4 text-[11px] font-bold text-gray-500 uppercase">Check Out
+                                    </th>
+                                    <th class="px-6 py-4 text-[11px] font-bold text-gray-500 uppercase text-center">
+                                        Status
+                                    </th>
+                                    <th class="px-6 py-4 text-[11px] font-bold text-gray-500 uppercase">Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-50">
+                                @forelse($employee->staffAttendances as $attendance)
+                                    <tr class="hover:bg-gray-50/50 transition-colors">
+                                        <td class="px-6 py-4">
+                                            <span
+                                                class="block text-sm font-medium text-gray-700">{{ $attendance->attendance_date }}</span>
+                                            <span
+                                                class="text-[10px] text-gray-400">{{ \Carbon\Carbon::parse($attendance->attendance_date)->format('l') }}</span>
+                                        </td>
+                                        <td class="px-6 py-4 text-xs text-gray-600">
+                                            {{ $attendance->check_in ? \Carbon\Carbon::parse($attendance->check_in)->format('g:i A') : '—' }}
+                                        </td>
+                                        <td class="px-6 py-4 text-xs text-gray-600">
+                                            {{ $attendance->check_out ? \Carbon\Carbon::parse($attendance->check_out)->format('g:i A') : '—' }}
+                                        </td>
+                                        <td class="px-6 py-4 text-center">
+                                            @php
+                                                $badgeClasses = [
+                                                    'present' => 'bg-green-50 text-green-600 border-green-100',
+                                                    'absent' => 'bg-red-50 text-red-500 border-red-100',
+                                                    'on_leave' => 'bg-blue-50 text-blue-600 border-blue-100',
+                                                    'late' => 'bg-yellow-50 text-yellow-600 border-yellow-100',
+                                                ];
+                                                $class =
+                                                    $badgeClasses[$attendance->status] ??
+                                                    'bg-gray-50 text-gray-500 border-gray-100';
+                                            @endphp
+                                            <span
+                                                class="px-2 py-1 rounded border text-[10px] font-bold uppercase {{ $class }}">
+                                                {{ str_replace('_', ' ', $attendance->status) }}
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 text-xs text-gray-400 italic">
+                                            {{ Str::limit($attendance->notes, 30) ?? '—' }}
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5" class="px-6 py-12 text-center text-gray-300 text-sm italic">
+                                            No attendance records found for this employee.
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </x-app-layout>

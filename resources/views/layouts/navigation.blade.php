@@ -23,7 +23,8 @@
                     </x-nav-link>
                 </div>
             </div>
-
+        
+           
 
             {{-- search engine --}}
             <div x-data="{ openSearch: false }" class="relative mt-2">

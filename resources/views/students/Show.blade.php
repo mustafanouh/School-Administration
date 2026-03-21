@@ -153,38 +153,53 @@
             <div class="mt-8 space-y-6">
                 <div class="flex items-center gap-4 px-2">
                     <h2 class="text-2xl font-black text-gray-800 dark:text-white tracking-tight italic">
-                        Attendance  student
+                        Attendance student
                     </h2>
                     <div class="flex-grow h-px bg-gradient-to-r from-gray-200 to-transparent dark:from-gray-700"></div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="bg-green-50 border-l-4 border-green-500 p-4  shadow-sm rounded-lg">
-                        <div class="flex items-center">
-                            <div class="text-center">
-                                <p class="text-sm text-green-700 font-bold">Days Present</p>
-                                <p class="text-2xl font-black text-green-900">
-                                    {{ $student->attendances?->where('status', 'present')->count() ?? 0 }}
-                                </p>
-                            </div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+
+
+                    <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-center">
+                        <div
+                            class="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center text-green-500 mr-3">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold text-gray-400 uppercase">Present</p>
+                            <p class="text-lg font-bold text-gray-800">
+                                {{ $student->attendances->where('status', 'present')->count() }}</p>
                         </div>
                     </div>
 
-                    <div class="bg-red-50 border-l-4 border-red-500 p-4 shadow-sm rounded-lg">
-                        <div class="flex items-center">
-                            <div class="text-center">
-                                <p class="text-sm text-red-700 font-bold">Days Absent</p>
-                                <p class="text-2xl font-black text-red-900">
-                                    {{ $student->attendances?->where('status', 'absent')->count() ?? 0 }}
-                                </p>
-                            </div>
+                    <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-center">
+                        <div
+                            class="w-10 h-10 bg-yellow-50 rounded-full flex items-center justify-center text-yellow-500 mr-3">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold text-gray-400 uppercase">Late</p>
+                            <p class="text-lg font-bold text-gray-800">
+                                {{ $student->attendances->where('status', 'late')->count() }}</p>
                         </div>
                     </div>
 
+                    <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-center">
+                        <div
+                            class="w-10 h-10 bg-red-50 rounded-full flex items-center justify-center text-red-500 mr-3">
+                            <i class="fas fa-user-times"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold text-gray-400 uppercase">Absent</p>
+                            <p class="text-lg font-bold text-gray-800">
+                                {{ $student->attendances->where('status', 'absent')->count() }}</p>
+                        </div>
+                    </div>
                     <div class="bg-blue-50 border-l-4 border-blue-500 p-4 shadow-sm rounded-lg">
                         <div class="flex items-center">
                             <div class="text-center">
-                                <p class="text-sm text-blue-700 font-bold">Total Records</p>
+                                <p class="text-sm text-blue-700 font-bold">Total Dayes</p>
                                 <p class="text-2xl font-black text-blue-900">
                                     {{ $student->attendances?->count() ?? 0 }}
                                 </p>

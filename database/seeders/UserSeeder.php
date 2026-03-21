@@ -21,7 +21,6 @@ class UserSeeder extends Seeder
         // مسح الجدول لتجنب التكرار عند إعادة التشغيل
         DB::table('users')->delete();
 
-        // مصفوفة المستخدمين - يمكنك إضافة العدد الذي تريده هنا
         $users = [
             ['name' => 'Admin Manager', 'email' => 'admin@school.com'],
             ['name' => 'Ahmed Ali', 'email' => 'ahmed@school.com'],
@@ -41,7 +40,7 @@ class UserSeeder extends Seeder
             User::create([
                 'name'     => $userData['name'],
                 'email'    => $userData['email'],
-                'password' => Hash::make('password123'), // كلمة مرور موحدة للكل لتسهيل التجربة
+                'password' => Hash::make('password123'), 
             ]);
         }
     }
