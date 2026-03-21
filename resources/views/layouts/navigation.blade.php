@@ -41,8 +41,9 @@
                         placeholder="Search...">
                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                         <kbd
-                            class="hidden sm:inline-flex items-center px-2 font-sans font-medium text-gray-400 border border-gray-200 rounded text-[10px]">Ctrl
-                            K</kbd>
+                            class="hidden sm:inline-flex items-center px-2 font-sans font-medium text-gray-400 border border-gray-200 rounded text-[10px]">
+                            Ctrl K
+                        </kbd>
                     </div>
                 </div>
 
@@ -62,22 +63,31 @@
 
                             <div class="overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5"
                                 x-data="{
-                                    results: { students: [], employees: [] },
+                                    results: { students: [], employees: [], subjects: [], sections: [] },
                                     loading: false,
                                     query: '',
                                     async performSearch() {
                                         if (this.query.length < 2) {
-                                            this.results = { students: [], employees: [] };
+                                            this.results = { students: [], employees: [], subjects: [], sections: [] };
                                             return;
                                         }
                                         this.loading = true;
                                         try {
                                             const response = await axios.get('/global-search', { params: { query: this.query } });
-                                            this.results = response.data.results;
+                                            // تأكد من استقبال البيانات بشكل صحيح أو وضع مصفوفة فارغة كبديل
+                                            const data = response.data.results || {};
+                                            this.results = {
+                                                students: data.students || [],
+                                                employees: data.employees || [],
+                                                subjects: data.subjects || [],
+                                                sections: data.sections || []
+                                            };
                                         } catch (error) {
                                             console.error('Search Error:', error);
+                                            this.results = { students: [], employees: [], subjects: [], sections: [] };
+                                        } finally {
+                                            this.loading = false;
                                         }
-                                        this.loading = false;
                                     }
                                 }">
 
@@ -96,9 +106,9 @@
                                     </div>
 
                                     <div
-                                        x-show="!loading && (results.students.length > 0 || results.employees.length > 0)">
+                                        x-show="!loading && (results.students.length > 0 || results.employees.length > 0 || results.subjects.length > 0 || results.sections.length > 0)">
                                         <div class="space-y-6">
-                                            {{-- students --}}
+
                                             <template x-if="results.students.length > 0">
                                                 <div>
                                                     <h3
@@ -117,7 +127,7 @@
                                                     </div>
                                                 </div>
                                             </template>
-                                            {{-- employees --}}
+
                                             <template x-if="results.employees.length > 0">
                                                 <div>
                                                     <h3
@@ -129,7 +139,7 @@
                                                             <a :href="'/employees/' + employee.id"
                                                                 class="p-3 bg-gray-50 hover:bg-green-50 rounded-lg flex items-center transition group">
                                                                 <span
-                                                                    x-text= "employee.first_name + ' ' + employee.last_name"
+                                                                    x-text="employee.first_name + ' ' + employee.last_name"
                                                                     class="text-gray-700 font-medium group-hover:text-green-700"></span>
                                                             </a>
                                                         </template>
@@ -137,55 +147,53 @@
                                                 </div>
                                             </template>
 
-                                            {{-- subject --}}
                                             <template x-if="results.subjects.length > 0">
                                                 <div>
                                                     <h3
-                                                        class="text-xs font-bold text-green-600 uppercase mb-2 tracking-wider">
+                                                        class="text-xs font-bold text-amber-600 uppercase mb-2 tracking-wider">
                                                         Subjects</h3>
                                                     <div class="grid grid-cols-1 gap-2">
-                                                        <template x-for="employee in results.employees"
-                                                            :key="'subjects-' + subjects.id">
-                                                            <a :href="'/subjects/' + subjects.id"
-                                                                class="p-3 bg-gray-50 hover:bg-green-50 rounded-lg flex items-center transition group">
-                                                                <span x-text= "subjects.name + ' ' + subjects.min_mark"
-                                                                    class="text-gray-700 font-medium group-hover:text-green-700"></span>
-                                                            </a>
-                                                        </template>
-                                                    </div>
-                                                </div>
-                                            </template>
-                                            {{-- section --}}
-                                            <template x-if="results.sections.length > 0">
-                                                <div>
-                                                    <h3
-                                                        class="text-xs font-bold text-green-600 uppercase mb-2 tracking-wider">
-                                                        Sections</h3>
-                                                    <div class="grid grid-cols-1 gap-2">
-                                                        <template x-for="sections in results.sections"
-                                                            :key="'subjects-' + sections.id">
-                                                            <a :href="'/sections/' + sections.id"
-                                                                class="p-3 bg-gray-50 hover:bg-green-50 rounded-lg flex items-center transition group">
-                                                                <span x-text= "sections.name + ' ' + sections.capacity"
-                                                                    class="text-gray-700 font-medium group-hover:text-green-700"></span>
+                                                        <template x-for="subject in results.subjects"
+                                                            :key="'sub-' + subject.id">
+                                                            <a :href="'/subjects/' + subject.id"
+                                                                class="p-3 bg-gray-50 hover:bg-amber-50 rounded-lg flex items-center transition group">
+                                                                <span x-text="subject.name"
+                                                                    class="text-gray-700 font-medium group-hover:text-amber-700"></span>
                                                             </a>
                                                         </template>
                                                     </div>
                                                 </div>
                                             </template>
 
+                                            <template x-if="results.sections.length > 0">
+                                                <div>
+                                                    <h3
+                                                        class="text-xs font-bold text-rose-600 uppercase mb-2 tracking-wider">
+                                                        Sections</h3>
+                                                    <div class="grid grid-cols-1 gap-2">
+                                                        <template x-for="section in results.sections"
+                                                            :key="'sec-' + section.id">
+                                                            <a :href="'/sections/' + section.id"
+                                                                class="p-3 bg-gray-50 hover:bg-rose-50 rounded-lg flex items-center transition group">
+                                                                <span x-text="section.name"
+                                                                    class="text-gray-700 font-medium group-hover:text-rose-700"></span>
+                                                            </a>
+                                                        </template>
+                                                    </div>
+                                                </div>
+                                            </template>
 
                                         </div>
                                     </div>
 
-                                    <div x-show="!loading && query.length >= 2 && results.students.length === 0 && results.employees.length === 0"
+                                    <div x-show="!loading && query.length >= 2 && results.students.length === 0 && results.employees.length === 0 && results.subjects.length === 0 && results.sections.length === 0"
                                         class="text-center py-10 text-gray-400">
                                         <p>No results found for "<span class="font-semibold" x-text="query"></span>"</p>
                                     </div>
 
                                     <div x-show="!loading && query.length < 2"
                                         class="text-center py-10 text-gray-400 text-sm">
-                                        Type to search...
+                                        Type at least 2 characters to search...
                                     </div>
                                 </div>
                             </div>
