@@ -30,95 +30,77 @@ Route::get('/', function () {
 
 
 
-
-
 Route::middleware(['auth', 'verified'])->group(function () {
+
+
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
 
-    // Profile Management
     Route::controller(ProfileController::class)->group(function () {
         Route::get('/profile', 'edit')->name('profile.edit');
         Route::patch('/profile', 'update')->name('profile.update');
         Route::delete('/profile', 'destroy')->name('profile.destroy');
         Route::get('/profile/{user}', 'show')->name('profile.show');
     });
-    // School Resources
-    Route::resources([
-        'employees' => EmployeeController::class,
-        'teachers' => TeacherController::class,
-        'students' => StudentController::class,
-        'sections' => SectionController::class,
-        'enrollments' => EnrollmentController::class,
-        'exams' => ExamController::class,
-        'marks' => MarkController::class,
-        'academic_years' => AcademicYearController::class,
-        'semesters' => SemesterController::class,
-        'teacher_subjects' => TeacherSubjectController::class,
-    ]);
-    // chart
-    Route::get('statistics/chart', [StatisticsController::class, 'showCharts'])->name('stats.chart');
-    // reveb route
-    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
-    Route::get('/messages/{receiverId}', [ChatController::class, 'getMessages'])->name('chat.messages');
-    Route::post('/send-message', [ChatController::class, 'store'])->name('chat.send');
 
-    // enrollment stats
-    Route::get('/api/students/{student}/previous-info', function (Student $student) {
-
-        $lastEnrollment = $student->enrollments()->with(['section', 'academicYear'])->latest()->first();
-
-        return response()->json([
-            'has_previous' => (bool)$lastEnrollment,
-            'status' => $lastEnrollment?->status ?? 'N/A',
-            'grade' => $lastEnrollment?->section->grade->name ?? 'N/A',
-            'year' => $lastEnrollment?->academicYear?->name ?? 'N/A',
+    // Admin 
+    Route::middleware(['role:admin'])->group(function () {
+        Route::resources([
+            'employees'      => EmployeeController::class,
+            'sections'       => SectionController::class,
+            'teachers'       => TeacherController::class,
+            'academic_years' => AcademicYearController::class,
+            'semesters'      => SemesterController::class,
         ]);
-    })->name('api.student.previous-info');
 
-    // fore search route
+        Route::get('statistics/chart', [StatisticsController::class, 'showCharts'])->name('stats.chart');
+
+        Route::prefix('admin')->name('admin.')->group(function () {
+            Route::get('/security/access-control', [RolePermissionController::class, 'index'])->name('access.index');
+            Route::post('/security/access-control/{user}/sync', [RolePermissionController::class, 'syncUserAccess'])->name('sync-access');
+        });
+    });
+
+    // Admin + Secretary
+    Route::middleware(['role:admin|secretary'])->group(function () {
+        Route::resource('students', StudentController::class);
+        Route::resource('enrollments', EnrollmentController::class);
+        Route::get('/api/students/{student}/previous-info', function (Student $student) {})->name('api.student.previous-info');
+    });
+
+    // Admin + Teacher
+    Route::middleware(['role:admin|teacher'])->group(function () {
+        Route::resources([
+            'exams'            => ExamController::class,
+            'marks'            => MarkController::class,
+            'teacher_subjects' => TeacherSubjectController::class,
+        ]);
+    });
+
+    // Admin + Supervisor
+    Route::middleware(['role:admin|supervisor'])->group(function () {
+        Route::controller(AttendanceController::class)->group(function () {
+            Route::get('/attendance/sections', 'index')->name('attendance.sections.index');
+            Route::get('/attendance/section/{id}', 'showSectionAttendance')->name('attendance.section');
+            Route::post('/attendance/student/store', 'storeStudentAttendance')->name('attendance.student.store');
+            Route::get('/attendance/staff', 'showStaffAttendance')->name('attendance.staff.show');
+            Route::post('/attendance/staff/store', 'storeStaffAttendance')->name('attendance.staff.store');
+        });
+    });
+
+    // chat
+    Route::middleware(['role:admin|secretary|supervisor|teacher'])->group(function () {
+        Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+        Route::get('/messages/{receiverId}', [ChatController::class, 'getMessages'])->name('chat.messages');
+        Route::post('/send-message', [ChatController::class, 'store'])->name('chat.send');
+    });
+
+    // search
     Route::get('/global-search', [SearchController::class, 'globalSearch'])->name('search.global');
 });
 
 
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-
-    Route::get('/security/access-control', [RolePermissionController::class, 'index'])
-        ->name('access.index');
-
-    Route::post('/security/access-control/{user}/sync', [RolePermissionController::class, 'syncUserAccess'])
-        ->name('sync-access');
-});
 
 
-// attendance routes
-
-Route::get('/attendance/sections', [AttendanceController::class, 'index'])->name('attendance.sections.index');
-
-
-Route::get('/attendance/section/{id}', [AttendanceController::class, 'showSectionAttendance'])->name('attendance.section');
-
-Route::post('/attendance/student/store', [AttendanceController::class, 'storeStudentAttendance'])->name('attendance.student.store');
-
-
-
-Route::get('/attendance/staff', [AttendanceController::class, 'showStaffAttendance'])->name('attendance.staff.show');
-
-
-Route::post('/attendance/staff/store', [AttendanceController::class, 'storeStaffAttendance'])->name('attendance.staff.store');
-
-
-
-
-
-
-
-
-
-
-
-
-// Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
-//                 ->name('logout');
 require __DIR__ . '/auth.php';

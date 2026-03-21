@@ -23,8 +23,8 @@
                     </x-nav-link>
                 </div>
             </div>
-        
-           
+
+
 
             {{-- search engine --}}
             <div x-data="{ openSearch: false }" class="relative mt-2">
@@ -218,16 +218,14 @@
                             class="relative h-10 w-10 flex items-center justify-center rounded-xl bg-indigo-600 dark:bg-indigo-500 text-white font-black shadow-lg shadow-indigo-200 dark:shadow-none transition-transform group-hover:scale-95">
                             <span
                                 x-text="(profile.firstName || '{{ Auth::user()->name }}').charAt(0).toUpperCase()"></span>
-                            <div
-                                class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border-2 border-white dark:border-slate-900 rounded-full">
-                            </div>
+
                         </div>
 
                         <div class="flex flex-col items-start leading-none">
                             <span
                                 class="text-sm font-bold text-gray-700 dark:text-slate-200">{{ Auth::user()->name }}</span>
                             <span
-                                class="text-[10px] text-gray-400 dark:text-slate-500 font-medium uppercase tracking-wider">Admin</span>
+                                class="text-[10px] text-gray-400 dark:text-slate-500 font-medium uppercase tracking-wider">{{ Auth::user()->getRoleNames()->first() }}</span>
                         </div>
                     </a>
                 </div>

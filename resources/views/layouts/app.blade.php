@@ -45,36 +45,47 @@
             {{ $slot }}
         </div>
 
-        <x-sidebar role="Admin">
+        <x-sidebar>
+            @role('admin')
+                <x-sidebar-link icon="fa-solid fa-shield-halved" label="RBAC" :href="route('admin.access.index')" :active="request()->routeIs('admin.access.index')" />
+                <x-sidebar-link icon="fas fa-users" label="Employees Management" :href="route('employees.index')" :active="request()->routeIs('employees.*')" />
+                <x-sidebar-link icon="fa-solid fa-school" label="Sections Management" :href="route('sections.index')" :active="request()->routeIs('sections.*')" />
+                <x-sidebar-link icon="fas fa-chalkboard-user" label="Teachers Management" :href="route('teachers.index')"
+                    :active="request()->routeIs('teachers.*')" />
+                <x-sidebar-link icon="fas fa-chart-pie" label="Statistics" :href="route('stats.chart')" :active="request()->routeIs('stats.chart')" />
+                <x-sidebar-link icon="fas fa-calendar-check" label="Academic Years Management" :href="route('academic_years.index')"
+                    :active="request()->routeIs('academic_years.*')" />
+            @endrole
+            @hasanyrole('admin|secretary')
+                <x-sidebar-link icon="fas fa-user-graduate" label="students Management" :href="route('students.index')"
+                    :active="request()->routeIs('students.*')" />
+                <x-sidebar-link icon="fas fa-user-shield" label="Enrollments Management" :href="route('enrollments.index')"
+                    :active="request()->routeIs('enrollments.*')" />
+            @endhasanyrole
 
-            <x-sidebar-link icon="fa-solid fa-shield-halved" label="RBAC" :href="route('admin.access.index')" :active="request()->routeIs('admin.access.index')" />
-                
-            <x-sidebar-link icon="fa-solid fa-school" label="Sections Management" :href="route('sections.index')" :active="request()->routeIs('sections.*')" />
-            <x-sidebar-link icon="fas fa-users" label="Employees Management" :href="route('employees.index')" :active="request()->routeIs('employees.*')" />
-            <x-sidebar-link icon="fas fa-chalkboard-user" label="Teachers Management" :href="route('teachers.index')"
-                :active="request()->routeIs('teachers.*')" />
-            <x-sidebar-link icon="fas fa-user-graduate" label="students Management" :href="route('students.index')"
-                :active="request()->routeIs('students.*')" />
+            @hasanyrole('admin|Teacher')
+                <x-sidebar-link icon="fas fa-file-signature" label="Exams Management" :href="route('exams.index')"
+                    :active="request()->routeIs('exams.*')" />
+                <x-sidebar-link icon="fas fa-poll-h" label="Marks Management" :href="route('marks.index')" :active="request()->routeIs('marks.*')" />
+            @endhasanyrole
+
+            @hasanyrole('admin|supervisor')
+                <x-sidebar-link icon="fas fa-user-clock" label="Student Attendance" :href="route('attendance.sections.index')" :active="request()->routeIs('attendance.sections.index')" />
+
+                <x-sidebar-link icon="fas fa-users-viewfinder" label="staff Attendance" :href="route('attendance.staff.show')"
+                    :active="request()->routeIs('attendance.staff.show')" />
+            @endhasanyrole
 
 
 
-            <x-sidebar-link icon="fas fa-user-shield" label="Enrollments Management" :href="route('enrollments.index')"
-                :active="request()->routeIs('enrollments.*')" />
-
-            <x-sidebar-link icon="fas fa-file-signature" label="Exams Management" :href="route('exams.index')"
-                :active="request()->routeIs('exams.*')" />
-            <x-sidebar-link icon="fas fa-poll-h" label="Marks Management" :href="route('marks.index')" :active="request()->routeIs('marks.*')" />
 
 
-            <x-sidebar-link icon="fas fa-calendar-check" label="Academic Years Management" :href="route('academic_years.index')"
-                :active="request()->routeIs('academic_years.*')" />
-            <x-sidebar-link icon="fas fa-message" label="Conversation" :href="route('chat.index')" :active="request()->routeIs('chat.*')" />
-            <x-sidebar-link icon="fas fa-chart-pie" label="Statistics" :href="route('stats.chart')" :active="request()->routeIs('stats.chart')" />
-            {{-- <x-sidebar-link icon="fas fa-chart-pie" label="Student Attendance" :href="route('attendance.section')" :active="request()->routeIs('attendance.section')" /> --}}
-            <x-sidebar-link icon="fas fa-user-clock" label="Student Attendance" :href="route('attendance.sections.index')" :active="request()->routeIs('attendance.sections.index')" />
 
-            <x-sidebar-link icon="fas fa-users-viewfinder" label="staff Attendance" :href="route('attendance.staff.show')"
-                :active="request()->routeIs('attendance.staff.show')" />
+
+            @hasanyrole('admin|secretary|supervisor|teacher')
+                <x-sidebar-link icon="fas fa-message" label="Conversation" :href="route('chat.index')" :active="request()->routeIs('chat.*')" />
+            @endhasanyrole
+
 
 
             <div class="mt-4 pt-4 border-t border-gray-100 dark:border-white/10">
@@ -85,6 +96,13 @@
                     </button>
                 </form>
             </div>
+            {{-- <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit"
+                    class=" w-full    flex items-center  mt-10 mb-10 pt-5 pb-5  text-slate-600 hover:bg-rose-50 transition-colors rounded-xl">
+                    <i class="fas fa-sign-out-alt w-20"></i>
+                </button>
+            </form> --}}
 
 
 
