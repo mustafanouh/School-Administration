@@ -7,6 +7,7 @@ use App\Models\StudentAttendance;
 use App\Models\StaffAttendance;
 use App\Models\Section;
 use App\Models\Employee;
+use App\Models\Semester;
 
 class AttendanceController extends Controller
 {
@@ -21,17 +22,16 @@ class AttendanceController extends Controller
 
         return view('attendance.sections_index', compact('sections'));
     }
+
     public function showSectionAttendance($id)
     {
-       
+
         $section = Section::with(['enrollments.student'])->findOrFail($id);
 
         $date = now()->format('Y-m-d');
 
         return view('attendance.students', compact('section', 'date'));
     }
-
-
 
     public function storeStudentAttendance(Request $request)
     {
@@ -60,7 +60,7 @@ class AttendanceController extends Controller
 
     public function showStaffAttendance()
     {
-       
+
         $staff = Employee::all();
         $date = now()->format('Y-m-d');
 
@@ -69,11 +69,25 @@ class AttendanceController extends Controller
 
     public function storeStaffAttendance(Request $request)
     {
+        $activeSemester = Semester::where('is_active', true)->first();
+
+        if (!$activeSemester) {
+            return redirect()->back()->with('error', 'No active semester found. Please activate a semester before recording attendance.');
+        }
+        $request->validate([
+            'attendance_date' => 'required|date',       
+            'attendance'      => 'required|array',     
+            'attendance.*'    => 'required|string',    
+            'check_in.*'      => 'nullable|',
+            'check_out.*'     => 'nullable|', 
+        ]);
+
         foreach ($request->attendance as $employeeId => $status) {
             StaffAttendance::updateOrCreate(
                 [
                     'employee_id' => $employeeId,
                     'attendance_date' => $request->attendance_date,
+                    'semester_id'     => $activeSemester->id,
                 ],
                 [
                     'status' => $status,

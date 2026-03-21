@@ -41,7 +41,8 @@ class Employee extends Model
     {
         return $this->hasMany(TeacherSubject::class);
     }
-    public function attendances()
+    
+    public function staffAttendances()
     {
         return $this->hasMany(StaffAttendance::class, 'employee_id');
     }

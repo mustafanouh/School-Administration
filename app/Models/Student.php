@@ -58,4 +58,15 @@ class Student extends Model
             'section_id'
         );
     }
+    public function attendances()
+    {
+        return $this->hasManyThrough(
+            StudentAttendance::class,
+            Enrollment::class,
+            'student_id',    // المفتاح الأجنبي في جدول enrollments
+            'enrollment_id', // المفتاح الأجنبي في جدول student_attendances
+            'id',            // المفتاح المحلي في جدول students
+            'id'             // المفتاح المحلي في جدول enrollments
+        );
+    }
 }

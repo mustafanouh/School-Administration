@@ -147,10 +147,112 @@
                 </div>
             </div>
 
+
+
+            {{-- و ========================== --}}
+            <div class="mt-8 space-y-6">
+                <div class="flex items-center gap-4 px-2">
+                    <h2 class="text-2xl font-black text-gray-800 dark:text-white tracking-tight italic">
+                        Attendance  student
+                    </h2>
+                    <div class="flex-grow h-px bg-gradient-to-r from-gray-200 to-transparent dark:from-gray-700"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-green-50 border-l-4 border-green-500 p-4  shadow-sm rounded-lg">
+                        <div class="flex items-center">
+                            <div class="text-center">
+                                <p class="text-sm text-green-700 font-bold">Days Present</p>
+                                <p class="text-2xl font-black text-green-900">
+                                    {{ $student->attendances?->where('status', 'present')->count() ?? 0 }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-red-50 border-l-4 border-red-500 p-4 shadow-sm rounded-lg">
+                        <div class="flex items-center">
+                            <div class="text-center">
+                                <p class="text-sm text-red-700 font-bold">Days Absent</p>
+                                <p class="text-2xl font-black text-red-900">
+                                    {{ $student->attendances?->where('status', 'absent')->count() ?? 0 }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 shadow-sm rounded-lg">
+                        <div class="flex items-center">
+                            <div class="text-center">
+                                <p class="text-sm text-blue-700 font-bold">Total Records</p>
+                                <p class="text-2xl font-black text-blue-900">
+                                    {{ $student->attendances?->count() ?? 0 }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white shadow-md rounded-xl border border-gray-100 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
+                        <h3 class="text-lg font-bold text-gray-800">Attendance Details</h3>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr class="bg-gray-100 text-gray-600 text-sm">
+                                    <th class="px-6 py-3 font-bold uppercase tracking-wider">Date</th>
+                                    <th class="px-6 py-3 font-bold uppercase tracking-wider">Day</th>
+                                    <th class="px-6 py-3 font-bold text-center uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-3 font-bold uppercase tracking-wider">Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                @forelse($student->attendances?->sortByDesc('attendance_date') ?? [] as $attendance)
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-6 py-4 text-gray-900 font-medium">
+                                            {{ $attendance->attendance_date }}
+                                        </td>
+                                        <td class="px-6 py-4 text-gray-500 text-sm">
+                                            {{ \Carbon\Carbon::parse($attendance->attendance_date)->format('l') }}
+                                        </td>
+                                        <td class="px-6 py-4 text-center">
+                                            @if ($attendance->status == 'present')
+                                                <span
+                                                    class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold capitalize">Present</span>
+                                            @elseif($attendance->status == 'absent')
+                                                <span
+                                                    class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-bold capitalize">Absent</span>
+                                            @else
+                                                <span
+                                                    class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-bold capitalize">{{ $attendance->status }}</span>
+                                            @endif
+                                        </td>
+                                        <td class="px-6 py-4 text-gray-400 text-sm italic">
+                                            {{ $attendance->notes ?? 'No notes' }}
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="4" class="px-6 py-12 text-center text-gray-400">
+                                            <div class="flex flex-col items-center">
+                                                <i class="fas fa-user-slash mb-2 fa-2x"></i>
+                                                <p>No attendance records found for this student in the current term.</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
             {{-- 3. السجل الأكاديمي - Academic Journey --}}
             <div class="space-y-10">
                 <div class="flex items-center gap-4 px-2">
-                    <h2 class="text-2xl font-black text-gray-800 dark:text-white tracking-tight italic">Academic Journey
+                    <h2 class="text-2xl font-black text-gray-800 dark:text-white tracking-tight italic">Academic
+                        Journey
                     </h2>
                     <div class="flex-grow h-px bg-gradient-to-r from-gray-200 to-transparent dark:from-gray-700"></div>
                 </div>
@@ -174,9 +276,10 @@
                                     <h4 class="text-lg font-bold text-gray-800 dark:text-white">
                                         Avarage :
                                         {{ $enrollment->average }} </h4>
-                                    <p class="text-[10px] text-gray-400 uppercase tracking-widest  {{ $enrollment->status == 'passed' ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-900/20' : 'text-rose-600 bg-rose-50 dark:bg-rose-900/20' }}">
-                                          Status :
-                                        {{ $enrollment->status}} </p>
+                                    <p
+                                        class="text-[10px] text-gray-400 uppercase tracking-widest  {{ $enrollment->status == 'passed' ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-900/20' : 'text-rose-600 bg-rose-50 dark:bg-rose-900/20' }}">
+                                        Status :
+                                        {{ $enrollment->status }} </p>
 
                                 </div>
                             </div>

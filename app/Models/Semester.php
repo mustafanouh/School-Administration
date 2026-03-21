@@ -23,4 +23,8 @@ class Semester extends Model
     {
         return $this->hasMany(Exam::class);
     }
+    public function staffAttendances()
+    {
+        return $this->hasMany(StaffAttendance::class);
+    }
 }

@@ -14,6 +14,9 @@ return new class extends Migration
             $table->foreignId('employee_id')
                 ->constrained('employees')
                 ->onDelete('cascade');
+             $table->foreignId('semester_id')
+                ->constrained('semesters')
+                ->onDelete('cascade');   
 
             $table->date('attendance_date');
 

@@ -10,5 +10,5 @@ Broadcast::channel('chat.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 Broadcast::channel('group-chat', function ($user) {
-    return true; // أو auth()->check() للتأكد من أنه مسجل دخول
+    return true;
 });

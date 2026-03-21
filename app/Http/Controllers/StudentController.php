@@ -33,8 +33,13 @@ class StudentController extends Controller
     }
 
     public function show(Student $student)
-    {
+    { 
+
+
         $student = $this->studentService->getStudentProfile($student);
+        
+
+
         return view('students.show', compact('student'));
     }
    

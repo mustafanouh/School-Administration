@@ -23,6 +23,7 @@ class StudentService
     {
         return $this->repo->findWithFullDetails($student);
     }
+    
 
     public function registerStudent(array $data)
     {

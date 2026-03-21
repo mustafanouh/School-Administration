@@ -11,6 +11,7 @@ class StaffAttendance extends Model
 
     protected $fillable = [
         'employee_id',
+        'semester_id',
         'attendance_date',
         'status',
         'check_in',
@@ -24,5 +25,10 @@ class StaffAttendance extends Model
     public function employee()
     {
         return $this->belongsTo(Employee::class);
+    }
+
+    public function semester()
+    {
+        return $this->belongsTo(Semester::class);
     }
 }
