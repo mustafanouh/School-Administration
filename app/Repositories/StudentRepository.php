@@ -80,7 +80,7 @@ class StudentRepository
             $user = User::create([
                 'name'     => $data['first_name'] . ' ' . $data['last_name'],
                 'email'    => $email,
-                'password' => Hash::make($data['phone_number']), 
+                'password' => Hash::make($data['phone_number']),
             ]);
 
             $user->assignRole('student');
@@ -92,7 +92,9 @@ class StudentRepository
     }
 
     public function update(Student $student, array $data)
-    {
+    { 
+      
+        $data['user_id'] = $student->user_id;
         return $student->update($data);
     }
 

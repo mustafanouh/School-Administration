@@ -20,15 +20,19 @@ use App\Http\Controllers\StatisticsController;
 use App\Models\Student;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\AttendanceController;
-
-
+use App\Http\Controllers\Portal\PortalController;
 use App\Models\User;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-
+Route::controller(PortalController::class)->group(function () {
+    Route::get('/portal', 'index')->name('portal.index');
+    Route::get('/portal/marks', 'marks')->name('portal.marks');
+    Route::get('/portal/attendance', 'attendance')->name('portal.attendance');
+   Route::view('portal/contact', 'portal.contact')->name('portal.contact');
+});
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
@@ -63,7 +67,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     // Admin + Secretary
-    Route::middleware(['role:admin|secretary'])->group(function () {
+    Route::middleware(['role:admin|secretary|student'])->group(function () {
         Route::resource('students', StudentController::class);
         Route::resource('enrollments', EnrollmentController::class);
 

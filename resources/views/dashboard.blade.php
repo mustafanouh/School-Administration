@@ -39,14 +39,14 @@
                         <p class="text-slate-500 mt-2 font-medium">Welcome back, {{ auth()->user()->name }}!</p>
                     </div>
 
-                    <div
-                        class="bg-white px-5 py-3 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.02)] border border-slate-100 flex items-center gap-4">
-                        <div class="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400">
-                            <i class="fas fa-calendar-alt"></i>
+                    <div class="flex items-center gap-4 bg-white p-3 rounded-3xl border border-slate-100 shadow-sm">
+                        <div class="text-right pr-4 border-r border-slate-100">
+                            <p class="text-[10px] text-slate-400 font-bold uppercase">{{ now()->format('l') }}</p>
+                            <p class="text-sm font-bold text-slate-700">{{ now()->format('M d, Y') }}</p>
                         </div>
-                        <div>
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Academic Year</p>
-                            <p class="text-sm font-black text-slate-700">2025 / 2026</p>
+                        <div
+                            class="w-10 h-10 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-500">
+                            <i class="far fa-calendar-alt text-sm"></i>
                         </div>
                     </div>
                 </div>
@@ -74,6 +74,26 @@
                         <div class="dash-card opacity-0 translate-y-6">
                             <x-dashboard-card icon="fas fa-calendar-check" label="Timeline" desc="Control sessions."
                                 :href="route('academic_years.index')" color="sky" />
+                        </div>
+                    @endrole
+
+
+                    @role('student')
+                        <div class="dash-card opacity-0 translate-y-6">
+                            <x-dashboard-card icon="fas fa-home" label="portal" desc=" show news and updates." :href="route('portal.index')" color="blue" />
+                        </div>
+
+                        <div class="dash-card opacity-0 translate-y-6">
+                            <x-dashboard-card icon="fas fa-poll-h" label="Marks" desc="View your academic performance." :href="route('portal.marks')" color="emerald" />
+                        </div>
+
+                        <div class="dash-card opacity-0 translate-y-6">
+                            <x-dashboard-card icon="fas fa-user-clock" label="Attendance" desc="show your attendance record." :href="route('portal.attendance')" color="amber" />
+                        </div>
+
+                        <div class="dash-card opacity-0 translate-y-6">
+                            <x-dashboard-card icon="fa-solid fa-headset"  label="contact" desc="contact with support."
+                                :href="route('portal.contact')" color="sky" />
                         </div>
                     @endrole
 

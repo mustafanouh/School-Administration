@@ -86,6 +86,16 @@
                 <x-sidebar-link icon="fas fa-message" label="Conversation" :href="route('chat.index')" :active="request()->routeIs('chat.*')" />
             @endhasanyrole
 
+            @role('student')
+            
+                <x-sidebar-link icon="fas fa-home" label="portal" :href="route('portal.index')" :active="request()->routeIs('portal.index')" />
+                <x-sidebar-link icon="fas fa-poll-h" label=" Marks" :href="route('portal.marks')" :active="request()->routeIs('portal.marks')" />
+                <x-sidebar-link icon="fas fa-user-clock" label=" Attendance" :href="route('portal.attendance')" :active="request()->routeIs('portal.attendance')" />
+                <x-sidebar-link icon="fa-solid fa-headset" label=" contact" :href="route('portal.contact')" :active="request()->routeIs('portal.contact')" />
+           
+                    @endrole
+
+
 
 
             <div class="mt-4 pt-4 border-t border-gray-100 dark:border-white/10">

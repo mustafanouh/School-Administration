@@ -2,10 +2,6 @@
 
 namespace App\Http\Controllers;
 
-namespace App\Http\Controllers;
-
-namespace App\Http\Controllers;
-
 use App\Models\Enrollment;
 use Illuminate\Support\Facades\DB;
 
@@ -54,5 +50,3 @@ class StatisticsController extends Controller
         ]);
     }
 }
-    
-

@@ -285,25 +285,36 @@
                     <div
                         class="bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden mb-12">
 
-                        <div
-                            class="px-8 py-5 border-b border-gray-50 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/50 flex justify-between items-center">
-                            <div class="flex justify-between  gap-20">
+                         <div
+                            class="px-8 py-5 border-b border-gray-50 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/50 flex flex-wrap justify-between items-center gap-6">
+                            <div class="flex items-center gap-6">
                                 <span class="w-1 h-8 bg-indigo-500 rounded-full"></span>
                                 <div>
                                     <h4 class="text-lg font-bold text-gray-800 dark:text-white">
-                                        {{ $enrollment->academicYear->name }} </h4>
-                                    <p class="text-[10px] text-gray-400 uppercase tracking-widest">
-                                        {{ $enrollment->section->grade->name }} — {{ $enrollment->section->name }}</p>
+                                        {{ $enrollment->academicYear->name ?? 'N/A' }}
+                                    </h4>
+                                    <p class="text-[10px] text-gray-400 uppercase tracking-widest mt-1">
+                                        {{ $enrollment->section->grade->name ?? '' }} —
+                                        {{ $enrollment->section->name ?? '' }}
+                                    </p>
                                 </div>
-                                <div>
-                                    <h4 class="text-lg font-bold text-gray-800 dark:text-white">
-                                        Avarage :
-                                        {{ $enrollment->average }} </h4>
-                                    <p
-                                        class="text-[10px] text-gray-400 uppercase tracking-widest  {{ $enrollment->status == 'passed' ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-900/20' : 'text-rose-600 bg-rose-50 dark:bg-rose-900/20' }}">
-                                        Status :
-                                        {{ $enrollment->status }} </p>
+                            </div>
 
+                            <div class="flex gap-10 items-center">
+                                <div class="text-center">
+                                    <p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest mb-1">Average
+                                    </p>
+                                    <h4 class="text-lg font-black text-indigo-600 dark:text-indigo-400">
+                                        {{ number_format($enrollment->average, 2) }}
+                                    </h4>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest mb-1">Status
+                                    </p>
+                                    <span
+                                        class="inline-flex items-center px-3 py-1 rounded-lg text-[10px] font-black uppercase {{ $enrollment->status == 'passed' ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-900/20' : 'text-rose-600 bg-rose-50 dark:bg-rose-900/20' }}">
+                                        {{ $enrollment->status }}
+                                    </span>
                                 </div>
                             </div>
                         </div>

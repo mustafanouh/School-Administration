@@ -35,7 +35,7 @@ class StudentController extends Controller
 
     public function show(Student $student)
     { 
-
+    
 
         $student = $this->studentService->getStudentProfile($student);
         
@@ -46,12 +46,13 @@ class StudentController extends Controller
    
 
     public function edit(Student $student)
-    {
+    {     
         return view('students.edit', compact('student'));
     }
 
     public function update(StudentRequest $request, Student $student)
-    {
+    {    
+        // dd($request->validated());
         $this->studentService->updateStudent($student, $request->validated());
         return redirect()->route('students.index')->with('success', 'Information updated.');
     }

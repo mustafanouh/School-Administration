@@ -30,6 +30,7 @@ class StudentRequest extends FormRequest
             'father_phone_number' => 'required|string|max:20',
             'father_email'        => 'nullable|email|max:100',
             'blood_group'         => 'nullable|string|max:5|in:A+,A-,B+,B-,O+,O-,AB+,AB-',
+
         ];
     }
 
