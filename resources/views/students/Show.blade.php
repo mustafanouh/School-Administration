@@ -80,6 +80,14 @@
                                     <p class="text-sm font-bold text-gray-700 dark:text-gray-200 mt-1">
                                         {{ $student->address }}</p>
                                 </div>
+
+                                <div>
+                                    <p class="text-[10px] text-gray-400 font-black uppercase tracking-widest"><i
+                                            class="fas fa-envelope mr-1"></i> Email</p>
+                                    <p class="text-sm font-bold text-gray-700 dark:text-gray-200 mt-1">
+                                        {{ $student->user->email }}</p>
+                                </div>
+
                             </div>
                         </div>
 

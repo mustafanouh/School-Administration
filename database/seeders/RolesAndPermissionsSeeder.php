@@ -52,6 +52,9 @@ class RolesAndPermissionsSeeder extends Seeder
         $secretaryRole = Role::create(['name' => 'secretary']);
         $secretaryRole->givePermissionTo(['register student', 'archive records']);
 
+        $studentRole = Role::create(['name' => 'student']);
+
+
         // 4. إنشاء مستخدمين تجريبيين وإسناد الأدوار لهم
         
         // إنشاء الأدمن

@@ -36,7 +36,8 @@ class Student extends Model
         'father_name',
         'father_phone_number',
         'father_email',
-        'blood_group'
+        'blood_group',
+        'user_id',
     ];
 
     public function enrollments()
@@ -63,10 +64,16 @@ class Student extends Model
         return $this->hasManyThrough(
             StudentAttendance::class,
             Enrollment::class,
-            'student_id',    // المفتاح الأجنبي في جدول enrollments
-            'enrollment_id', // المفتاح الأجنبي في جدول student_attendances
-            'id',            // المفتاح المحلي في جدول students
-            'id'             // المفتاح المحلي في جدول enrollments
+            'student_id',
+            'enrollment_id',
+            'id',
+            'id'
         );
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    
 }

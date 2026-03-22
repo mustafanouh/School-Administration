@@ -28,8 +28,9 @@ class StudentController extends Controller
 
     public function store(StudentRequest $request)
     {
-        $this->studentService->registerStudent($request->validated());
-        return redirect()->route('students.index')->with('success', 'Student registered successfully.');
+
+        $student = $this->studentService->registerStudent($request->validated());
+        return redirect()->route('students.index')->with('success', 'Student registered successfully :' .$student->user->email);
     }
 
     public function show(Student $student)

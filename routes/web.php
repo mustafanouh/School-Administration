@@ -66,7 +66,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware(['role:admin|secretary'])->group(function () {
         Route::resource('students', StudentController::class);
         Route::resource('enrollments', EnrollmentController::class);
-        Route::get('/api/students/{student}/previous-info', function (Student $student) {})->name('api.student.previous-info');
+
+        // enrollment stats
+
+        Route::get('/api/students/{student}/previous-info', function (Student $student) {
+
+            $lastEnrollment = $student->enrollments()->with(['section', 'academicYear'])->latest()->first();
+
+            return response()->json([
+
+                'has_previous' => (bool)$lastEnrollment,
+
+                'status' => $lastEnrollment?->status ?? 'N/A',
+
+                'grade' => $lastEnrollment?->section->grade->name ?? 'N/A',
+
+                'year' => $lastEnrollment?->academicYear?->name ?? 'N/A',
+
+            ]);
+        })->name('api.student.previous-info');
     });
 
     // Admin + Teacher

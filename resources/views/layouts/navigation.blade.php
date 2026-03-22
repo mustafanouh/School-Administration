@@ -74,7 +74,6 @@
                                         this.loading = true;
                                         try {
                                             const response = await axios.get('/global-search', { params: { query: this.query } });
-                                            // تأكد من استقبال البيانات بشكل صحيح أو وضع مصفوفة فارغة كبديل
                                             const data = response.data.results || {};
                                             this.results = {
                                                 students: data.students || [],
