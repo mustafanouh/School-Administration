@@ -7,6 +7,7 @@ use App\Models\AcademicYear;
 use App\Models\Enrollment;
 use App\Models\Exam;
 use App\Models\Mark;
+use App\Notifications\RealTimeNotification;
 use App\Services\MarkService;
 use Illuminate\Http\Request;
 
@@ -47,7 +48,17 @@ class MarkController extends Controller
     }
     public function store(MarkRequest $request)
     {
-        Mark::create($request->validated());
+        $mark = Mark::create($request->validated());
+
+
+        $enrollment = Enrollment::with('student.user')->find($request->enrollment_id);
+
+        if ($enrollment && $enrollment->student && $enrollment->student->user) {
+            $studentUser = $enrollment->student->user;
+
+            $message = "A new mark has been recorded for you: {$mark->score} degree in your {$mark->exam->subject->name} exam.";
+            $studentUser->notify(new RealTimeNotification($message));
+        }
 
         return redirect()->route('marks.index')
             ->with('success', 'Student mark has been recorded successfully.');
@@ -63,6 +74,16 @@ class MarkController extends Controller
     public function update(MarkRequest $request, Mark $mark)
     {
         $mark->update($request->validated());
+
+
+        $enrollment = Enrollment::with('student.user')->find($request->enrollment_id);
+
+        if ($enrollment && $enrollment->student && $enrollment->student->user) {
+            $studentUser = $enrollment->student->user;
+
+            $message = "Your mark has been updated: {$mark->score} degree in your {$mark->exam->subject->name} exam.";
+            $studentUser->notify(new RealTimeNotification($message));
+        }
 
         return redirect()->route('marks.index')
             ->with('success', 'Student grade updated successfully.');

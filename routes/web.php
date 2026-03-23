@@ -20,6 +20,7 @@ use App\Http\Controllers\StatisticsController;
 use App\Models\Student;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Portal\PortalController;
 use App\Models\User;
 
@@ -31,7 +32,7 @@ Route::controller(PortalController::class)->group(function () {
     Route::get('/portal', 'index')->name('portal.index');
     Route::get('/portal/marks', 'marks')->name('portal.marks');
     Route::get('/portal/attendance', 'attendance')->name('portal.attendance');
-   Route::view('portal/contact', 'portal.contact')->name('portal.contact');
+    Route::view('portal/contact', 'portal.contact')->name('portal.contact');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -120,6 +121,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // search
     Route::get('/global-search', [SearchController::class, 'globalSearch'])->name('search.global');
+
+
+    // notifications
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/clear', [NotificationController::class, 'clearAll'])->name('notifications.clear');
 });
 
 

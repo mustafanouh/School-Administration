@@ -7,7 +7,9 @@ use App\Models\StudentAttendance;
 use App\Models\StaffAttendance;
 use App\Models\Section;
 use App\Models\Employee;
+use App\Models\Enrollment;
 use App\Models\Semester;
+use App\Notifications\RealTimeNotification;
 
 class AttendanceController extends Controller
 {
@@ -53,6 +55,22 @@ class AttendanceController extends Controller
                     'notes' => $request->notes[$enrollmentId] ?? null,
                 ]
             );
+
+            $enrollment = Enrollment::with('student.user')->find($enrollmentId);
+
+            if ($enrollment && $enrollment->student && $enrollment->student->user) {
+                $studentUser = $enrollment->student->user;
+
+                $statusText = match ($status) {
+                    'present' => 'Present',
+                    'absent'  => 'Absent',
+                    'late'    => 'Late',
+                };
+
+                $message = "Attendance marked: You were marked as {$statusText} for the date {$request->attendance_date}.";
+
+                $studentUser->notify(new RealTimeNotification($message));
+            }
         }
 
         return  redirect()->route('attendance.sections.index')->with('success', 'Student attendance recorded successfully.');
@@ -71,19 +89,19 @@ class AttendanceController extends Controller
     {
 
         $activeSemester = Semester::where('is_active', true)->first();
-        if(! $activeSemester){
-            return redirect()->back()->with('error', 'No active semester found. Please activate a semester before recording attendance.');  
+        if (! $activeSemester) {
+            return redirect()->back()->with('error', 'No active semester found. Please activate a semester before recording attendance.');
         }
 
         if (!$activeSemester) {
             return redirect()->back()->with('error', 'No active semester found. Please activate a semester before recording attendance.');
         }
         $request->validate([
-            'attendance_date' => 'required|date',       
-            'attendance'      => 'required|array',     
-            'attendance.*'    => 'required|string',    
+            'attendance_date' => 'required|date',
+            'attendance'      => 'required|array',
+            'attendance.*'    => 'required|string',
             'check_in.*'      => 'nullable|',
-            'check_out.*'     => 'nullable|', 
+            'check_out.*'     => 'nullable|',
         ]);
 
         foreach ($request->attendance as $employeeId => $status) {

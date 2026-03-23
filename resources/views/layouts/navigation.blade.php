@@ -217,6 +217,21 @@
                     </svg>
                 </button>
 
+                {{-- notifications --}}
+                <a href="{{ route('notifications.index') }}"
+                    class=" relative inline-block p-2 rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-500 dark:text-amber-400 hover:bg-gray-100 dark:hover:bg-slate-700 transition-all duration-300 focus:outline-none ring-1 ring-gray-200 dark:ring-slate-700">
+
+                    <i class="fas fa-bell"></i>
+                    <span id="notification-badge"
+                        class="{{ auth()->user()->unreadNotifications->count() > 0 ? '' : 'hidden' }} 
+                     absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center 
+                     rounded-full bg-rose-600 text-[10px] font-bold text-white border-2 border-white dark:border-[#0f111a]">
+                        {{ auth()->user()->unreadNotifications->count() }}
+                    </span>
+                </a>
+
+
+
                 <div class="hidden sm:flex items-center">
                     <a href="{{ route('profile.show', ['user' => Auth::id()]) }}"
                         class="group flex items-center gap-3 p-1 pr-3 rounded-2xl hover:bg-gray-50 dark:hover:bg-slate-800 transition-all duration-300 border border-transparent hover:border-gray-100 dark:hover:border-slate-700">
