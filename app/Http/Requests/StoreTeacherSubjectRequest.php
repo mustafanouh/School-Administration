@@ -18,7 +18,7 @@ class StoreTeacherSubjectRequest extends FormRequest
             'teacher_id' => 'required|exists:teachers,id',
             'academic_year_id' => 'required|exists:academic_years,id',
             'section_id' => 'required|exists:sections,id',
-            'subject_id' => [ // validation rule to ensure the same subject is not assigned to the same section in the same academic year
+            'subject_id' => [ 
                 'required',
                 'exists:subjects,id',
                 Rule::unique('teacher_subjects')->where(function ($query) {

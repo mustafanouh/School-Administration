@@ -29,7 +29,6 @@ class MarkRequest extends FormRequest
                 'required',
                 'numeric',
                 'min:0',
-                // قاعدة مخصصة لضمان أن الدرجة لا تتعدى الدرجة العظمى للامتحان المختار
                 function ($attribute, $value, $fail) {
                     $exam = Exam::find($this->exam_id);
                     if ($exam && $value > $exam->max_mark) {

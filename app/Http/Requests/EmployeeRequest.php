@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class EmployeeRequest extends FormRequest
 {
@@ -21,27 +22,36 @@ class EmployeeRequest extends FormRequest
      */
     public function rules(): array
     {
+        $employeeId = $this->route('employee');
         return [
             'first_name'  => 'required|string|max:255',
             'last_name'   => 'required|string|max:255',
             'gender'      => 'required|in:Male,Female',
             'phone'       => 'required|string|max:20',
             'address'     => 'required|string|max:255',
-            'notional_id' => 'required|string|unique:employees,notional_id',
             'salary'      => 'required|numeric|min:0',
             'birth_date'  => 'required|date',
             'status'      => 'required|in:active,on_leave,resigned',
             'hire_data'   => 'required|date',
             'job_title'   => 'required|string|max:255',
-            'user_id'     => 'required|unique:employees,user_id|exists:users,id',
+            'notional_id' => [
+                'required',
+                'string',
+                Rule::unique('employees', 'notional_id')->ignore($employeeId),
+               ],
+            'user_id' => [
+                'required',
+                'exists:users,id',
+                Rule::unique('employees', 'user_id')->ignore($employeeId),
+            ],
         ];
     }
     public function messages(): array
     {
         return [
             'gender.in' => 'The gender must be either male or female.',
-            'date_of_birth.before' => 'The date of birth must be a date before today.',
-            'phone_number.required' => 'We need the employee phone number to contact them.',
+            'birth_date.before' => 'The date of birth must be a date before today.',
+            'phone.required' => 'We need the employee phone number to contact them.',
         ];
     }
 }

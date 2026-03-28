@@ -1,7 +1,6 @@
 <x-app-layout>
     <div class="relative max-w-6xl mx-auto sm:px-6 lg:px-8 min-h-screen bg-[#F8FAFC] overflow-hidden py-12">
 
-        {{-- التحقق من وجود أي دور للمستخدم --}}
         @if (auth()->user()->roles->isEmpty())
             <div class="flex flex-col items-center justify-center min-h-[60vh] text-center">
                 <div class="bg-white p-10 rounded-3xl shadow-xl border border-slate-100 max-w-md">
@@ -80,19 +79,22 @@
 
                     @role('student')
                         <div class="dash-card opacity-0 translate-y-6">
-                            <x-dashboard-card icon="fas fa-home" label="portal" desc=" show news and updates." :href="route('portal.index')" color="blue" />
+                            <x-dashboard-card icon="fas fa-home" label="portal" desc=" show news and updates."
+                                :href="route('portal.index')" color="blue" />
                         </div>
 
                         <div class="dash-card opacity-0 translate-y-6">
-                            <x-dashboard-card icon="fas fa-poll-h" label="Marks" desc="View your academic performance." :href="route('portal.marks')" color="emerald" />
+                            <x-dashboard-card icon="fas fa-poll-h" label="Marks" desc="View your academic performance."
+                                :href="route('portal.marks')" color="emerald" />
                         </div>
 
                         <div class="dash-card opacity-0 translate-y-6">
-                            <x-dashboard-card icon="fas fa-user-clock" label="Attendance" desc="show your attendance record." :href="route('portal.attendance')" color="amber" />
+                            <x-dashboard-card icon="fas fa-user-clock" label="Attendance"
+                                desc="show your attendance record." :href="route('portal.attendance')" color="amber" />
                         </div>
 
                         <div class="dash-card opacity-0 translate-y-6">
-                            <x-dashboard-card icon="fa-solid fa-headset"  label="contact" desc="contact with support."
+                            <x-dashboard-card icon="fa-solid fa-headset" label="contact" desc="contact with support."
                                 :href="route('portal.contact')" color="sky" />
                         </div>
                     @endrole

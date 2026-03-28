@@ -7,23 +7,22 @@ use Illuminate\Validation\Rule;
 
 class AcademicYearRequest extends FormRequest
 {
-   
+
     public function authorize(): bool
     {
         return true;
     }
 
-   
+
     public function rules(): array
     {
-        $academicYearId = $this->route('academic_year'); // جلب المعرف من الرابط في حالة التحديث
+        $academicYearId = $this->route('academic_year');
 
         return [
             'name' => [
                 'required',
                 'string',
                 'max:255',
-                // التحقق من عدم التكرار مع استثناء السجل الحالي عند التحديث
                 Rule::unique('academic_years', 'name')->ignore($academicYearId),
             ],
             'is_active' => [
@@ -33,7 +32,7 @@ class AcademicYearRequest extends FormRequest
         ];
     }
 
-   
+
     public function attributes(): array
     {
         return [
@@ -42,7 +41,7 @@ class AcademicYearRequest extends FormRequest
         ];
     }
 
-   
+
     public function messages(): array
     {
         return [

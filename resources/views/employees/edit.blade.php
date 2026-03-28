@@ -29,7 +29,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">National
-                                </label>
+                            </label>
                             <input type="text" name="notional_id"
                                 value="{{ old('notional_id', $employee->notional_id) }}" required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 dark:bg-[#0f111a] dark:text-white">
@@ -107,7 +107,17 @@
                             Employee</button>
                     </div>
                 </form>
+                @if ($errors->any())
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+                        <ul class="list-disc ml-5">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
             </div>
         </div>
+
     </div>
 </x-app-layout>

@@ -41,10 +41,10 @@ class EmployeeController extends Controller
     }
     public function show(Employee $employee)
     {
-        
+
         $semesterId = Semester::where('is_active', true)->value('id');
 
-       
+
         $employee->load(['staffAttendances' => function ($query) use ($semesterId) {
             if ($semesterId) {
                 $query->where('semester_id', $semesterId);
