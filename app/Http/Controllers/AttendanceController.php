@@ -83,8 +83,9 @@ class AttendanceController extends Controller
         $staff = Employee::with(['staffAttendances' => function ($query) use ($date) {
             $query->whereDate('attendance_date', $date);
         }])->get();
+        $isAttendanceTaken = StaffAttendance::whereDate('attendance_date', $date)->exists();
 
-        return view('attendance.staff_show', compact('staff', 'date'));
+        return view('attendance.staff_show', compact('staff', 'date', 'isAttendanceTaken'));
     }
 
     public function storeStaffAttendance(Request $request)

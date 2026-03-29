@@ -41,6 +41,24 @@
             </div>
         @endif
 
+        {{-- رسالة تأكيد أخذ الحضور --}}
+        @if ($isAttendanceTaken)
+            <div
+                class="mb-6 flex items-center p-4 text-blue-800 rounded-2xl bg-blue-50 dark:bg-blue-900/20 dark:text-blue-400 border border-blue-100 dark:border-blue-800 shadow-sm">
+                <div class="flex-shrink-0 bg-blue-500 text-white rounded-full p-1">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <div class="ms-3 text-sm font-bold">
+                    Attendance for today ({{ now()->format('d M, Y') }}) has already been recorded.
+                    <span class="font-normal opacity-80 italic">| You can still update the records below.</span>
+                </div>
+            </div>
+        @endif
+
         <form action="{{ route('attendance.staff.store') }}" method="POST">
             @csrf
             <input type="hidden" name="attendance_date" value="{{ now()->format('Y-m-d') }}">
@@ -65,6 +83,15 @@
                         </thead>
                         <tbody class="divide-y divide-gray-100 dark:divide-white/5">
                             @forelse($staff as $employee)
+                                @php
+                                    $todayRecord = $employee->staffAttendances->first();
+
+                                    $currentStatus = old("attendance.{$employee->id}", $todayRecord?->status);
+                                    $checkIn = old("check_in.{$employee->id}", $todayRecord?->check_in ?? '08:00');
+                                    $checkOut = old("check_out.{$employee->id}", $todayRecord?->check_out ?? '16:00');
+                                    $note = old("notes.{$employee->id}", $todayRecord?->notes);
+                                @endphp
+
                                 <tr class="hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors">
                                     <td class="px-6 py-4">
                                         <div class="flex items-center gap-3">
@@ -80,53 +107,49 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="px-4 py-4 text-center">
+                                    <td class="px-1 py-4 text-center">
                                         <div class="flex items-center justify-center gap-3">
                                             <label class="cursor-pointer">
                                                 <input type="radio" name="attendance[{{ $employee->id }}]"
-                                                    value="present" 
-                                                    {{ old("attendance.{$employee->id}") === 'present' ? 'checked' : '' }}
-                                                    checked class="hidden peer">
+                                                    value="present" class="hidden peer" @checked($currentStatus === 'present' || is_null($currentStatus))>
                                                 <span
                                                     class="px-3 py-1 text-xs font-bold rounded-lg border border-gray-200 dark:border-white/5 peer-checked:bg-emerald-500 peer-checked:text-white text-gray-500 transition-all">Present</span>
                                             </label>
+
                                             <label class="cursor-pointer">
                                                 <input type="radio" name="attendance[{{ $employee->id }}]"
-                                                    value="absent" 
-                                                    {{ old("attendance.{$employee->id}") === 'absent' ? 'checked' : '' }}
-                                                    class="hidden peer">
+                                                    value="absent" class="hidden peer" @checked($currentStatus === 'absent')>
                                                 <span
                                                     class="px-3 py-1 text-xs font-bold rounded-lg border border-gray-200 dark:border-white/5 peer-checked:bg-rose-500 peer-checked:text-white text-gray-500 transition-all">Absent</span>
                                             </label>
                                             <label class="cursor-pointer">
                                                 <input type="radio" name="attendance[{{ $employee->id }}]"
-                                                    value="late"
-                                                    {{ old("attendance.{$employee->id}") === 'late' ? 'checked' : '' }}
-                                                    class="hidden peer">
+                                                    value="late" class="hidden peer" @checked($currentStatus === 'late')>
                                                 <span
-                                                    class="px-3 py-1 text-xs font-bold rounded-lg border border-gray-200 dark:border-white/5 peer-checked:bg-rose-500 peer-checked:text-white text-gray-500 transition-all">Late</span>
+                                                    class="px-3 py-1 text-xs font-bold rounded-lg border border-gray-200 dark:border-white/5 peer-checked:bg-amber-500 peer-checked:text-white text-gray-500 transition-all">Late</span>
                                             </label>
                                             <label class="cursor-pointer">
                                                 <input type="radio" name="attendance[{{ $employee->id }}]"
-                                                    value="on_leave" class="hidden peer" @checked(old("attendance.{$employee->id}", $employee->status) === 'on_leave')>
-
+                                                    value="on_leave" class="hidden peer" @checked($currentStatus === 'on_leave' || (is_null($todayRecord) && $employee->status === 'on_leave'))>
                                                 <span
-                                                    class="px-3 py-1 text-xs font-bold rounded-lg border border-gray-200 dark:border-white/5 peer-checked:bg-blue-500 peer-checked:text-white text-gray-500 transition-all">on
-                                                    leave</span>
+                                                    class="px-3 py-1 text-xs font-bold rounded-lg border border-gray-200 dark:border-white/5 peer-checked:bg-blue-500 peer-checked:text-white text-gray-500 transition-all">On
+                                                    Leave</span>
                                             </label>
                                         </div>
                                     </td>
                                     <td class="px-6 py-4">
                                         <div class="flex gap-2">
-                                            <input type="time" name="check_in[{{ $employee->id }}]" value="08:00"
+                                            <input type="time" name="check_in[{{ $employee->id }}]"
+                                                value="{{ $checkIn }}"
                                                 class="bg-gray-50 dark:bg-white/5 border-none rounded-lg text-[11px] text-gray-600 dark:text-gray-300 focus:ring-1 focus:ring-indigo-500">
-                                            <input type="time" name="check_out[{{ $employee->id }}]" value="16:00"
+                                            <input type="time" name="check_out[{{ $employee->id }}]"
+                                                value="{{ $checkOut }}"
                                                 class="bg-gray-50 dark:bg-white/5 border-none rounded-lg text-[11px] text-gray-600 dark:text-gray-300 focus:ring-1 focus:ring-indigo-500">
                                         </div>
                                     </td>
                                     <td class="px-6 py-4">
                                         <input type="text" name="notes[{{ $employee->id }}]"
-                                            placeholder="Remarks..."
+                                            value="{{ $note }}" placeholder="Remarks..."
                                             class="w-full bg-gray-50 dark:bg-white/5 border-none rounded-lg text-xs py-2 px-3 text-gray-600 dark:text-gray-300 focus:ring-1 focus:ring-indigo-500">
                                     </td>
                                 </tr>
@@ -143,7 +166,7 @@
                     class="p-6 bg-gray-50/50 dark:bg-white/5 border-t border-gray-100 dark:border-white/5 flex justify-end">
                     <button type="submit"
                         class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-xl shadow-lg shadow-indigo-500/20 transition-all">
-                        Save Staff Attendance
+                        {{ $isAttendanceTaken ? 'Update Attendance Records' : 'Save Staff Attendance' }}
                     </button>
                 </div>
             </div>
