@@ -7,6 +7,7 @@ use App\Models\Employee;
 use App\Models\Semester;
 use App\Models\User;
 use App\Services\EmployeeService;
+use Spatie\Permission\Models\Role;
 
 class EmployeeController extends Controller
 {
@@ -67,8 +68,8 @@ class EmployeeController extends Controller
 
     public function create()
     {
-        $user = User::select('id', 'email')->whereDoesntHave('employee')->get();
-        return view('employees.create', compact('user'));
+        $role =Role::pluck('name');
+        return view('employees.create', compact('role'));
     }
     public function edit(Employee $employee)
     {

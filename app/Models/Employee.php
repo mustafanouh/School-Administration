@@ -28,9 +28,10 @@ class Employee extends Model
         'salary',
         'birth_date',
         'status',
-        'user_id',
+
         'hire_data',
         'job_title',
+        'user_id',
     ];
     public function teachers()
     {
@@ -45,5 +46,9 @@ class Employee extends Model
     public function staffAttendances()
     {
         return $this->hasMany(StaffAttendance::class, 'employee_id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

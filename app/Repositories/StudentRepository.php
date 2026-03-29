@@ -58,11 +58,7 @@ class StudentRepository
     }
 
 
-    // public function create(array $data)
-    // {
 
-    //     return Student::create($data);
-    // }
 
     public function create(array $data)
     {

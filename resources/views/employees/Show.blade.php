@@ -27,7 +27,7 @@
                                 </h1>
                                 <span
                                     class="inline-flex items-center px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase rounded-full w-fit mx-auto md:mx-0">
-                                    {{ $employee->job_title }}
+                                    {{ $employee->user->getRoleNames()->implode(', ') }}
                                 </span>
                             </div>
 
@@ -99,9 +99,15 @@
                             <div class="space-y-1">
                                 <p class="text-[10px] font-black text-blue-500 uppercase tracking-widest">Contact
                                     Information</p>
+
                                 <h3 class="text-sm font-black text-gray-800 dark:text-white">Phone Number</h3>
-                                <div class="flex flex-col gap-1 mt-2">
+                                <div class="flex flex-col gap-1 mt-2 mb-2">
                                     <span class="text-sm text-gray-600 dark:text-gray-300">{{ $employee->phone }}</span>
+                                </div>
+                                <h3 class="text-sm font-black text-gray-800 dark:text-white">Email Address</h3>
+                                <div class="flex flex-col gap-1 mt-2">
+                                    <span
+                                        class="text-sm text-gray-600 dark:text-gray-300">{{ $employee->user->email }}</span>
                                 </div>
                             </div>
                         </div>

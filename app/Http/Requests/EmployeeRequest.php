@@ -38,12 +38,9 @@ class EmployeeRequest extends FormRequest
                 'required',
                 'string',
                 Rule::unique('employees', 'notional_id')->ignore($employeeId),
-               ],
-            'user_id' => [
-                'required',
-                'exists:users,id',
-                Rule::unique('employees', 'user_id')->ignore($employeeId),
             ],
+            'role'        => 'required|string|exists:roles,name',
+
         ];
     }
     public function messages(): array

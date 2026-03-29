@@ -9,42 +9,54 @@
 
                 <form action="{{ route('employees.store') }}" method="POST" class="p-6">
                     @csrf
-
-
-
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">User Email </label>
-                            <select name="user_id" required
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">User Role </label>
+                            <select name="role" required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 dark:bg-[#0f111a] dark:text-white">
-                                <option value="" disabled>Select a User</option>
-                                @foreach ($user as $users)
-                                    <option value="{{ $users->id }}">{{ $users->email }}</option>
+                                <option value="" disabled>Select a Role</option>
+                                @foreach ($role as $name)
+                                    <option value="{{ $name }}">{{ $name }}</option>
                                 @endforeach
                             </select>
+                            @error('role')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">First Name</label>
                             <input type="text" name="first_name" required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 dark:bg-[#0f111a] dark:text-white">
+                            @error('first_name')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Last Name</label>
                             <input type="text" name="last_name" required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 dark:bg-[#0f111a] dark:text-white">
+                            @error('last_name')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">National
                             </label>
                             <input type="text" name="notional_id" required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 dark:bg-[#0f111a] dark:text-white">
+                            @error('notional_id')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Job Title</label>
                             <input type="text" name="job_title" required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 dark:bg-[#0f111a] dark:text-white">
+                            @error('job_title')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Salary</label>
@@ -58,18 +70,28 @@
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
                             </select>
+                             @error('gender')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Birth Date</label>
                             <input type="date" name="birth_date" required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-[#0f111a] dark:text-white">
+                            @error('birth_date')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Hire Date</label>
                             <input type="date" name="hire_data" required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-[#0f111a] dark:text-white">
+                            @error('hire_data')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
+                        
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Status</label>
                             <select name="status"
@@ -78,17 +100,26 @@
                                 <option value="on_leave">On Leave</option>
                                 <option value="resigned">Resigned</option>
                             </select>
+                                @error('status')
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
                         </div>
 
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Phone</label>
                             <input type="text" name="phone" required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-[#0f111a] dark:text-white">
+                            @error('phone')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
-                        <div >
+                        <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Address</label>
                             <input type="text" name="address" required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-[#0f111a] dark:text-white">
+                            @error('address')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 

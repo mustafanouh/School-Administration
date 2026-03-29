@@ -78,9 +78,11 @@ class AttendanceController extends Controller
 
     public function showStaffAttendance()
     {
-
-        $staff = Employee::all();
         $date = now()->format('Y-m-d');
+
+        $staff = Employee::with(['staffAttendances' => function ($query) use ($date) {
+            $query->whereDate('attendance_date', $date);
+        }])->get();
 
         return view('attendance.staff_show', compact('staff', 'date'));
     }

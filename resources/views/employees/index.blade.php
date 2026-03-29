@@ -4,7 +4,6 @@
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-8">
             <div>
                 <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Employees Management</h1>
-                <p class="text-sm text-gray-500 dark:text-gray-400">Total Records: {{ $employees->total() }}</p>
             </div>
 
             <a href="{{ route('employees.create') }}"
@@ -125,6 +124,8 @@
 
 
                             </tr>
+                            
+
                         @empty
                             <tr>
                                 <td colspan="4"
@@ -141,6 +142,9 @@
         <div class="mt-6">
             {{ $employees->links() }}
         </div>
+
+        <h4 class="text-sm  text-center mt-5  text-gray-500 dark:text-gray-400">Total Records:
+                                ( {{ $employees->total() }} )</h4>
 
     </div>
 </x-app-layout>

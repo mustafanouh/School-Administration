@@ -54,7 +54,7 @@
                                 <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider">
                                     Employee</th>
                                 <th
-                                    class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider text-center">
+                                    class="px-8 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider text-center">
                                     Status</th>
                                 <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Time
                                     In/Out</th>
@@ -80,31 +80,39 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="px-6 py-4 text-center">
+                                    <td class="px-4 py-4 text-center">
                                         <div class="flex items-center justify-center gap-3">
                                             <label class="cursor-pointer">
                                                 <input type="radio" name="attendance[{{ $employee->id }}]"
-                                                    value="present" checked class="hidden peer">
+                                                    value="present" 
+                                                    {{ old("attendance.{$employee->id}") === 'present' ? 'checked' : '' }}
+                                                    checked class="hidden peer">
                                                 <span
                                                     class="px-3 py-1 text-xs font-bold rounded-lg border border-gray-200 dark:border-white/5 peer-checked:bg-emerald-500 peer-checked:text-white text-gray-500 transition-all">Present</span>
                                             </label>
                                             <label class="cursor-pointer">
                                                 <input type="radio" name="attendance[{{ $employee->id }}]"
-                                                    value="absent" class="hidden peer">
+                                                    value="absent" 
+                                                    {{ old("attendance.{$employee->id}") === 'absent' ? 'checked' : '' }}
+                                                    class="hidden peer">
                                                 <span
                                                     class="px-3 py-1 text-xs font-bold rounded-lg border border-gray-200 dark:border-white/5 peer-checked:bg-rose-500 peer-checked:text-white text-gray-500 transition-all">Absent</span>
                                             </label>
                                             <label class="cursor-pointer">
                                                 <input type="radio" name="attendance[{{ $employee->id }}]"
-                                                    value="late" class="hidden peer">
+                                                    value="late"
+                                                    {{ old("attendance.{$employee->id}") === 'late' ? 'checked' : '' }}
+                                                    class="hidden peer">
                                                 <span
                                                     class="px-3 py-1 text-xs font-bold rounded-lg border border-gray-200 dark:border-white/5 peer-checked:bg-rose-500 peer-checked:text-white text-gray-500 transition-all">Late</span>
                                             </label>
                                             <label class="cursor-pointer">
                                                 <input type="radio" name="attendance[{{ $employee->id }}]"
-                                                    value="on_leave" class="hidden peer">
+                                                    value="on_leave" class="hidden peer" @checked(old("attendance.{$employee->id}", $employee->status) === 'on_leave')>
+
                                                 <span
-                                                    class="px-3 py-1 text-xs font-bold rounded-lg border border-gray-200 dark:border-white/5 peer-checked:bg-blue-500 peer-checked:text-white text-gray-500 transition-all">on leave</span>
+                                                    class="px-3 py-1 text-xs font-bold rounded-lg border border-gray-200 dark:border-white/5 peer-checked:bg-blue-500 peer-checked:text-white text-gray-500 transition-all">on
+                                                    leave</span>
                                             </label>
                                         </div>
                                     </td>
