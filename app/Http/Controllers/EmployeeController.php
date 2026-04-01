@@ -19,8 +19,7 @@ class EmployeeController extends Controller
         $this->employeeService = $employeeService;
     }
 
-    public function index()
-    {
+    public function index() {
         $employees = $this->employeeService->getAllEmployees();
         return view('employees.index', compact('employees'));
     }

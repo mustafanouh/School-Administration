@@ -22,16 +22,12 @@
                     {{-- 1. Select Employee (Read Only or Disabled recommended if you don't want to change the person) --}}
                     <div>
                         <label
-                            class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Employee</label>
-                        <select name="employee_id"
-                            class="w-full rounded-xl border-gray-200 dark:border-white/10 dark:bg-[#161923] dark:text-white focus:ring-indigo-500 @error('employee_id') border-rose-500 @enderror">
-                            @foreach ($employees as $employee)
-                                <option value="{{ $employee->id }}"
-                                    {{ old('employee_id', $teacher->employee_id) == $employee->id ? 'selected' : '' }}>
-                                    {{ $employee->first_name }} {{ $employee->last_name }} ({{ $employee->job_title }})
-                                </option>
-                            @endforeach
-                        </select>
+                            class="block text-sm font-semibold text-gray-800 dark:text-gray-300 mb-2">Employee</label>
+                        <input type="hidden" name="employee_id" value="{{ $teacher->employee->id }}">
+
+                        <input type="text" readonly
+                            value="{{ $teacher->employee->first_name . ' ' . $teacher->employee->last_name }}"
+                            class="w-full rounded-xl border-gray-200 bg-gray-50 dark:border-white/10 dark:bg-[#161923] dark:text-white cursor-not-allowed focus:ring-0">
                         @error('employee_id')
                             <span class="text-rose-500 text-xs mt-1">{{ $message }}</span>
                         @enderror

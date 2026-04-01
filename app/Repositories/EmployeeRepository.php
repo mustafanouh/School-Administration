@@ -16,6 +16,11 @@ class EmployeeRepository
         return Employee::paginate($perPage);
     }
 
+    public function getAllEmployees()
+    {
+        return Employee::all();
+    }
+
     public function create(array $data)
     {
         return DB::transaction(function () use ($data) {

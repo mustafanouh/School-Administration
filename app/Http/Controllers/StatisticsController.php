@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 
 class StatisticsController extends Controller
 {
-    // تابع جلب بيانات أعداد الطلاب (Enrollment Count)
     private function getEnrollmentData()
     {
         $data = Enrollment::with('academicYear')
@@ -21,10 +20,8 @@ class StatisticsController extends Controller
         ];
     }
 
-    // تابع جلب متوسط المعدلات (GPA Average) من نفس الجدول
     private function getGpaData()
     {
-        // سحب المتوسط من عمود average الموجود في جدول enrollments
         $data = Enrollment::with('academicYear')
             ->select('academic_year_id', DB::raw('avg(average) as avg_grade'))
             ->groupBy('academic_year_id')
@@ -36,7 +33,6 @@ class StatisticsController extends Controller
         ];
     }
 
-    // التابع الرئيسي الذي يستدعيه الـ Route
     public function showCharts()
     {
         $enrollment = $this->getEnrollmentData();
