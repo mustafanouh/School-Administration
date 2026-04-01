@@ -14,13 +14,7 @@ class ProfileController extends Controller
 {
 
 
-    // public function show(User $user)
-    // {
 
-    //     $user->load('employee');
-    //     $roleName = $user->roles->first()->name ?? 'No Role';
-    //     return view('profile.show', compact('user', 'roleName'));
-    // }
 
 
     public function show(User $user)

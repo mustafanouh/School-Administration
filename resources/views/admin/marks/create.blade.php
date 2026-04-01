@@ -70,7 +70,7 @@
                         <label
                             class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Score</label>
                         <div class="relative">
-                            <input type="number" step="0.1" name="score" x-model="score"
+                            <input type="number" step="1" name="score" x-model="score"
                                 class="w-full bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-xl px-4 py-3 text-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all">
                             <div class="absolute right-4 top-3 text-gray-400 font-bold">
                                 / <span x-text="maxMark">0</span>
