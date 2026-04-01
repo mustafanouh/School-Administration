@@ -1,5 +1,8 @@
 <x-app-layout>
-    <div class="py-12 bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <div class="p-6 bg-gray-50 dark:bg-[#0f111a] max-w-6xl mx-auto sm:px-6 lg:px-8 min-h-screen rounded-2xl text-left"
+        dir="ltr">
+
+
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
             <div
                 class="bg-white dark:bg-gray-800 rounded-[2.5rem] shadow-xl border border-gray-100 dark:border-white/5 overflow-hidden">
@@ -13,12 +16,12 @@
                     <form action="{{ route('teacher_subjects.store') }}" method="POST">
                         @csrf
 
-                        {{-- الحقول المخفية الممررة من صفحة الـ Show --}}
+                   {{-- hidden inputs --}}
                         <input type="hidden" name="section_id" value="{{ request('section_id') }}">
                         <input type="hidden" name="academic_year_id" value="{{ request('academic_year_id') }}">
 
                         <div class="space-y-6">
-                         
+
 
                             <div>
                                 <label

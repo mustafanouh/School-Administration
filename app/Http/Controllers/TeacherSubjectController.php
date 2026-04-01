@@ -21,7 +21,7 @@ class TeacherSubjectController extends Controller
     public function create(Request $request)
     {
         $data = $this->service->getCreateData($request->all());
-        dd($data);
+     
         return view('admin.teacher_subjects.create', $data);
     }
 

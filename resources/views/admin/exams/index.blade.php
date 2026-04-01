@@ -1,5 +1,6 @@
 <x-app-layout>
-    <div class="p-6 bg-gray-50 dark:bg-[#0f111a]  max-w-5xl mx-auto sm:px-6 lg:px-8 min-h-screen rounded-2xl" dir="ltr">
+    <div class="p-6 bg-gray-50 dark:bg-[#0f111a]  max-w-5xl mx-auto sm:px-6 lg:px-8 min-h-screen rounded-2xl"
+        dir="ltr">
 
         {{-- Header Section --}}
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
@@ -14,14 +15,31 @@
             </a>
         </div>
 
-        {{-- Success Message --}}
-        @if (session('success'))
-            <div
-                class="mb-6 p-4 bg-emerald-100 border-l-4 border-emerald-500 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400 rounded-xl shadow-sm flex items-center">
-                <i class="fas fa-check-circle mr-3"></i>
-                <span class="font-bold text-sm">{{ session('success') }}</span>
-            </div>
-        @endif
+        {{-- Alert Messages --}}
+        <div class="max-w-5xl mx-auto mt-4">
+            @if (session('success'))
+                <div class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 border border-green-200 shadow-sm"
+                    role="alert">
+                    <div
+                        class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <div class="ms-3 text-sm font-semibold">{{ session('success') }}</div>
+                    <button type="button"
+                        class="ms-auto bg-green-50 text-green-500 p-1.5 hover:bg-green-200 rounded-lg h-8 w-8"
+                        onclick="this.parentElement.remove()">
+                        <svg class="w-3 h-3" fill="none" viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                    </button>
+                </div>
+            @endif
+        </div>
 
         {{-- Main Table Card --}}
         <div

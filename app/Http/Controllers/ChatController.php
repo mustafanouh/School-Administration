@@ -27,7 +27,7 @@ class ChatController extends Controller
             return Message::where('receiver_id', 0)->with('sender')->oldest()->get();
         }
 
-        // جلب الرسائل الثنائية
+   
         return Message::where(function ($q) use ($userId, $receiverId) {
             $q->where('sender_id', $userId)->where('receiver_id', $receiverId);
         })->orWhere(function ($q) use ($userId, $receiverId) {

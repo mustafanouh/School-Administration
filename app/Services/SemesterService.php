@@ -5,11 +5,23 @@ namespace App\Services;
 use App\Models\Semester;
 use App\Models\Enrollment;
 use App\Jobs\ProcessStudentGradesJob;
+use App\Repositories\SemesterRepository;
 use Illuminate\Support\Facades\DB;
 
 class SemesterService
 {
-   
+   protected $repo;
+
+    public function __construct(SemesterRepository $repo) {
+        $this->repo = $repo;
+    }
+
+    public function getSemesterData($id) {
+      
+        return $this->repo->getById($id);
+    }
+    
+
     public function updateSemester(Semester $semester, array $data): Semester
     {
         return DB::transaction(function () use ($semester, $data) {
