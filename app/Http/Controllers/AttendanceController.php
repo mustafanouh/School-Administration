@@ -15,24 +15,40 @@ class AttendanceController extends Controller
 {
 
 
+  
     public function index()
     {
-        $sections = Section::withCount('enrollments')->whereHas('academicYear', function ($query) {
-            $query->where('is_active', true);
-        })->with('grade')
+        $date = now()->format('Y-m-d');
+
+        $sections = Section::withCount('enrollments')
+            ->withExists(['attendances as isAttendanceTaken' => function ($query) use ($date) {
+                $query->whereDate('attendance_date', $date);
+            }])
+            ->whereHas('academicYear', function ($query) {
+                $query->where('is_active', true);
+            })
+            ->with('grade')
             ->get();
 
         return view('attendance.sections_index', compact('sections'));
     }
 
+   
     public function showSectionAttendance($id)
     {
-
-        $section = Section::with(['enrollments.student'])->findOrFail($id);
-
         $date = now()->format('Y-m-d');
 
-        return view('attendance.students', compact('section', 'date'));
+        $section = Section::with([
+            'enrollments.student.attendances' => function ($query) use ($date) {
+                $query->whereDate('attendance_date', $date);
+            }
+        ])->findOrFail($id);
+
+        $isAttendanceTaken = StudentAttendance::where('section_id', $id)
+            ->whereDate('attendance_date', $date)
+            ->exists();
+
+        return view('attendance.students', compact('section', 'date', 'isAttendanceTaken'));
     }
 
     public function storeStudentAttendance(Request $request)

@@ -26,6 +26,8 @@
                 />
             </div>
 
+                <hr class="border-gray-200">
+
         </div>
     </div>
 </x-app-layout>

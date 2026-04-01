@@ -49,6 +49,10 @@
                                 Details</th>
                             <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Grade
                                 Level</th>
+                            <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider">
+                                Attendance
+                                Progress
+                            </th>
                             <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Students
                                 Count</th>
                             <th
@@ -75,9 +79,24 @@
                                 </td>
                                 <td class="px-6 py-5 text-sm text-gray-600 dark:text-gray-400">
                                     <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-lg font-medium">
-                                        {{ $section->grade->name?? 'Not Assigned' }}
+                                        {{ $section->grade->name ?? 'Not Assigned' }}
                                     </span>
                                 </td>
+                                <td>
+
+                                    @if ($section->isAttendanceTaken)
+                                        <span
+                                            class="px-2 py-1 text-[10px] font-bold bg-emerald-100 text-emerald-600 rounded-lg dark:bg-emerald-900/30 dark:text-emerald-400">
+                                            <i class="fas fa-check-circle mr-1"></i> Recorded
+                                        </span>
+                                    @else
+                                        <span
+                                            class="px-2 py-1 text-[10px] font-bold bg-gray-100 text-gray-500 rounded-lg dark:bg-white/5 dark:text-gray-400">
+                                            <i class="fas fa-clock mr-1"></i> Pending
+                                        </span>
+                                    @endif
+                                </td>
+
                                 <td class="px-6 py-5">
                                     <div class="flex items-center gap-2">
                                         <div

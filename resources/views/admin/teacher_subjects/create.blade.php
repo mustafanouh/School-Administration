@@ -18,30 +18,15 @@
                         <input type="hidden" name="academic_year_id" value="{{ request('academic_year_id') }}">
 
                         <div class="space-y-6">
-                            {{-- عرض معلومات الشعبة والسنة (للتأكيد فقط) --}}
-                            <div
-                                class="grid grid-cols-2 gap-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100">
-                                <div>
-                                    <span class="block text-[10px] font-bold text-blue-400 uppercase">Section</span>
-                                    <span
-                                        class="font-bold text-blue-700 dark:text-blue-300">{{ App\Models\Section::find(request('section_id'))->name ?? 'N/A' }}</span>
-                                </div>
-                                <div>
-                                    <span class="block text-[10px] font-bold text-blue-400 uppercase">Academic
-                                        Year</span>
-                                    <span
-                                        class="font-bold text-blue-700 dark:text-blue-300">{{ App\Models\AcademicYear::find(request('academic_year_id'))->name ?? 'N/A' }}</span>
-                                </div>
-                            </div>
+                         
 
-                            {{-- اختيار المعلم --}}
                             <div>
                                 <label
                                     class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">Select
                                     Teacher</label>
                                 <select name="teacher_id" required
                                     class="w-full p-4 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl font-bold focus:ring-4 focus:ring-blue-500/10 outline-none">
-                                    <option value="">-- Choose a Teacher --</option>
+                                    <option value="">Choose a Teacher </option>
                                     @foreach ($teachers as $teacher)
                                         <option value="{{ $teacher->id }}">{{ $teacher->employee->first_name }}
                                             {{ $teacher->employee->last_name }}</option>
@@ -58,7 +43,7 @@
                                     class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">Subject</label>
                                 <select name="subject_id" required
                                     class="w-full p-4 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl font-bold focus:ring-4 focus:ring-blue-500/10 outline-none">
-                                    <option value="">-- Choose a Subject --</option>
+                                    <option value=""> Choose a Subject</option>
                                     @foreach ($subjects as $subject)
                                         <option value="{{ $subject->id }}">{{ $subject->name }}</option>
                                     @endforeach

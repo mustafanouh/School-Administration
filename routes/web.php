@@ -72,8 +72,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('students', StudentController::class);
         Route::resource('enrollments', EnrollmentController::class);
 
-        // enrollment stats
-
+        // enrollment stats 
         Route::get('/api/students/{student}/previous-info', function (Student $student) {
 
             $lastEnrollment = $student->enrollments()->with(['section', 'academicYear'])->latest()->first();
@@ -90,6 +89,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             ]);
         })->name('api.student.previous-info');
+
+        
     });
 
     // Admin + Teacher

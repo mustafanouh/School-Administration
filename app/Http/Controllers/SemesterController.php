@@ -10,7 +10,7 @@ class SemesterController extends Controller
 {
     protected $semesterService;
 
-    // حقن الخدمة عبر الـ Constructor
+
     public function __construct(SemesterService $semesterService)
     {
         $this->semesterService = $semesterService;

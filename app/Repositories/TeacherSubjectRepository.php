@@ -12,7 +12,6 @@ class TeacherSubjectRepository
             'teachers'      => Teacher::with('employee')->get(),
             'subjects'      => Subject::all(),
             'sections'      => Section::all(),
-            'academicYears' => AcademicYear::all(),
         ];
     }
 

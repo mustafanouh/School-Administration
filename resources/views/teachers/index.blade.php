@@ -46,8 +46,7 @@
                                                 {{ $teacher->employee?->first_name }}
                                                 {{ $teacher->employee?->last_name }}
                                             </p>
-                                            <p class="text-[11px] text-gray-500 font-mono italic">Emp ID:
-                                                #{{ $teacher->employee_id }}</p>
+                                       
                                         </div>
                                     </div>
                                 </td>

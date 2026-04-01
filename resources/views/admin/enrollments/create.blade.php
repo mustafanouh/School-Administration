@@ -24,34 +24,43 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                 {{-- Student Selection --}}
-<div class="col-span-2">
-    <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Select Student</label>
-    <div class="relative">
-        <select name="student_id" id="student_select"
-            class="w-full bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-xl px-4 py-3 text-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all appearance-none"
-            required>
-            <option disabled selected value="">Choose a student...</option>
-            @foreach ($students as $student)
-                <option value="{{ $student->id }}">{{ "$student->first_name $student->last_name" }}</option>
-            @endforeach
-        </select>
-        {{-- ... الأيقونة ... --}}
-    </div>
+                    {{-- Student Selection --}}
+                    <div class="col-span-2">
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Select
+                            Student</label>
+                        <div class="relative">
+                            <select name="student_id" id="student_select"
+                                class="w-full bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-xl px-4 py-3 text-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all appearance-none"
+                                required>
+                                <option disabled selected value="">Choose a student...</option>
+                                @foreach ($students as $student)
+                                    <option value="{{ $student->id }}">{{ "$student->first_name $student->last_name" }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            {{-- ... الأيقونة ... --}}
+                        </div>
 
-    {{-- مكان ظهور الحالة السابقة --}}
-    <div id="previous_info_box" class="hidden mt-3 p-4 rounded-xl border border-dashed border-indigo-200 dark:border-indigo-500/20 bg-indigo-50/30 dark:bg-indigo-500/5">
-        <div class="flex items-center gap-4 text-sm">
-            <span class="text-gray-500 dark:text-gray-400">Previous Record:</span>
-            <div class="flex gap-2">
-                <span id="prev_section" class="px-2 py-1 bg-white dark:bg-white/10 rounded shadow-sm font-bold text-indigo-600 dark:text-indigo-400"></span>
-                <span id="prev_status" class="px-2 py-1 rounded font-bold uppercase text-[10px] tracking-wider border"></span>
-            </div>
-            <span id="prev_year" class="text-xs text-gray-400 ml-auto"></span>
-        </div>
-    </div>
-</div>
 
+                        {{-- مكان ظهور الحالة السابقة --}}
+                        <div id="previous_info_box"
+                            class="hidden mt-3 p-4 rounded-xl border border-dashed border-indigo-200 dark:border-indigo-500/20 bg-indigo-50/30 dark:bg-indigo-500/5">
+                            <div class="flex items-center gap-4 text-sm">
+                                <span class="text-gray-500 dark:text-gray-400">Previous Record:</span>
+                                <div class="flex gap-2">
+                                    <span id="prev_section"
+                                        class="px-2 py-1 bg-white dark:bg-white/10 rounded shadow-sm font-bold text-indigo-600 dark:text-indigo-400"></span>
+                                    <span id="prev_status"
+                                        class="px-2 py-1 rounded font-bold uppercase text-[10px] tracking-wider border"></span>
+                                </div>
+                                <span id="prev_year" class="text-xs text-gray-400 ml-auto"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    {{-- <livewire:⚡student-info /> --}}
+                    
                     {{-- Academic Year --}}
                     <div>
                         <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Academic
@@ -140,6 +149,7 @@
                 </div>
             </form>
         </div>
+
 
 
 

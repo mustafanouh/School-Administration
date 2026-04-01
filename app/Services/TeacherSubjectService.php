@@ -17,7 +17,6 @@ class TeacherSubjectService
     public function getCreateData($requestData)
     {
         $data = $this->repo->getAllFormData();
-
         
         $selectedYearId = $requestData['academic_year_id'] ?? null;
         $data['targetYearId'] = $selectedYearId ?? $this->repo->getActiveYearId();

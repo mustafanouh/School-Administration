@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Livewire\Volt\Volt;
 use App\Models\Semester;
 use App\Observers\SemesterObserver;
 use Illuminate\Database\Eloquent\Model;
@@ -20,5 +21,10 @@ class AppServiceProvider extends ServiceProvider
         Semester::observe(SemesterObserver::class);
         Route::pattern('id', '[0-9]+');
         Model::preventSilentlyDiscardingAttributes($this->app->isLocal());
+        
+        // Volt::mount([
+        //     resource_path('views/livewire'),
+        //     resource_path('views/components'), 
+        // ]);
     }
 }
