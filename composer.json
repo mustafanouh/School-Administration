@@ -16,6 +16,7 @@
         "livewire/livewire": "^4.2",
         "livewire/volt": "^1.10",
         "meilisearch/meilisearch-php": "^1.16",
+        "spatie/laravel-medialibrary": "^11.21",
         "spatie/laravel-permission": "^6.24"
     },
     "require-dev": {

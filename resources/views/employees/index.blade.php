@@ -124,7 +124,7 @@
 
 
                             </tr>
-                            
+
 
                         @empty
                             <tr>
@@ -143,8 +143,6 @@
             {{ $employees->links() }}
         </div>
 
-        <h4 class="text-sm  text-center mt-5  text-gray-500 dark:text-gray-400">Total Records:
-                                ( {{ $employees->total() }} )</h4>
 
     </div>
 </x-app-layout>

@@ -13,9 +13,7 @@ class EnrollmentController extends Controller
 {
     protected $enrollmentService;
 
-    /**
-     * حقن التبعيات (Dependency Injection)
-     */
+    
     public function __construct(EnrollmentService $enrollmentService)
     {
         $this->enrollmentService = $enrollmentService;

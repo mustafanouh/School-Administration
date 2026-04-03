@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EmployeeRequest;
+use App\Http\Requests\UpdateEmployeePhotoRequest;
 use App\Models\Employee;
 use App\Models\Semester;
 use App\Models\User;
@@ -13,16 +14,17 @@ class EmployeeController extends Controller
 {
     protected $employeeService;
 
-    // Dependency Injection
     public function __construct(EmployeeService $employeeService)
     {
         $this->employeeService = $employeeService;
     }
 
-    public function index() {
+    public function index()
+    {
         $employees = $this->employeeService->getAllEmployees();
         return view('employees.index', compact('employees'));
     }
+
 
     public function store(EmployeeRequest $request)
     {
@@ -39,6 +41,16 @@ class EmployeeController extends Controller
         return redirect()->route('employees.index')
             ->with('success', 'Employee updated successfully!');
     }
+
+
+    public function updatePhoto(UpdateEmployeePhotoRequest $request, Employee $employee)
+    {
+
+        $this->employeeService->updateProfilePhoto($employee, $request->file('photo'));
+
+        return back()->with('success', 'Profile photo updated successfully!');
+    }
+    
     public function show(Employee $employee)
     {
 
@@ -51,6 +63,7 @@ class EmployeeController extends Controller
             }
             $query->orderBy('attendance_date', 'desc');
         }]);
+
 
         return view('employees.show', compact('employee'));
     }
@@ -67,7 +80,7 @@ class EmployeeController extends Controller
 
     public function create()
     {
-        $role =Role::pluck('name');
+        $role = Role::pluck('name');
         return view('employees.create', compact('role'));
     }
     public function edit(Employee $employee)

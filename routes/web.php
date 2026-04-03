@@ -51,6 +51,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Admin 
     Route::middleware(['role:admin'])->group(function () {
+        Route::patch('employees/{employee}/update-photo', [EmployeeController::class, 'updatePhoto'])
+            ->name('employees.updatePhoto');
         Route::resources([
             'employees'      => EmployeeController::class,
             'sections'       => SectionController::class,
@@ -89,8 +91,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             ]);
         })->name('api.student.previous-info');
-
-        
     });
 
     // Admin + Teacher

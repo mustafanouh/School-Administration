@@ -61,10 +61,6 @@ class TeacherController extends Controller
         $teacher->update($request->validated());
         return redirect()->route('teachers.index')->with('success', 'Teacher updated successfully!');
     }
-    public function show(Teacher $teacher)
-    {
-        return view('teachers.show', compact('teacher'));
-    }
 
     public function destroy(Teacher $teacher)
     {

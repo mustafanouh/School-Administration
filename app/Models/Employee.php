@@ -4,13 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
+use Spatie\Image\Enums\Fit;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Employee extends Model
+class Employee extends Model implements HasMedia
 {
+    use  Searchable, InteractsWithMedia;
 
-    use Searchable;
-
-
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('employee_profile_photos')
+            ->singleFile();
+    }
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->fit(Fit::Contain, 150, 150)
+            ->nonQueued(); 
+    }
     public function toSearchableArray()
     {
         return [
@@ -42,7 +55,7 @@ class Employee extends Model
     {
         return $this->hasMany(TeacherSubject::class);
     }
-    
+
     public function staffAttendances()
     {
         return $this->hasMany(StaffAttendance::class, 'employee_id');

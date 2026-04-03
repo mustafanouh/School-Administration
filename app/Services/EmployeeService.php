@@ -22,8 +22,19 @@ class EmployeeService
 
     public function storeEmployee(array $data)
     {
-      
+
         return $this->repository->create($data);
+    }
+
+
+    public function updateProfilePhoto(Employee $employee, $file)
+    {
+        if ($file) {
+            return $employee->addMedia($file)
+                ->toMediaCollection('employee_profile_photos');
+        }
+
+        return null;
     }
 
     public function updateEmployee(Employee $employee, array $data)

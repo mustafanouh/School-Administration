@@ -50,6 +50,7 @@ class AttendanceController extends Controller
 
         return view('attendance.students', compact('section', 'date', 'isAttendanceTaken'));
     }
+    
 
     public function storeStudentAttendance(Request $request)
     {

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Semester;
 use App\Repositories\AcademicYearRepository;
 use Illuminate\Support\Facades\DB;
 use Exception;
@@ -20,14 +21,13 @@ class AcademicYearService
     {
         return DB::transaction(function () use ($data) {
             $previouslyActiveYear = null;
-// if the new year is set to active, we need to deactivate the currently active year and its semesters, then generate final reports for that year
             if (!empty($data['is_active'])) {
                 $previouslyActiveYear = \App\Models\AcademicYear::where('is_active', true)->first();
                 $this->repo->deactivateOthers();
             }
 
              
-            \App\Models\Semester::query()->update(['is_active' => false]);
+            Semester::query()->update(['is_active' => false]);
 
           
             $year = $this->repo->create($data);

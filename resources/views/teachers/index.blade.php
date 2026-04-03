@@ -180,7 +180,7 @@
                                             </div>
                                         </div>
                                         {{-- View Icon/Modal --}}
-                                        <a href="{{ route('teachers.show', $teacher->id) }}"
+                                        <a href="{{ route('employees.show', $teacher->employee->id) }}"
                                             class="text-emerald-500 hover:text-emerald-700 px-2 py-1 transition-colors"
                                             title="View Profile">
                                             <i class="fa-solid fa-arrow-right"></i>
