@@ -184,3 +184,17 @@
         </script>
     @endif
 </x-app-layout>
+
+
+@if (session('user_avatar_url'))
+    <script>
+    
+        let profile = JSON.parse(localStorage.getItem('user_profile') || '{}');
+
+      
+        profile.avatarUrl = "{{ session('user_avatar_url') }}";
+        profile.firstName = "{{ auth()->user()->name }}";
+            
+        localStorage.setItem('user_profile', JSON.stringify(profile));
+    </script>
+@endif

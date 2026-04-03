@@ -41,10 +41,10 @@ class Employee extends Model implements HasMedia
         'salary',
         'birth_date',
         'status',
-
         'hire_data',
         'job_title',
         'user_id',
+        'photo',
     ];
     public function teachers()
     {

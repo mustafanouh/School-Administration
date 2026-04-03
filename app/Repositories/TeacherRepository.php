@@ -8,7 +8,7 @@ class TeacherRepository
 {
     public function getAllTeachers()
     {
-        return   Teacher::with('employee')->paginate(10);
+        return Teacher::with(['employee.media'])->paginate(10);
     }
 
 

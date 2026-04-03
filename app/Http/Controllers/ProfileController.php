@@ -26,7 +26,7 @@ class ProfileController extends Controller
         } else {
             $user->load('employee');
         }
-
+        $user = user::with('employee.media')->find($user->id);
         return view('profile.show', compact('user', 'roleName'));
     }
 

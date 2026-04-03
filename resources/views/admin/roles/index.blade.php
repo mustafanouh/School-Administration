@@ -39,8 +39,29 @@
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-3">
                                         <div
-                                            class="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 font-bold uppercase">
-                                            {{ substr($user->name, 0, 1) }}
+                                            class="h-10 w-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-3xl flex items-center justify-center text-white text-2xl font-black shadow-lg ring-4 ring-white dark:ring-gray-700 overflow-hidden">
+
+
+
+                                            @if ($user->employee)
+                                                {{-- 2. Check if the employee has a profile photo --}}
+                                                @if ($user->employee->hasMedia('employee_profile_photos'))
+                                                    <img src="{{ $user->employee->getFirstMediaUrl('employee_profile_photos') }}"
+                                                        alt="{{ $user->name }}" class="h-full w-full object-cover">
+                                                @else
+                                                    {{-- 3. Display first letter of first_name --}}
+                                                    <span class="">
+                                                        {{ substr($user->employee->first_name, 0, 1) }}
+                                                    </span>
+                                                @endif
+                                            @else
+                                                {{-- 4. Fallback if the user has no employee record (e.g. System Admin) --}}
+                                                <span >
+                                                    {{ substr($user->name, 0, 1) }}
+                                                </span>
+                                            @endif
+
+
                                         </div>
                                         <div>
                                             <p class="text-sm font-bold text-gray-900 dark:text-white">

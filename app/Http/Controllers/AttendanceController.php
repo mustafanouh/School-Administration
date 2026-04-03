@@ -38,7 +38,7 @@ class AttendanceController extends Controller
     {
         $date = now()->format('Y-m-d');
 
-        $section = Section::with([
+        $section = Section::with(['enrollments.student.media',
             'enrollments.student.attendances' => function ($query) use ($date) {
                 $query->whereDate('attendance_date', $date);
             }
@@ -97,7 +97,7 @@ class AttendanceController extends Controller
     {
         $date = now()->format('Y-m-d');
 
-        $staff = Employee::with(['staffAttendances' => function ($query) use ($date) {
+        $staff = Employee::with(['media','staffAttendances' => function ($query) use ($date) {
             $query->whereDate('attendance_date', $date);
         }])->get();
         $isAttendanceTaken = StaffAttendance::whereDate('attendance_date', $date)->exists();

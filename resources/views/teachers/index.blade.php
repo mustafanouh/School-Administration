@@ -92,8 +92,18 @@
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-3">
                                         <div
-                                            class="w-10 h-10 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-amber-600 font-bold uppercase">
-                                            {{ substr($teacher->employee?->first_name ?? 'T', 0, 1) }}
+                                            class="h-10 w-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-3xl flex items-center justify-center text-white text-2xl font-black shadow-lg ring-4 ring-white dark:ring-gray-700 overflow-hidden">
+
+
+
+                                            @if ($teacher->employee->hasMedia('employee_profile_photos'))
+                                                <img src="{{ $teacher->employee->getFirstMediaUrl('employee_profile_photos') }}"
+                                                    class="h-full w-full object-cover">
+                                            @else
+                                                {{ substr($teacher->employee->first_name, 0, 1) }}
+                                            @endif
+
+
                                         </div>
                                         <div>
                                             <p class="text-sm font-bold text-gray-900 dark:text-white">

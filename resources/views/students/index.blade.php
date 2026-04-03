@@ -68,7 +68,7 @@
                     </button>
                 </div>
             @endif
-            
+
         </div>
 
         <div
@@ -93,16 +93,28 @@
                         @forelse($students as $student)
                             <tr class="hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors"
                                 x-data="{ openView: false }">
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center gap-3">
-                                        <div
-                                            class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 font-bold text-xs">
-                                            {{ substr($student->first_name, 0, 1) }}
-                                        </div>
-                                        <div class="font-bold text-gray-800 dark:text-white">
-                                            {{ $student->first_name }} {{ $student->last_name }}
-                                        </div>
+                                <td class="px-8 py-4  flex items-center gap-4">
+                                    <div 
+                                    
+                                    class="h-12 w-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-3xl flex items-center justify-center text-white text-2xl font-black shadow-lg ring-4 ring-white dark:ring-gray-700 overflow-hidden">
+                                  
+
+                                       
+                                            @if ($student->hasMedia('student_profile_photos'))
+                                                <img src="{{ $student->getFirstMediaUrl('student_profile_photos') }}"
+                                                    class="h-full w-full object-cover">
+                                            @else
+                                                {{ substr($student->first_name, 0, 1) }}
+                                            @endif
+                                       
+
                                     </div>
+
+
+                                    <div class="font-bold text-gray-800 dark:text-white">
+                                        {{ $student->first_name }} {{ $student->last_name }}
+                                    </div>
+
                                 </td>
 
                                 <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">

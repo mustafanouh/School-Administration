@@ -18,7 +18,7 @@ class SectionRepository
     {
         return Section::with([
             'enrollments' => function ($query) use ($activeYearId) {
-                $query->where('academic_year_id', $activeYearId)->with('student');
+                $query->where('academic_year_id', $activeYearId)->with('student.media');
             }
         ])->findOrFail($sectionId);
     }

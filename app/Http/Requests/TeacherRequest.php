@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class TeacherRequest extends FormRequest
 {
@@ -22,7 +23,12 @@ class TeacherRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'employee_id' => 'required|exists:employees,id',
+            'employee_id' => [
+                'required',
+                'exists:employees,id',
+                Rule::unique('teachers', 'employee_id')->ignore($this->teacher),
+             
+            ],
             'specialization' => 'required|string|max:255',
         ];
     }

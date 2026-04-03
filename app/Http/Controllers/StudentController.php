@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use App\Http\Requests\StudentRequest;
+use App\Http\Requests\UpdatePhotoRequest;
 use App\Services\StudentService;
 
 class StudentController extends Controller
@@ -28,33 +29,44 @@ class StudentController extends Controller
 
     public function store(StudentRequest $request)
     {
-
-        $student = $this->studentService->registerStudent($request->validated());
-        return redirect()->route('students.index')->with('success', 'Student registered successfully :' .$student->user->email);
+        $data = $request->validated();
+        if ($request->hasFile('photo')) {
+            $data['photo'] = $request->file('photo');
+        }
+        $student = $this->studentService->registerStudent($data);
+        return redirect()->route('students.index')->with('success', 'Student registered successfully :' . $student->user->email);
     }
 
     public function show(Student $student)
-    { 
-    
+    {
+
 
         $student = $this->studentService->getStudentProfile($student);
-        
+
 
 
         return view('students.show', compact('student'));
     }
-   
+
 
     public function edit(Student $student)
-    {     
+    {
         return view('students.edit', compact('student'));
     }
 
     public function update(StudentRequest $request, Student $student)
-    {    
+    {
         // dd($request->validated());
         $this->studentService->updateStudent($student, $request->validated());
         return redirect()->route('students.index')->with('success', 'Information updated.');
+    }
+
+    public function updatePhoto(UpdatePhotoRequest $request, Student $student)
+    {
+
+        $this->studentService->updateProfilePhoto($student, $request->file('photo'));
+
+        return back()->with('success', 'Profile photo updated successfully!');
     }
 
     public function destroy(Student $student)

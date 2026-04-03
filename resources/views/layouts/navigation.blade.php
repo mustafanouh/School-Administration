@@ -235,11 +235,18 @@
                 <div class="hidden sm:flex items-center">
                     <a href="{{ route('profile.show', ['user' => Auth::id()]) }}"
                         class="group flex items-center gap-3 p-1 pr-3 rounded-2xl hover:bg-gray-50 dark:hover:bg-slate-800 transition-all duration-300 border border-transparent hover:border-gray-100 dark:hover:border-slate-700">
-
                         <div x-data="{ profile: JSON.parse(localStorage.getItem('user_profile') || '{}') }"
-                            class="relative h-10 w-10 flex items-center justify-center rounded-xl bg-indigo-600 dark:bg-indigo-500 text-white font-black shadow-lg shadow-indigo-200 dark:shadow-none transition-transform group-hover:scale-95">
-                            <span
-                                x-text="(profile.firstName || '{{ Auth::user()->name }}').charAt(0).toUpperCase()"></span>
+                            class="relative h-10 w-10 flex items-center justify-center rounded-2xl bg-indigo-600 dark:bg-indigo-500 text-white font-black shadow-lg shadow-indigo-200 dark:shadow-none transition-transform group-hover:scale-95 overflow-hidden">
+
+                            <template x-if="profile.avatarUrl">
+                                <img :src="profile.avatarUrl" :alt="profile.firstName"
+                                    class="h-full w-full object-cover">
+                            </template>
+
+                            <template x-if="!profile.avatarUrl">
+                                <span
+                                    x-text="(profile.firstName || '{{ Auth::user()->name }}').charAt(0).toUpperCase()"></span>
+                            </template>
 
                         </div>
 

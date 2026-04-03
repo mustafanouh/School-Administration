@@ -8,7 +8,7 @@ class EnrollmentRepository
 {
     public function getAllPaginated($perPage = 10)
     {
-        return Enrollment::with(['student', 'section.grade', 'academicYear', 'track', 'marks.exam'])
+        return Enrollment::with(['student.media', 'section.grade', 'academicYear', 'track', 'marks.exam'])
             ->whereHas('academicYear', function ($query) {
                 $query->where('is_active', true);
             })
@@ -39,6 +39,7 @@ class EnrollmentRepository
 
     public function create(array $data)
     {
+        
         return Enrollment::create($data);
     }
     public function update($enrollment, array $data)

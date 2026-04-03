@@ -71,6 +71,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Admin + Secretary
     Route::middleware(['role:admin|secretary|student'])->group(function () {
+
+        Route::patch('students/{student}/update-student-photo', [StudentController::class, 'updatePhoto'])
+            ->name('students.updatePhoto');
+
         Route::resource('students', StudentController::class);
         Route::resource('enrollments', EnrollmentController::class);
 

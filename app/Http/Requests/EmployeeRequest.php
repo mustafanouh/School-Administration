@@ -40,6 +40,7 @@ class EmployeeRequest extends FormRequest
                 Rule::unique('employees', 'notional_id')->ignore($employeeId),
             ],
             'role'        => 'required|string|exists:roles,name',
+            'photo'       => 'nullable|image|max:2048',
 
         ];
     }

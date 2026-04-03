@@ -30,6 +30,12 @@ class StudentRequest extends FormRequest
             'father_phone_number' => 'required|string|max:20',
             'father_email'        => 'nullable|email|max:100',
             'blood_group'         => 'nullable|string|max:5|in:A+,A-,B+,B-,O+,O-,AB+,AB-',
+            'photo' => [
+                'nullable',
+                'image',
+                'mimes:jpeg,png,jpg,webp',
+                'max:2048',
+            ],
 
         ];
     }
@@ -41,6 +47,8 @@ class StudentRequest extends FormRequest
             'gender.in' => 'Please select a valid gender (Male or Female).',
             'date_of_birth.before' => 'The birth date must be in the past.',
             'blood_group.in' => 'Please select a valid blood group.',
+            'photo.image'    => 'the uploaded file must be an image.',
+            'photo.max'      => 'the image is too large. the maximum size is 2 mb.',
         ];
     }
 }

@@ -23,7 +23,7 @@ class StudentService
     {
         return $this->repo->findWithFullDetails($student);
     }
-    
+
 
     public function registerStudent(array $data)
     {
@@ -35,11 +35,19 @@ class StudentService
     {
         return $this->repo->update($student, $data);
     }
+    public function updateProfilePhoto(Student $student, $file)
+    {
+        if ($file) {
+            return $student->addMedia($file)
+                ->toMediaCollection('student_profile_photos');
+        }
 
-   
+        return null;
+    }
+
     public function deleteStudent(Student $student)
     {
-       
+
         if ($student->enrollments()->exists()) {
             throw new \Exception('Cannot delete this student because they have active or past enrollments.');
         }

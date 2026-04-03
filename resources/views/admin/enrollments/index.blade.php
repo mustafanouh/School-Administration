@@ -33,7 +33,7 @@
                                 Status</th>
                             <th
                                 class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider text-center">
-                                 Grade</th>
+                                Grade</th>
                             <th
                                 class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider text-center">
                                 Actions</th>
@@ -46,8 +46,18 @@
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-3">
                                         <div
-                                            class="w-9 h-9 rounded-xl bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 font-bold text-xs shadow-sm">
-                                            {{ strtoupper(substr($enrollment->student->first_name, 0, 1)) }}
+                                            class="h-9 w-9  bg-gradient-to-br from-emerald-500 to-teal-600 rounded-3xl flex items-center justify-center text-white text-2xl font-black shadow-lg ring-4 ring-white dark:ring-gray-700 overflow-hidden">
+
+
+
+                                            @if ($enrollment->student->hasMedia('student_profile_photos'))
+                                                <img src="{{ $enrollment->student->getFirstMediaUrl('student_profile_photos') }}"
+                                                    class="h-full w-full object-cover">
+                                            @else
+                                                {{ substr($enrollment->student->first_name, 0, 1) }}
+                                            @endif
+
+
                                         </div>
                                         <div>
                                             <div class="font-bold text-gray-800 dark:text-white text-sm">

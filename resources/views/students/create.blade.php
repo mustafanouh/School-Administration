@@ -13,7 +13,7 @@
             </a>
         </div>
 
-        <form action="{{ route('students.store') }}" method="POST">
+        <form action="{{ route('students.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="space-y-6">
@@ -33,7 +33,7 @@
                         <div>
                             <label class="block text-[10px] font-bold text-gray-400 uppercase mb-2">First Name</label>
                             <input type="text" name="first_name" value="{{ old('first_name') }}"
-                                class="w-full rounded-xl border-gray-200 dark:bg-[#161923] dark:border-white/10 dark:text-white focus:ring-indigo-500 @error('first_name') border-rose-500 @enderror">
+                                class="w-full rounded-xl border-gray-200 dark:bg-[#161923] dark:border-white/10 dark:text-white focus:ring-indigo-500 @error('first_name') @enderror">
                             @error('first_name')
                                 <span class="text-rose-500 text-[10px] mt-1">{{ $message }}</span>
                             @enderror
@@ -60,7 +60,7 @@
                         <div>
                             <label class="block text-[10px] font-bold text-gray-400 uppercase mb-2">Date of
                                 Birth</label>
-                            <input type="date"  name="date_of_birth" value="{{ old('date_of_birth') }}"
+                            <input type="date" name="date_of_birth" value="{{ old('date_of_birth') }}"
                                 class="w-full rounded-xl border-gray-200 dark:bg-[#161923] dark:border-white/10 dark:text-white focus:ring-indigo-500">
                         </div>
 
@@ -77,17 +77,27 @@
                                 class="w-full rounded-xl border-gray-200 dark:bg-[#161923] dark:border-white/10 dark:text-white focus:ring-indigo-500">
                         </div>
 
-                        <div class="md:col-span-2">
+                        <div >
                             <label class="block text-[10px] font-bold text-gray-400 uppercase mb-2">Address</label>
                             <input type="text" name="address" value="{{ old('address') }}"
                                 class="w-full rounded-xl border-gray-200 dark:bg-[#161923] dark:border-white/10 dark:text-white focus:ring-indigo-500">
                         </div>
 
-                        <div>
+                        <div >
                             <label class="block text-[10px] font-bold text-gray-400 uppercase mb-2">Student
                                 Phone</label>
                             <input type="text" name="phone_number" value="{{ old('phone_number') }}"
                                 class="w-full rounded-xl border-gray-200 dark:bg-[#161923] dark:border-white/10 dark:text-white focus:ring-indigo-500">
+                        </div>
+                        <div   >
+                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-2">Student
+                                photo</label>
+                            <input type="file" name="photo" accept="image/*"
+                                class="block w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-emerald-600 file:text-white hover:file:bg-emerald-700 cursor-pointer">
+
+                            @error('photo')
+                                <span class="text-red-500 text-xs">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                 </div>

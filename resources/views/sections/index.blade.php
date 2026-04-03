@@ -31,7 +31,7 @@
                             <tr class="hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors" x-data="{ openView: false }">
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-3">
-                                        <div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 font-bold text-xs">
+                                        <div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 font-bold text-2xl">
                                             {{ substr($section->name, 0, 1) }}
                                         </div>
                                         <div class="font-bold text-gray-800 dark:text-white">

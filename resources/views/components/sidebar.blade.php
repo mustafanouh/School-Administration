@@ -17,9 +17,17 @@
             profile: JSON.parse(localStorage.getItem('user_profile') || '{}')
         }" class="py-6 flex flex-col items-center shrink-0">
 
-            <div :class="open ? 'w-[45px] h-[45px] border-[6px]' : 'w-[30px] h-[30px] border-[3px]'"
-                class="rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold border-gray-300/30 transition-all duration-300">
-                <span x-text="(profile.firstName || 'G').charAt(0)"></span>
+            <div x-data="{ profile: JSON.parse(localStorage.getItem('user_profile') || '{}') }"
+                class="relative h-10 w-10 flex items-center justify-center rounded-2xl bg-indigo-600 dark:bg-indigo-500 text-white font-black shadow-lg shadow-indigo-200 dark:shadow-none transition-transform group-hover:scale-95 overflow-hidden">
+
+                <template x-if="profile.avatarUrl">
+                    <img :src="profile.avatarUrl" :alt="profile.firstName" class="h-full w-full object-cover">
+                </template>
+
+                <template x-if="!profile.avatarUrl">
+                    <span x-text="(profile.firstName || '{{ Auth::user()->name }}').charAt(0).toUpperCase()"></span>
+                </template>
+
             </div>
 
             <template x-if="open">

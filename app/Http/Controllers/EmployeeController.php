@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EmployeeRequest;
-use App\Http\Requests\UpdateEmployeePhotoRequest;
+use App\Http\Requests\UpdatePhotoRequest;
 use App\Models\Employee;
 use App\Models\Semester;
 use App\Models\User;
@@ -43,14 +43,14 @@ class EmployeeController extends Controller
     }
 
 
-    public function updatePhoto(UpdateEmployeePhotoRequest $request, Employee $employee)
+    public function updatePhoto(UpdatePhotoRequest $request, Employee $employee)
     {
 
         $this->employeeService->updateProfilePhoto($employee, $request->file('photo'));
 
         return back()->with('success', 'Profile photo updated successfully!');
     }
-    
+
     public function show(Employee $employee)
     {
 
@@ -80,7 +80,7 @@ class EmployeeController extends Controller
 
     public function create()
     {
-        $role = Role::pluck('name');
+       $role = Role::where('name', '!=', 'student')->pluck('name');
         return view('employees.create', compact('role'));
     }
     public function edit(Employee $employee)

@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Employee;
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -44,10 +45,22 @@ class EmployeeRepository
 
             $data['user_id'] = $user->id;
 
-           
             unset($data['role']);
 
-            return Employee::create($data);
+
+
+            $photoFile = $data['photo'] ?? null;
+            
+            unset($data['photo']);
+            $employee = Employee::create($data);
+            // instanceof \Illuminate\Http\UploadedFile  للتاكد من انه ملف 
+            if ($photoFile && $photoFile instanceof  UploadedFile) {
+                $employee->addMedia($photoFile)
+                    ->toMediaCollection('employee_profile_photos');
+            }
+
+
+            return $employee;
         });
     }
 

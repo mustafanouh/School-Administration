@@ -7,9 +7,9 @@
                     <h2 class="text-lg font-bold text-gray-800 dark:text-white">Create Employee</h2>
                 </div>
 
-                <form action="{{ route('employees.store') }}" method="POST" class="p-6">
+                <form action="{{ route('employees.store') }}" method="POST" class="p-6" enctype="multipart/form-data">
                     @csrf
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6  ">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">User Role </label>
                             <select name="role" required
@@ -70,7 +70,7 @@
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
                             </select>
-                             @error('gender')
+                            @error('gender')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
                         </div>
@@ -91,7 +91,7 @@
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
                         </div>
-                        
+
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Status</label>
                             <select name="status"
@@ -100,9 +100,9 @@
                                 <option value="on_leave">On Leave</option>
                                 <option value="resigned">Resigned</option>
                             </select>
-                                @error('status')
-                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                @enderror
+                            @error('status')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div>
@@ -119,6 +119,16 @@
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-[#0f111a] dark:text-white">
                             @error('address')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-2">Employee
+                                photo</label>
+                            <input type="file" name="photo" accept="image/*"
+                                class="block w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-emerald-600 file:text-white hover:file:bg-emerald-700 cursor-pointer">
+
+                            @error('photo')
+                                <span class="text-red-500 text-xs">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>

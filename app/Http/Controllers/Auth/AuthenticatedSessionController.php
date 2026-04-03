@@ -27,6 +27,12 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+        
+        $user = auth()->user();
+        $avatarUrl = $user->employee && $user->employee->hasMedia('employee_profile_photos')
+            ? $user->employee->getFirstMediaUrl('employee_profile_photos', 'thumb')
+            : null;
+        session(['user_avatar_url' => $avatarUrl]);
 
         return redirect()->intended(route('dashboard', absolute: false));
     }

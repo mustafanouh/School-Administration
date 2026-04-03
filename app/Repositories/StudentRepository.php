@@ -6,6 +6,7 @@ use App\Models\AcademicYear;
 use App\Models\Semester;
 use App\Models\Student;
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -82,14 +83,23 @@ class StudentRepository
             $user->assignRole('student');
 
             $data['user_id'] = $user->id;
+            
+            $photoFile = $data['photo'] ?? null;
+            unset($data['photo']);
+            $student = Student::create($data);
+            // instanceof \Illuminate\Http\UploadedFile  للتاكد من انه ملف 
+            if ($photoFile && $photoFile instanceof UploadedFile) {
+                $student->addMedia($photoFile)
+                    ->toMediaCollection('student_profile_photos');
+            }
 
-            return Student::create($data);
+            return $student;
         });
     }
 
     public function update(Student $student, array $data)
-    { 
-      
+    {
+
         $data['user_id'] = $student->user_id;
         return $student->update($data);
     }

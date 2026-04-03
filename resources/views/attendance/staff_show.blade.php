@@ -96,14 +96,23 @@
                                     <td class="px-6 py-4">
                                         <div class="flex items-center gap-3">
                                             <div
-                                                class="w-10 h-10 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-amber-600 font-bold">
-                                                {{ substr($employee->first_name, 0, 1) }}
+                                                class="h-10 w-10  bg-gradient-to-br from-emerald-500 to-teal-600 rounded-3xl flex items-center justify-center text-white text-xl font-black shadow-lg ring-4 ring-white dark:ring-gray-700 overflow-hidden">
+
+
+
+                                                @if ($employee->hasMedia('employee_profile_photos'))
+                                                    <img src="{{ $employee->getFirstMediaUrl('employee_profile_photos') }}"
+                                                        class="h-full w-full object-cover">
+                                                @else
+                                                    {{ substr($employee->first_name, 0, 1) }}
+                                                @endif
+
+
                                             </div>
                                             <div>
                                                 <div class="font-bold text-gray-800 dark:text-white">
                                                     {{ $employee->first_name }} {{ $employee->last_name }}</div>
-                                                <div class="text-[10px] text-gray-500 uppercase">
-                                                    {{ $employee->position ?? 'Staff Member' }}</div>
+                                                
                                             </div>
                                         </div>
                                     </td>
@@ -155,7 +164,8 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="px-6 py-10 text-center text-gray-400">No employees found.
+                                    <td colspan="4" class="px-6 py-10 text-center text-gray-400">No employees
+                                        found.
                                     </td>
                                 </tr>
                             @endforelse

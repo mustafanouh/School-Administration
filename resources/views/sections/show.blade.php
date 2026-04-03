@@ -272,11 +272,21 @@
                                     <td class="px-6 py-4">
                                         <div class="flex items-center">
                                             <div
-                                                class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-300 to-green-800 flex items-center justify-center text-white font-black text-sm shadow-sm mr-3 rtl:ml-3">
-                                                {{ mb_substr($enrollment->student->first_name ?? 'S', 0, 1) }}
+                                                class="h-10 w-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-3xl flex items-center justify-center text-white text-2xl font-black shadow-lg ring-4 ring-white dark:ring-gray-700 overflow-hidden">
+
+
+
+                                                @if ($enrollment->student->hasMedia('student_profile_photos'))
+                                                    <img src="{{ $enrollment->student->getFirstMediaUrl('student_profile_photos') }}"
+                                                        class="h-full w-full object-cover">
+                                                @else
+                                                    {{ substr($enrollment->student->first_name, 0, 1) }}
+                                                @endif
+
+
                                             </div>
                                             <div>
-                                                <p class="text-sm font-black text-gray-700 dark:text-gray-200">
+                                                <p class="text-sm  pl-2 font-black text-gray-700 dark:text-gray-200">
                                                     {{ $enrollment->student->first_name ?? 'N/A' }}
                                                     {{ $enrollment->student->last_name ?? '' }}
                                                 </p>

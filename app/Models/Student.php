@@ -6,11 +6,26 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Enrollment;
 use Laravel\Scout\Searchable;
+use Spatie\Image\Enums\Fit;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Student extends Model
+class Student extends Model implements HasMedia
 {
-    use Searchable;
+    use Searchable, InteractsWithMedia;
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('student_profile_photos')
+            ->singleFile();
+    }
 
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->fit(Fit::Contain, 150, 150)
+            ->nonQueued();
+    }
 
     public function toSearchableArray()
     {
@@ -38,6 +53,7 @@ class Student extends Model
         'father_email',
         'blood_group',
         'user_id',
+        'photo', 
     ];
 
     public function enrollments()
@@ -75,5 +91,4 @@ class Student extends Model
     {
         return $this->belongsTo(User::class);
     }
-    
 }
