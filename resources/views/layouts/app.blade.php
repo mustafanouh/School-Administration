@@ -10,7 +10,7 @@
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-  
+
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
@@ -135,6 +135,14 @@
         localStorage.setItem('user_profile', JSON.stringify(userData));
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    @if (session('user_avatar_url'))
+        <script>
+            let profile = JSON.parse(localStorage.getItem('user_profile') || '{}');
+            profile.avatarUrl = "{{ session('user_avatar_url') }}";
+            profile.firstName = "{{ auth()->user()->name }}";
+            localStorage.setItem('user_profile', JSON.stringify(profile));
+        </script>
+    @endif
 </body>
 
 </html>

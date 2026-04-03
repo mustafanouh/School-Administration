@@ -204,18 +204,14 @@
 
             <div class="flex items-center gap-3 sm:gap-6">
 
-                <button @click="darkMode = !darkMode"
-                    class="p-2 rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-500 dark:text-amber-400 hover:bg-gray-100 dark:hover:bg-slate-700 transition-all duration-300 focus:outline-none ring-1 ring-gray-200 dark:ring-slate-700">
-                    <svg x-show="!darkMode" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                    </svg>
-                    <svg x-show="darkMode" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                        style="display: none;">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 3v1m0 18v1m9-9h1M3 12H1m15.364-6.364l.707-.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
-                    </svg>
-                </button>
+
+
+                <a href="{{ route('settings.edit') }}"
+                    class=" relative inline-block p-2 rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-500 dark:text-amber-400 hover:bg-gray-100 dark:hover:bg-slate-700 transition-all duration-300 focus:outline-none ring-1 ring-gray-200 dark:ring-slate-700">
+
+                    <i class="fas fa-cog"></i>
+
+                </a>
 
                 {{-- notifications --}}
                 <a href="{{ route('notifications.index') }}"

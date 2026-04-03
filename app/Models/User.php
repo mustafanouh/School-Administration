@@ -54,4 +54,13 @@ class User extends Authenticatable
     {
         return $this->hasOne(Student::class);
     }
+    public function settings()
+    {
+        return $this->hasMany(setting::class);
+    }
+    public function getSetting($key, $default = null)
+    {
+        $setting = $this->settings->where('key', $key)->first();
+        return $setting ? $setting->value : $default;
+    }
 }

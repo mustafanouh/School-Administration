@@ -22,6 +22,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Portal\PortalController;
+use App\Http\Controllers\settingController;
 use App\Models\User;
 
 Route::get('/', function () {
@@ -132,6 +133,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::post('/notifications/clear', [NotificationController::class, 'clearAll'])->name('notifications.clear');
 });
+
+Route::post('/settings/update', [settingController::class, 'updateSettings'])->name('settings.update');
+Route::get('/settings/edit', [settingController::class, 'edit'])->name('settings.edit');
 
 
 
