@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}"
+    class="{{ auth()->user()->getSetting('mode', 'light') === 'dark' ? 'dark' : '' }}">
 
 <head>
     <meta charset="utf-8">
@@ -27,8 +28,8 @@
     }
 </style>
 
-<body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100">
+<body class="font-sans antialiased  dark:bg-[#000000f0]">
+    <div class="min-h-screen bg-gray-100  dark:bg-[#000000f0]">
         @include('layouts.navigation')
 
 
@@ -57,6 +58,7 @@
                 <x-sidebar-link icon="fas fa-chart-pie" label="Statistics" :href="route('stats.chart')" :active="request()->routeIs('stats.chart')" />
                 <x-sidebar-link icon="fas fa-calendar-check" label="Academic Years Management" :href="route('academic_years.index')"
                     :active="request()->routeIs('academic_years.*')" />
+                <x-sidebar-link icon="fa-solid fa-book" label="subject Management" :href="route('subjects.index')" :active="request()->routeIs('subjects.*')" />
             @endrole
             @hasanyrole('admin|secretary')
                 <x-sidebar-link icon="fas fa-user-graduate" label="students Management" :href="route('students.index')"
@@ -95,8 +97,7 @@
                 <x-sidebar-link icon="fa-solid fa-headset" label=" contact" :href="route('portal.contact')" :active="request()->routeIs('portal.contact')" />
             @endrole
 
-            <x-sidebar-link icon="fas fa-file-signature" label="subject Management" :href="route('subjects.index')"
-                :active="request()->routeIs('subjects.*')" />
+
 
 
             <div class="mt-4 pt-4 border-t border-gray-100 dark:border-white/10">

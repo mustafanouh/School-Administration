@@ -49,7 +49,7 @@
                             <label class="relative inline-flex items-center cursor-pointer">
                                 <input type="hidden" name="settings[mode]" value="light">
                                 <input type="checkbox" name="settings[mode]" value="dark" class="sr-only peer"
-                                    {{ auth()->user()->getSetting('mode') == 'dark' ? 'checked' : '' }}>
+                                    {{$settings['mode'] == 'dark' ? 'checked' : '' }}>
                                 <div
                                     class="w-12 h-6 bg-gray-200 dark:bg-[#161923] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600">
                                 </div>
@@ -73,10 +73,10 @@
                                 <select name="settings[language]"
                                     class="w-full rounded-xl border-gray-200 dark:bg-[#161923] dark:border-white/10 dark:text-white focus:ring-indigo-500 text-sm">
                                     <option value="ar"
-                                        {{ auth()->user()->getSetting('language') == 'ar' ? 'selected' : '' }}>العربية
+                                        {{ $settings['language'] == 'ar' ? 'selected' : '' }}>العربية
                                         (Arabic)</option>
                                     <option value="en"
-                                        {{ auth()->user()->getSetting('language') == 'en' ? 'selected' : '' }}>English
+                                        {{ $settings['language'] == 'en' ? 'selected' : '' }}>English
                                         (UK)</option>
                                 </select>
                             </div>
@@ -98,7 +98,7 @@
                             <label class="relative inline-flex items-center cursor-pointer">
                                 <input type="hidden" name="settings[notification]" value="off">
                                 <input type="checkbox" name="settings[notification]" value="on" class="sr-only peer"
-                                    {{ auth()->user()->getSetting('notification') == 'on' ? 'checked' : '' }}>
+                                    {{ $settings['notification'] == 'on' ? 'checked' : '' }}>
                                 <div
                                     class="w-12 h-6 bg-gray-200 dark:bg-[#161923] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600">
                                 </div>

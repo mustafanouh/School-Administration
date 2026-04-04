@@ -10,6 +10,7 @@ class settingController extends Controller
 
 
 
+
     public function updateSettings(Request $request)
     {
         $user = auth()->user();
@@ -19,12 +20,21 @@ class settingController extends Controller
                 ['key' => $key],
                 ['value' => $value]
             );
-        }
+            if ($key === 'language') {
 
+                session()->put('locale', $value);
+                app()->setLocale($value);
+            }
+        }
         return back()->with('success', 'Settings saved successfully.');
     }
+
+
     public function edit()
     {
-        return view('settings.edit');
+        $user = auth()->user()->load('settings');
+        $settings = $user->settings->pluck('value', 'key')->toArray();
+
+        return view('settings.edit', compact('settings'));
     }
 }

@@ -207,7 +207,7 @@
 
 
                 <a href="{{ route('settings.edit') }}"
-                    class=" relative inline-block p-2 rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-500 dark:text-amber-400 hover:bg-gray-100 dark:hover:bg-slate-700 transition-all duration-300 focus:outline-none ring-1 ring-gray-200 dark:ring-slate-700">
+                    class=" relative inline-block p-2 rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-500 dark:text-white hover:bg-gray-100 dark:hover:bg-slate-700 transition-all duration-300 focus:outline-none ring-1 ring-gray-200 dark:ring-slate-700">
 
                     <i class="fas fa-cog"></i>
 
@@ -215,7 +215,7 @@
 
                 {{-- notifications --}}
                 <a href="{{ route('notifications.index') }}"
-                    class=" relative inline-block p-2 rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-500 dark:text-amber-400 hover:bg-gray-100 dark:hover:bg-slate-700 transition-all duration-300 focus:outline-none ring-1 ring-gray-200 dark:ring-slate-700">
+                    class=" relative inline-block p-2 rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-500 dark:text-white hover:bg-gray-100 dark:hover:bg-slate-700 transition-all duration-300 focus:outline-none ring-1 ring-gray-200 dark:ring-slate-700">
 
                     <i class="fas fa-bell"></i>
                     <span id="notification-badge"

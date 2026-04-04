@@ -16,7 +16,7 @@
         class="fixed left-0 top-0 h-screen transition-all duration-300 ease-in-out bg-white dark:bg-[#121212] border-r border-gray-200 dark:border-white/10 z-[1200] flex flex-col overflow-x-hidden shadow-sm">
         <div class="h-[64px] flex items-center justify-end px-3 shrink-0">
             <button @click="open = !open"
-                class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/5 text-gray-500 transition-colors">
+                class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/5 text-gray-500 dark:text-white transition-colors">
                 <i class="fas text-lg" :class="open ? 'fa-chevron-left' : 'fa-chevron-right'"></i>
             </button>
         </div>
