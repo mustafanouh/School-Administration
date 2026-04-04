@@ -1,7 +1,18 @@
 @props(['role' => 'Admin'])
 
-<div x-data="{ open: false }" class="flex">
+<div x-data="{ open: false }" class="flex ">
+    {{-- blure --}}
+    <div x-show="open" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-200" x-transition:leave-end="opacity-0" @click="open = false"
+        class="fixed inset-0 bg-black/20 backdrop-blur-sm z-[1100]">
+    </div>
+
     <aside :class="open ? 'w-[240px]' : 'w-[70px]'"
+        class="fixed left-0 top-0 h-screen transition-all duration-300 ease-in-out bg-white dark:bg-[#121212] border-r border-gray-200 dark:border-white/10 z-[1200] flex flex-col overflow-x-hidden shadow-sm">
+    </aside>
+
+    <aside :class="open ? 'w-[260px]' : 'w-[70px]'"
         class="fixed left-0 top-0 h-screen transition-all duration-300 ease-in-out bg-white dark:bg-[#121212] border-r border-gray-200 dark:border-white/10 z-[1200] flex flex-col overflow-x-hidden shadow-sm">
         <div class="h-[64px] flex items-center justify-end px-3 shrink-0">
             <button @click="open = !open"

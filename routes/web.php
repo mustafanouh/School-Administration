@@ -23,6 +23,7 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Portal\PortalController;
 use App\Http\Controllers\settingController;
+use App\Http\Controllers\SubjectController;
 use App\Models\User;
 
 Route::get('/', function () {
@@ -60,6 +61,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             'teachers'       => TeacherController::class,
             'academic_years' => AcademicYearController::class,
             'semesters'      => SemesterController::class,
+            'subjects'       => SubjectController::class,
         ]);
 
         Route::get('statistics/chart', [StatisticsController::class, 'showCharts'])->name('stats.chart');

@@ -95,7 +95,8 @@
                 <x-sidebar-link icon="fa-solid fa-headset" label=" contact" :href="route('portal.contact')" :active="request()->routeIs('portal.contact')" />
             @endrole
 
-
+            <x-sidebar-link icon="fas fa-file-signature" label="subject Management" :href="route('subjects.index')"
+                :active="request()->routeIs('subjects.*')" />
 
 
             <div class="mt-4 pt-4 border-t border-gray-100 dark:border-white/10">

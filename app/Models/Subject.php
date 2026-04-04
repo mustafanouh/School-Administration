@@ -22,9 +22,10 @@ class Subject extends Model
             'name'  => $this->name,
             'min_mark' => $this->min_mark,
             'max_mark' => $this->max_mark,
+            'semester' => $this->semester,
         ];
     }
-    protected $fillable = ['name', 'grade_id', 'track_id', 'min_mark'];
+    protected $fillable = ['name', 'grade_id', 'track_id', 'min_mark', 'max_mark', 'semester', 'description'];
 
     public function grade()
     {

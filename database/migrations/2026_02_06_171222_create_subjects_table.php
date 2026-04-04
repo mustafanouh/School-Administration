@@ -17,7 +17,9 @@ return new class extends Migration
             $table->foreignId('track_id')->references('id')->on('tracks');
             $table->foreignId('grade_id')->references('id')->on('grades');
             $table->float('min_mark');  
-            $table->float('max_mark');  
+            $table->float('max_mark');
+            $table->enum('semester', ['first semester ', 'second semester','other']);
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }
