@@ -9,7 +9,7 @@ use App\Models\TeacherSubject;
 
 class Teacher extends Model
 {
-    protected $fillable = ['employee_id', 'specialization'];
+    protected $fillable = ['employee_id', 'specialization','stage'];
 
      protected $casts = [
         'hire_date' => 'date',

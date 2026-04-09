@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="relative max-w-5xl mx-auto sm:px-6 lg:px-8 min-h-screen bg-[#F8FAFC] overflow-hidden py-12 rounded-md">
+    <div class="relative max-w-5xl mx-auto sm:px-6 lg:px-8 min-h-screen dark:bg-[#0f111a]    bg-[#F8FAFC] overflow-hidden py-12 rounded-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
             @if (auth()->user()->roles->isEmpty())

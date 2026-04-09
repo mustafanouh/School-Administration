@@ -10,4 +10,6 @@ class SemesterRepository
     {
         return Semester::findOrFail($id);
     }
+ 
+
 }

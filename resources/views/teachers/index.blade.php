@@ -80,13 +80,15 @@
                                 Teacher Name</th>
                             <th class="px-6 py-4 text-sm font-semibold text-gray-600 dark:text-gray-300 uppercase">
                                 Specialization</th>
+                            <th class="px-6 py-4 text-sm font-semibold text-gray-600 dark:text-gray-300 uppercase">
+                                stage</th>
                             <th
                                 class="px-6 py-4 text-sm font-semibold text-gray-600 dark:text-gray-300 uppercase text-center">
                                 Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100 dark:divide-white/5">
-                        {{-- هنا نستخدم $teachers وليس $employees --}}
+
                         @forelse($teachers as $teacher)
                             <tr class="hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors">
                                 <td class="px-6 py-4">
@@ -114,10 +116,17 @@
                                         </div>
                                     </div>
                                 </td>
+
                                 <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">
                                     <span
                                         class="px-3 py-1 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 rounded-lg font-medium">
                                         {{ $teacher->specialization }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">
+                                    <span
+                                        class="px-3 py-1 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 rounded-lg font-medium">
+                                        {{ $teacher->stage }}
                                     </span>
                                 </td>
 

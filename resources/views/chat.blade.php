@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="py-6">
+    
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 min-h-screen">
             <div class="bg-white overflow-hidden shadow-2xl sm:rounded-2xl flex border border-gray-100"
                 style="height: 82vh;">
@@ -95,7 +95,7 @@
 
             </div>
         </div>
-    </div>
+   
 
     <style>
         .custom-scrollbar::-webkit-scrollbar {

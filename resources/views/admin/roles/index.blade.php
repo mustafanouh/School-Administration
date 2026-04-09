@@ -11,7 +11,7 @@
                 class="text-xs bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 px-4 py-2 rounded-xl border border-amber-100 dark:border-amber-800">
                 <i class="fas fa-shield-halved mr-2"></i>
                 Security Dashboard (RBAC)
-            </div>
+            </div> 
         </div>
 
         {{-- Table Section --}}

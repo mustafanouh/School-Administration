@@ -12,14 +12,14 @@ class TeacherSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. إيقاف القيود ومسح الجدول للبدء من جديد
+    
         Schema::disableForeignKeyConstraints();
         DB::table('teachers')->truncate();
 
-        // 2. جلب الموظفين الذين تم تحديد وظيفتهم كمدرسين في الـ EmployeeSeeder
+       
         $employeeTeachers = Employee::where('job_title', 'Teacher')->get();
 
-        // 3. مصفوفة تخصصات لتوزيعها بشكل عشوائي أو دوري
+    
         $specializations = [
             'Mathematics', 
             'English Language', 
@@ -28,12 +28,13 @@ class TeacherSeeder extends Seeder
             'Chemistry', 
             'History'
         ];
+        $stages = ['Primary', 'Middle', 'High'];
 
         foreach ($employeeTeachers as $index => $employee) {
             Teacher::create([
                 'employee_id'    => $employee->id,
-                // توزيع التخصصات بناءً على ترتيب الموظف
                 'specialization' => $specializations[$index % count($specializations)],
+                'stage'           => $stages[$index % count($stages)],
                 'created_at'     => now(),
                 'updated_at'     => now(),
             ]);

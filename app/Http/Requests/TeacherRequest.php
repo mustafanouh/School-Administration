@@ -27,9 +27,10 @@ class TeacherRequest extends FormRequest
                 'required',
                 'exists:employees,id',
                 Rule::unique('teachers', 'employee_id')->ignore($this->teacher),
-             
+
             ],
             'specialization' => 'required|string|max:255',
+            'stage' => 'required|in:Primary,Middle,High',
         ];
     }
 
@@ -42,6 +43,8 @@ class TeacherRequest extends FormRequest
             'specialization.required' => 'The specialization field is required',
             'specialization.string' => 'The specialization must be a string',
             'specialization.max' => 'The specialization is too long, the maximum is 255 characters',
+            'stage.required' => 'The stage field is required',
+            'stage.in' => 'The stage must be one of the following: Primary, Middle, High',
         ];
     }
 }

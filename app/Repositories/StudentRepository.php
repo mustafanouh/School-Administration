@@ -18,21 +18,6 @@ class StudentRepository
         return Student::latest()->paginate($perPage);
     }
 
-    // public function findWithFullDetails(Student $student)
-    // {
-
-    //     return $student->load([
-    //         'enrollments' => function ($query) {
-    //             $query->orderBy('academic_year_id', 'desc');
-
-    //         },
-    //         'enrollments.academicYear',
-    //         'enrollments.section.grade',
-    //         'enrollments.marks.exam.subject'
-    //     ]);
-    // }
-
-
     public function findWithFullDetails(Student $student)
     {
         $yearId = AcademicYear::where('is_active', true)->value('id');
@@ -87,7 +72,7 @@ class StudentRepository
             $photoFile = $data['photo'] ?? null;
             unset($data['photo']);
             $student = Student::create($data);
-            // instanceof \Illuminate\Http\UploadedFile  للتاكد من انه ملف 
+      
             if ($photoFile && $photoFile instanceof UploadedFile) {
                 $student->addMedia($photoFile)
                     ->toMediaCollection('student_profile_photos');

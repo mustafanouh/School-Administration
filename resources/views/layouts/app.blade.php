@@ -128,7 +128,7 @@
     @stack('scripts')
     <script>
         const userData = {
-            firstName: "{{ auth()->user()->name }}".split(' ')[0], // نأخذ الكلمة الأولى من الاسم
+            firstName: "{{ auth()->user()->name }}".split(' ')[0],
             roles: @json(auth()->user()->getRoleNames()),
             lastUpdated: new Date().getTime()
         };

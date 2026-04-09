@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Student;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 
@@ -14,15 +15,16 @@ class StudentSeeder extends Seeder
 
         for ($i = 0; $i < 10; $i++) {
             $gender = $faker->randomElement(['male', 'female']);
-            
-            // تخصيص الأسماء بناءً على الجنس لبيانات أكثر واقعية
+
+
             $firstName = ($gender == 'male') ? $faker->firstNameMale() : $faker->firstNameFemale();
 
             Student::create([
+                'user_id' => User::factory()->create()->id,
                 'first_name'          => $firstName,
                 'last_name'           => $faker->lastName(),
                 'gender'              => $gender,
-                'date_of_birth'       => $faker->date('Y-m-d', '-6 years'), // طلاب أعمارهم فوق 6 سنوات
+                'date_of_birth'       => $faker->date('Y-m-d', '-6 years'),
                 'place_of_birth'      => $faker->city(),
                 'nationality'         => $faker->country(),
                 'address'             => $faker->address(),

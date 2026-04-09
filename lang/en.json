@@ -1,4 +1,9 @@
+
+
 {
-    "Welcome": "Welcome",
-    "Login": "Login"
+    "Welcome": "أهلاً بك",
+    "Login": "تسجيل الدخول",
+    "Logout": "تسجيل الخروج",
+    "Settings": "الإعدادات"
+  
 }

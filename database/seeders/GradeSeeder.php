@@ -10,7 +10,7 @@ class GradeSeeder extends Seeder
 {
     public function run(): void
     {
-        // تنظيف الجدول قبل البدء
+     
         DB::table('grades')->delete();
 
         $gradeNames = [
@@ -22,7 +22,7 @@ class GradeSeeder extends Seeder
 
         $createdGrades = [];
 
-        // المرحلة الأولى: إنشاء الصفوف وتوزيع الـ stage_id
+     
         foreach ($gradeNames as $index => $name) {
             $currentOrder = $index + 1; // الترتيب الفعلي (1, 2, 3...)
 

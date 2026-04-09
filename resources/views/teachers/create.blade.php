@@ -57,17 +57,49 @@
                                 History</option>
                             <option value="Biology" {{ old('specialization') == 'Biology' ? 'selected' : '' }}>
                                 Biology</option>
-                                 <option value="Geography" {{ old('specialization') == 'Geography' ? 'selected' : '' }}>
+                            <option value="Geography" {{ old('specialization') == 'Geography' ? 'selected' : '' }}>
                                 Geography</option>
-                                 <option value="Informatics" {{ old('specialization') == 'Informatics' ? 'selected' : '' }}>
+                            <option value="Informatics" {{ old('specialization') == 'Informatics' ? 'selected' : '' }}>
                                 Informatics</option>
-                                 <option value="Physical Education" {{ old('specialization') == 'Physical Education' ? 'selected' : '' }}>
+                            <option value="Physical Education"
+                                {{ old('specialization') == 'Physical Education' ? 'selected' : '' }}>
 
                         </select>
                         @error('specialization')
                             <span class="text-rose-500 text-xs mt-1">{{ $message }}</span>
                         @enderror
                     </div>
+
+
+
+                       <div>
+                        <label
+                            class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">stage </label>
+                        <select name="stage"
+                            class="w-full rounded-xl border-gray-200 dark:border-white/10 dark:bg-[#161923] dark:text-white focus:ring-indigo-500 @error('stage') border-rose-500 @enderror">
+
+                            <option value="" disabled {{ old('stage') ? '' : 'selected' }}>Select Stage</option>
+
+                            <option value="Primary" {{ old('stage') == 'Primary' ? 'selected' : '' }}>
+                                Primary</option>
+                            <option value="Middle" {{ old('stage') == 'Middle' ? 'selected' : '' }}>
+                                Middle</option>
+                            <option value="High" {{ old('stage') == 'High' ? 'selected' : '' }}>
+                                High</option>
+                          
+                        </select>
+                        @error('stage')
+                            <span class="text-rose-500 text-xs mt-1">{{ $message }}</span>
+                        @enderror
+                           
+                          
+                        </select>
+                        @error('specialization')
+                            <span class="text-rose-500 text-xs mt-1">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                 
                 </div>
 
                 <div class="mt-8 flex justify-end gap-3">

@@ -2,15 +2,22 @@
 
 namespace App\Repositories;
 
-use App\Models\{TeacherSubject, Teacher, Subject, Section, AcademicYear};
+use App\Models\{TeacherSubject, Teacher, Subject, Section, AcademicYear, Semester};
 
 class TeacherSubjectRepository
+
 {
+
+    public function getActiveSemester()
+    {
+        return Semester::where('is_active', true)->first();
+    }
+
     public function getAllFormData()
     {
         return [
             'teachers'      => Teacher::with('employee')->get(),
-            'subjects'      => Subject::all(),
+            'subjects'      => Subject::where('semester', $this->getActiveSemester()->name)->get(),
             'sections'      => Section::all(),
         ];
     }

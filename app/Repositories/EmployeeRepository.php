@@ -4,9 +4,11 @@ namespace App\Repositories;
 
 use App\Models\Employee;
 use App\Models\User;
+use App\Notifications\RealTimeNotification;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 
 
@@ -44,16 +46,18 @@ class EmployeeRepository
             $user->assignRole($data['role']);
 
             $data['user_id'] = $user->id;
+ 
+            $this->sendAddNewEmployeeNotification($data);
 
             unset($data['role']);
 
 
 
             $photoFile = $data['photo'] ?? null;
-            
+
             unset($data['photo']);
             $employee = Employee::create($data);
-            // instanceof \Illuminate\Http\UploadedFile  للتاكد من انه ملف 
+
             if ($photoFile && $photoFile instanceof  UploadedFile) {
                 $employee->addMedia($photoFile)
                     ->toMediaCollection('employee_profile_photos');
@@ -62,6 +66,15 @@ class EmployeeRepository
 
             return $employee;
         });
+    }
+
+    protected function sendAddNewEmployeeNotification(array $data): void
+    {
+            $message = "A new Employee has been added. Name: {$data['first_name']} {$data['last_name']}, Email: {$data['phone']}, Role: {$data['role']}.";
+
+        $recipients = User::role(['admin', 'supervisor'])->get();
+
+        Notification::send($recipients, new RealTimeNotification($message));
     }
 
     public function update(Employee $employee, array $data)

@@ -17,7 +17,8 @@
                         class="tracking-tight dark:text-white border-none shadow-none">
 
                         <h1 class="text-2xl font-black leading-none">
-                            <span class="text-indigo-600 dark:text-indigo-400">School </span>Administration
+                            <span
+                                class="text-indigo-600 dark:text-indigo-400">{{ __('School') }} </span>{{ __('Administration') }}
                         </h1>
 
                     </x-nav-link>
@@ -255,10 +256,10 @@
                     </a>
                 </div>
 
-            
+
             </div>
         </div>
     </div>
 
-    
+
 </nav>
