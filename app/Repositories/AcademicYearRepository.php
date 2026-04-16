@@ -1,13 +1,15 @@
 <?php
+
 namespace App\Repositories;
 
 use App\Models\AcademicYear;
 
 class AcademicYearRepository
 {
-    public function paginate($perPage = 10)
+
+    public function getYears()
     {
-        return AcademicYear::paginate($perPage);
+        return AcademicYear::latest()->paginate(9);
     }
 
     public function create(array $data)

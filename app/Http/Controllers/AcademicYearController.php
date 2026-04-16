@@ -4,21 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AcademicYearRequest;
 use App\Models\AcademicYear;
+use App\Repositories\AcademicYearRepository;
 use App\Services\AcademicYearService;
 use Exception;
 
 class AcademicYearController extends Controller
 {
     protected $service;
+    protected $AcademicYearRepository;
 
-    public function __construct(AcademicYearService $service)
+    public function __construct(AcademicYearService $service, AcademicYearRepository $AcademicYearRepository)
     {
         $this->service = $service;
+        $this->AcademicYearRepository = $AcademicYearRepository;
     }
 
     public function index()
     {
-        $academicYears = AcademicYear::latest()->paginate(9);
+        $academicYears = $this->AcademicYearRepository->getYears();
+
         return view('admin.academic_years.index', compact('academicYears'));
     }
 
