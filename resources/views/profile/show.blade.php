@@ -123,7 +123,8 @@
                 </div>
 
                 {{-- Quick Stats --}}
-                <div class="px-8 md:px-10 py-6 grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-8">
+                <div class="px-8 md:px-10 py-6 grid grid-cols-2 md:grid-cols-5 gap-y-6 gap-x-8">
+                    <div></div>
                     <div>
                         <p class="text-[10px] text-gray-400 font-black uppercase tracking-widest"><i
                                 class="fas fa-venus-mars mr-1"></i> Gender</p>

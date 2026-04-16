@@ -21,7 +21,7 @@ class EmployeeRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
-    {
+    {  
         $employeeId = $this->route('employee');
         return [
             'first_name'  => 'required|string|max:255',

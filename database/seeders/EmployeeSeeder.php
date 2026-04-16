@@ -35,8 +35,7 @@ class EmployeeSeeder extends Seeder
             $firstName = $nameParts[0];
             $lastName = $nameParts[1] ?? 'Family';
 
-            // تحديد الجنس بشكل يدوي بسيط: 
-            // الأسماء التي تنتهي بـ "a" أو الموجودة في قائمة النساء نعتبرها Female
+         
             $femaleNames = ['Mona', 'Laila', 'Huda', 'Sara', 'Rana','Rana', 'Nour', 'Yasmin', 'Dina', 'Mariam', 'Reem', 'Amal', 'Hana', 'Salma', 'Nadia', 'Fatima', 'Aisha', 'Khadija', 'Zainab', 'Asma', 'Samira', 'Lina', 'Maha', 'Rania', 'Nourah', 'Hala', 'Dalia', 'Mona', 'Yara'];
             $gender = in_array($firstName, $femaleNames) ? 'Female' : 'Male';
 

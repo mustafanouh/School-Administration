@@ -14,6 +14,7 @@ class StatisticsController extends Controller
             ->groupBy('academic_year_id')
             ->get();
 
+         
         return [
             'labels' => $data->map(fn($item) => $item->academicYear?->name ?? 'N/A')->toArray(),
             'values' => $data->map(fn($item) => (int)$item->total)->toArray(),

@@ -29,13 +29,13 @@ class Grade extends Model
 
     public function nextGrade()
     {
-        // المرحلة التالية
+       
         return $this->belongsTo(Grade::class, 'Next_Grade_id');
     }
 
     public function previousGrade()
     {
-        // المرحلة السابقة (علاقة عكسية)
+     
         return $this->hasOne(Grade::class, 'Next_Grade_id');
     }
 }

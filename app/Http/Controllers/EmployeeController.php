@@ -36,6 +36,7 @@ class EmployeeController extends Controller
 
     public function update(EmployeeRequest $request, Employee $employee)
     {
+       
         $this->employeeService->updateEmployee($employee, $request->validated());
 
         return redirect()->route('employees.index')
@@ -80,11 +81,12 @@ class EmployeeController extends Controller
 
     public function create()
     {
-       $role = Role::where('name', '!=', 'student')->pluck('name');
+        $role = Role::where('name', '!=', 'student')->pluck('name');
         return view('employees.create', compact('role'));
     }
     public function edit(Employee $employee)
     {
-        return view('employees.edit', compact('employee'));
+        $role = Role::where('name', '!=', 'student')->pluck('name');
+        return view('employees.edit', compact('employee', 'role'));
     }
 }

@@ -42,10 +42,8 @@ class MarkRepository
 
     public function getActiveExamsForSelection()
     {
-        return Exam::query()
-            ->whereHas('semester', fn($q) => $q->where('is_active', true))
-            ->with(['subject:id,name'])
-            ->get(['id', 'subject_id', 'exam_type', 'max_mark']);
+        $data =  Exam::with('semester', 'subject.grade')->whereHas('semester', fn($q) => $q->where('is_active', true))->get();
+        return $data;
     }
 
     public function create(array $data): Mark

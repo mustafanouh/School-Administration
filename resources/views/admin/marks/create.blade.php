@@ -56,7 +56,7 @@
                             @foreach ($exams as $exam)
                                 <option value="{{ $exam->id }}" data-max="{{ $exam->max_mark }}"
                                     {{ old('exam_id') == $exam->id ? 'selected' : '' }}>
-                                    {{ $exam->subject->name }} - {{ $exam->exam_type }}
+                                    {{ $exam->subject->name }} -{{$exam->subject->grade->name  }} - {{ $exam->exam_type }}
                                 </option>
                             @endforeach
                         </select>

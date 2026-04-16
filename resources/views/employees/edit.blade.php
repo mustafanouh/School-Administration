@@ -11,18 +11,34 @@
                     @csrf
                     @method('PUT')
 
-                    {{-- ربط الموظف بمستخدم (user_id) --}}
                     <input type="hidden" name="user_id" value="{{ $employee->user_id }}">
+
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">First Name</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">User Role </label>
+                            <select name="role" required
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 dark:bg-[#0f111a] dark:text-white">
+                                <option value="" disabled>Select a Role</option>
+                                @foreach ($role as $name)
+                                    <option value="{{ $name }}">{{ $name }}</option>
+                                @endforeach
+                            </select>
+                            @error('role')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">First
+                                Name</label>
                             <input type="text" name="first_name"
                                 value="{{ old('first_name', $employee->first_name) }}" required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 dark:bg-[#0f111a] dark:text-white">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Last Name</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Last
+                                Name</label>
                             <input type="text" name="last_name" value="{{ old('last_name', $employee->last_name) }}"
                                 required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 dark:bg-[#0f111a] dark:text-white">
@@ -36,7 +52,8 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Job Title</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Job
+                                Title</label>
                             <input type="text" name="job_title" value="{{ old('job_title', $employee->job_title) }}"
                                 required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 dark:bg-[#0f111a] dark:text-white">
@@ -52,20 +69,24 @@
                             <select name="gender"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-[#0f111a] dark:text-white">
                                 <option value="Male"
-                                    {{ old('gender', $employee->gender) == 'Male' ? 'selected' : '' }}>Male</option>
+                                    {{ old('gender', $employee->gender) == 'Male' ? 'selected' : '' }}>Male
+                                </option>
                                 <option value="Female"
-                                    {{ old('gender', $employee->gender) == 'Female' ? 'selected' : '' }}>Female</option>
+                                    {{ old('gender', $employee->gender) == 'Female' ? 'selected' : '' }}>Female
+                                </option>
                             </select>
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Birth Date</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Birth
+                                Date</label>
                             <input type="date" name="birth_date"
                                 value="{{ old('birth_date', $employee->birth_date) }}" required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-[#0f111a] dark:text-white">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Hire Date</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Hire
+                                Date</label>
                             <input type="date" name="hire_data" value="{{ old('hire_data', $employee->hire_data) }}"
                                 required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-[#0f111a] dark:text-white">
@@ -91,7 +112,7 @@
                             <input type="text" name="phone" value="{{ old('phone', $employee->phone) }}" required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-[#0f111a] dark:text-white">
                         </div>
-                        <div class="md:col-span-2">
+                        <div class="">
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Address</label>
                             <input type="text" name="address" value="{{ old('address', $employee->address) }}"
                                 required
@@ -105,6 +126,7 @@
                         <button type="submit"
                             class="bg-indigo-600 px-6 py-2 text-white rounded-md hover:bg-indigo-700 transition text-sm">Update
                             Employee</button>
+
                     </div>
                 </form>
                 @if ($errors->any())
@@ -117,6 +139,7 @@
                     </div>
                 @endif
             </div>
+
         </div>
 
     </div>

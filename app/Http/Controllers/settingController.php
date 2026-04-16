@@ -32,8 +32,12 @@ class settingController extends Controller
 
     public function edit()
     {
+
+        $default = ['mode' => 'light', 'language' => 'en', 'notification' => 'on'];
         $user = auth()->user()->load('settings');
-        $settings = $user->settings->pluck('value', 'key')->toArray();
+        $setting = $user->settings->pluck('value', 'key')->toArray();
+
+        $settings = $setting ? $setting : $default;
 
         return view('settings.edit', compact('settings'));
     }

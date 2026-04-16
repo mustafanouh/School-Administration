@@ -59,8 +59,8 @@
                     </div>
                     <div>
                         <p class="text-[10px] font-bold text-blue-500 uppercase">Track & Grade ID</p>
-                        <p class="text-sm font-bold text-gray-700 dark:text-gray-300">Track #{{ $subject->track_id }} |
-                            Grade #{{ $subject->grade_id }}</p>
+                        <p class="text-sm font-bold text-gray-700 dark:text-gray-300">Track {{ $subject->track->name }} |
+                            Grade {{ $subject->name }}</p>
                     </div>
                 </div>
 

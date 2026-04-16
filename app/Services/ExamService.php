@@ -19,17 +19,22 @@ class ExamService
         return $this->examRepo->getPaginated();
     }
 
-   
+
     public function getFormData()
     {
         return [
-            'subjects'      => Subject::all(),
+            'subjects'      => Subject::where('semester',$this->getActiveSemester()->name)->get(),
             'academicYears' => AcademicYear::where('is_active', true)->get(),
             'grades'        => Grade::all(),
             'semesters'     => Semester::whereHas('academicYear', function ($q) {
                 $q->where('is_active', true);
             })->get(),
         ];
+    }
+
+    public function getActiveSemester()
+    {
+        return Semester::where('is_active', true)->first();
     }
 
     public function storeExam(array $data)
@@ -44,7 +49,7 @@ class ExamService
 
     public function deleteExam(Exam $exam)
     {
-       
+
         if ($exam->marks()->exists()) {
             throw new \Exception('Cannot delete this exam because it already has student marks recorded.');
         }

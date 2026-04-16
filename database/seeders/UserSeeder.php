@@ -22,18 +22,7 @@ class UserSeeder extends Seeder
         DB::table('users')->delete();
 
         $users = [
-            ['name' => 'Admin Manager', 'email' => 'admin@school.com'],
-            ['name' => 'Ahmed Ali', 'email' => 'ahmed@school.com'],
-            ['name' => 'Sami Mansour', 'email' => 'sami@school.com'],
-            ['name' => 'Mona Hassan', 'email' => 'mona@school.com'],
-            ['name' => 'Laila Omar', 'email' => 'laila@school.com'],
-            ['name' => 'Omar Khaled', 'email' => 'omar@school.com'],
-            ['name' => 'Zaid Salem', 'email' => 'zaid@school.com'],
-            ['name' => 'Huda Karim', 'email' => 'huda@school.com'],
-            ['name' => 'Sara Mahmoud', 'email' => 'sara@school.com'],
-            ['name' => 'Yassin Taha', 'email' => 'yassin@school.com'],
-            ['name' => 'Rana Fawzi', 'email' => 'rana@school.com'],
-            ['name' => 'Majd Issa', 'email' => 'majd@school.com'],
+            ['name' => 'Admin Manager', 'email' => 'admin@school.com'], 
         ];
 
         foreach ($users as $userData) {
