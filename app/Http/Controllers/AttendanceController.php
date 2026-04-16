@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StaffAttendanceRequest;
+use App\Http\Requests\StudentAttendanceRequest;
+use App\Repositories\AttendanceRepository;
 use Illuminate\Http\Request;
 use App\Models\StudentAttendance;
 use App\Models\StaffAttendance;
@@ -10,56 +13,46 @@ use App\Models\Employee;
 use App\Models\Enrollment;
 use App\Models\Semester;
 use App\Notifications\RealTimeNotification;
+use App\Services\AttendanceService;
 
 class AttendanceController extends Controller
 {
+    protected $attendanceService;
+    protected $attendanceRepository;
+    public function __construct(AttendanceService $attendanceService, AttendanceRepository $attendanceRepository)
+    {
+        $this->attendanceService = $attendanceService;
+        $this->attendanceRepository = $attendanceRepository;
+    }
 
 
-  
+    //   show section attendance 
     public function index()
     {
         $date = now()->format('Y-m-d');
 
-        $sections = Section::withCount('enrollments')
-            ->withExists(['attendances as isAttendanceTaken' => function ($query) use ($date) {
-                $query->whereDate('attendance_date', $date);
-            }])
-            ->whereHas('academicYear', function ($query) {
-                $query->where('is_active', true);
-            })
-            ->with('grade')
-            ->get();
+        $sections = $this->attendanceRepository->getSectionsWithAttendanceStatus($date);
 
         return view('attendance.sections_index', compact('sections'));
     }
 
-   
+
     public function showSectionAttendance($id)
     {
         $date = now()->format('Y-m-d');
 
-        $section = Section::with(['enrollments.student.media',
-            'enrollments.student.attendances' => function ($query) use ($date) {
-                $query->whereDate('attendance_date', $date);
-            }
-        ])->findOrFail($id);
+        $section = $this->attendanceRepository->getSectionWithAttendance($id, $date);
 
-        $isAttendanceTaken = StudentAttendance::where('section_id', $id)
-            ->whereDate('attendance_date', $date)
-            ->exists();
+        $isAttendanceTaken = $this->attendanceRepository->isAttendanceTaken($id, $date);
 
         return view('attendance.students', compact('section', 'date', 'isAttendanceTaken'));
     }
-    
 
-    public function storeStudentAttendance(Request $request)
+
+    public function storeStudentAttendance(StudentAttendanceRequest $request)
     {
-        $request->validate([
-            'section_id' => 'required|exists:sections,id',
-            'attendance_date' => 'required|date',
-            'attendance' => 'required|array',
-        ]);
 
+        $request->validated();
         foreach ($request->attendance as $enrollmentId => $status) {
             StudentAttendance::updateOrCreate(
                 [
@@ -97,7 +90,7 @@ class AttendanceController extends Controller
     {
         $date = now()->format('Y-m-d');
 
-        $staff = Employee::with(['media','staffAttendances' => function ($query) use ($date) {
+        $staff = Employee::with(['media', 'staffAttendances' => function ($query) use ($date) {
             $query->whereDate('attendance_date', $date);
         }])->get();
         $isAttendanceTaken = StaffAttendance::whereDate('attendance_date', $date)->exists();
@@ -105,7 +98,7 @@ class AttendanceController extends Controller
         return view('attendance.staff_show', compact('staff', 'date', 'isAttendanceTaken'));
     }
 
-    public function storeStaffAttendance(Request $request)
+    public function storeStaffAttendance(StaffAttendanceRequest $request)
     {
 
         $activeSemester = Semester::where('is_active', true)->first();
@@ -116,13 +109,7 @@ class AttendanceController extends Controller
         if (!$activeSemester) {
             return redirect()->back()->with('error', 'No active semester found. Please activate a semester before recording attendance.');
         }
-        $request->validate([
-            'attendance_date' => 'required|date',
-            'attendance'      => 'required|array',
-            'attendance.*'    => 'required|string',
-            'check_in.*'      => 'nullable|',
-            'check_out.*'     => 'nullable|',
-        ]);
+        $request->validated();
 
         foreach ($request->attendance as $employeeId => $status) {
             StaffAttendance::updateOrCreate(

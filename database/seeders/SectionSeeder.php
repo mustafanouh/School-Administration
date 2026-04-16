@@ -12,8 +12,7 @@ class SectionSeeder extends Seeder
 {
     public function run(): void
     {
-        Schema::disableForeignKeyConstraints();
-        DB::table('sections')->truncate();
+      
 
         // 1. جلب الصفوف والعام الدراسي الحالي
         $grades = Grade::all();
