@@ -216,6 +216,7 @@
                     </div>
                 </div>
 
+
                 {{-- Attendance Overview --}}
             </div>
             <div class="mt-8 space-y-6">
@@ -343,6 +344,126 @@
                     </div>
                 </div>
             </div>
+
+
+            {{-- subject teacher --}}
+            @if ($employee->teacher)
+                <div class="mt-8 space-y-6">
+                    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                        <div
+                            class="px-6 py-4 border-b border-gray-50 flex justify-between items-center bg-green-50/10">
+                            <h3 class="text-xs font-bold text-gray-600 uppercase tracking-widest flex items-center">
+                                <i class="fas fa-book-reader mr-2 text-green-500"></i>
+                                Current Academic Year Subjects
+                            </h3>
+                            <span
+                                class="px-3 py-1 bg-green-100 text-green-700 text-[10px] font-bold rounded-full uppercase">
+                                Active Year
+                            </span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead>
+                                    <tr class="bg-gray-50/50">
+                                        <th class="px-6 py-4 text-[11px] font-bold text-gray-500 uppercase">Subject
+                                        </th>
+                                        <th class="px-6 py-4 text-[11px] font-bold text-gray-500 uppercase">Grade</th>
+                                        <th class="px-6 py-4 text-[11px] font-bold text-gray-500 uppercase">Section
+                                        </th>
+                                        <th
+                                            class="px-6 py-4 text-[11px] font-bold text-gray-500 uppercase text-center">
+                                            Year</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-50">
+                                    @forelse ($employee->teacher->teacherSubjects->where('academic_year_id', $activeYearId) as $item)
+                                        <tr class="hover:bg-gray-50/50 transition-colors">
+                                            <td class="px-6 py-4">
+                                                <span
+                                                    class="block text-sm font-semibold text-gray-700">{{ $item->subject->name }}</span>
+                                            </td>
+                                            <td class="px-6 py-4 text-xs text-gray-600">
+                                                {{ $item->section->grade->name }}
+                                            </td>
+                                            <td class="px-6 py-4 text-xs text-gray-600 font-medium">
+                                                {{ $item->section->name }}
+                                            </td>
+                                            <td class="px-6 py-4 text-center">
+                                                <span
+                                                    class="px-2 py-1 rounded bg-green-50 text-green-600 border border-green-100 text-[10px] font-bold uppercase">
+                                                    {{ $item->academicYear->name }}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="4"
+                                                class="px-6 py-12 text-center text-gray-300 text-sm italic">
+                                                No subjects assigned for the current academic year.
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-50 bg-gray-50/30">
+                            <h3 class="text-xs font-bold text-gray-600 uppercase tracking-widest flex items-center">
+                                <i class="fas fa-history mr-2 text-gray-400"></i>
+                                Previous Subjects Archive
+                            </h3>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead>
+                                    <tr class="bg-gray-50/50">
+                                        <th class="px-6 py-4 text-[11px] font-bold text-gray-500 uppercase">Subject
+                                        </th>
+                                        <th
+                                            class="px-6 py-4 text-[11px] font-bold text-gray-500 uppercase text-center">
+                                            Academic Year</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-50">
+                                    @php $hasPrevious = false; @endphp
+                                    @foreach ($employee->teacher->teacherSubjects as $item)
+                                        @if ($item->academic_year_id != $activeYearId)
+                                            @php $hasPrevious = true; @endphp
+                                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                                <td class="px-6 py-4">
+                                                    <div class="flex flex-col">
+                                                        <span
+                                                            class="text-sm font-medium text-gray-700">{{ $item->subject->name }}</span>
+                                                        <span
+                                                            class="text-[10px] text-gray-400">{{ $item->section->grade->name }}
+                                                            - {{ $item->section->name }}</span>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 text-center">
+                                                    <span
+                                                        class="text-xs text-gray-500 font-bold uppercase">{{ $item->academicYear->name }}</span>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+
+                                    @if (!$hasPrevious)
+                                        <tr>
+                                            <td colspan="2"
+                                                class="px-6 py-8 text-center text-gray-300 text-sm italic">
+                                                No historical records found.
+                                            </td>
+                                        </tr>
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
 </x-app-layout>

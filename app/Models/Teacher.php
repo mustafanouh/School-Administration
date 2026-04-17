@@ -9,15 +9,19 @@ use App\Models\TeacherSubject;
 
 class Teacher extends Model
 {
-    protected $fillable = ['employee_id', 'specialization','stage'];
+    protected $fillable = ['employee_id', 'specialization', 'stage'];
 
-     protected $casts = [
+    protected $casts = [
         'hire_date' => 'date',
         'is_active' => 'boolean',
     ];
     public function employee()
     {
         return $this->belongsTo(Employee::class, 'employee_id');
+    }
+    public function teacherSubjects()
+    {
+        return $this->hasMany(TeacherSubject::class);
     }
 
     public function subjects()

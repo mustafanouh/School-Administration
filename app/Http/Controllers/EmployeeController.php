@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EmployeeRequest;
 use App\Http\Requests\UpdatePhotoRequest;
+use App\Models\AcademicYear;
 use App\Models\Employee;
 use App\Models\Semester;
 use App\Models\User;
@@ -36,7 +37,7 @@ class EmployeeController extends Controller
 
     public function update(EmployeeRequest $request, Employee $employee)
     {
-       
+
         $this->employeeService->updateEmployee($employee, $request->validated());
 
         return redirect()->route('employees.index')
@@ -54,9 +55,8 @@ class EmployeeController extends Controller
 
     public function show(Employee $employee)
     {
-
+        $activeYearId = AcademicYear::where('is_active', true)->value('id');
         $semesterId = Semester::where('is_active', true)->value('id');
-
 
         $employee->load(['staffAttendances' => function ($query) use ($semesterId) {
             if ($semesterId) {
@@ -65,9 +65,23 @@ class EmployeeController extends Controller
             $query->orderBy('attendance_date', 'desc');
         }]);
 
+        if ($employee->teacher) {
 
-        return view('employees.show', compact('employee'));
+            $employee->load([
+                'teacher.teacherSubjects',
+                'teacher.teacherSubjects.subject',
+                'teacher.teacherSubjects.academicYear',
+                'teacher.teacherSubjects.section.grade'
+            ]);
+        }
+
+        return view('employees.show', compact('employee', 'activeYearId'));
     }
+
+
+
+
+
 
 
     public function destroy(Employee $employee)

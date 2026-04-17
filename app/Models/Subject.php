@@ -36,6 +36,10 @@ class Subject extends Model
     {
         return $this->belongsTo(Track::class);
     }
+    public function teacherSubjects()
+    {
+        return $this->hasMany(TeacherSubject::class);
+    }
 
     public function exams()
     {

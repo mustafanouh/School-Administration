@@ -22,7 +22,7 @@ class Employee extends Model implements HasMedia
     {
         $this->addMediaConversion('thumb')
             ->fit(Fit::Contain, 150, 150)
-            ->nonQueued(); 
+            ->nonQueued();
     }
     public function toSearchableArray()
     {
@@ -46,15 +46,14 @@ class Employee extends Model implements HasMedia
         'user_id',
         'photo',
     ];
-    public function teachers()
+    public function teacher()
     {
-        return $this->hasMany(Teacher::class);
+       
+        return $this->hasOne(Teacher::class, 'employee_id');
     }
 
-    public function teacherSubjects()
-    {
-        return $this->hasMany(TeacherSubject::class);
-    }
+  
+
 
     public function staffAttendances()
     {
