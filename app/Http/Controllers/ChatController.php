@@ -23,11 +23,11 @@ class ChatController extends Controller
         $userId = auth()->id();
 
         if ($receiverId == 0) {
-
-            return Message::where('receiver_id', 0)->with('sender')->oldest()->get();
+         
+            return Message::whereNull('receiver_id')->with('sender')->oldest()->get();
         }
 
-   
+
         return Message::where(function ($q) use ($userId, $receiverId) {
             $q->where('sender_id', $userId)->where('receiver_id', $receiverId);
         })->orWhere(function ($q) use ($userId, $receiverId) {
@@ -38,12 +38,14 @@ class ChatController extends Controller
 
     public function store(Request $request)
     {
+        
+        $receiverId = ($request->receiver_id == 0) ? null : $request->receiver_id;
+
         $msg = Message::create([
             'sender_id' => auth()->id(),
-            'receiver_id' => $request->receiver_id,
+            'receiver_id' => $receiverId,
             'message' => $request->message
         ]);
-
 
         broadcast(new MessageSent($msg))->toOthers();
 

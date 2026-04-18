@@ -17,7 +17,7 @@ class EmployeeRepository
 {
     public function paginate($perPage = 10)
     {
-        return Employee::paginate($perPage);
+        return Employee::latest()->paginate($perPage);
     }
 
     public function getAllEmployees()

@@ -32,7 +32,7 @@
                                     <option value="">Choose a Teacher </option>
                                     @foreach ($teachers as $teacher)
                                         <option value="{{ $teacher->id }}">{{ $teacher->employee->first_name }}
-                                            {{ $teacher->employee->last_name }}</option>
+                                            {{ $teacher->employee->last_name }}({{ $teacher->specialization }})</option>
                                     @endforeach
                                 </select>
                                 @error('teacher_id')

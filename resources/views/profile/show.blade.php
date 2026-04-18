@@ -14,15 +14,24 @@
                         <div class="flex-none relative group">
                             <div
                                 class="h-24 w-24 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-3xl flex items-center justify-center text-white text-4xl font-black shadow-lg ring-4 ring-white dark:ring-gray-800 overflow-hidden">
+                              
                                 @if ($user->employee && $user->employee->hasMedia('employee_profile_photos'))
                                     <img src="{{ $user->employee->getFirstMediaUrl('employee_profile_photos') }}"
                                         class="h-full w-full object-cover">
-                                @elseif ($roleName === 'student')
+                                @elseif ($user->student && $user->student->hasMedia('student_profile_photos'))
+                                    
+                                    <img src="{{ $user->student->getFirstMediaUrl('student_profile_photos') }}"
+                                        class="h-full w-full object-cover">
+                                @elseif ($roleName === 'student' && $user->student)
                                     {{ substr($user->student->first_name, 0, 1) }}
-                                @else
+                                @elseif ($user->employee)
                                     {{ substr($user->employee->first_name, 0, 1) }}
+                                @else
+                               
+                                    {{ substr($user->name, 0, 1) }}
                                 @endif
                             </div>
+
                             <button type="button" @click="open = true"
                                 class="absolute -bottom-2 -right-2 p-2 bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-100 dark:border-gray-600 text-emerald-600 hover:scale-110 transition-transform z-10">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
@@ -42,15 +51,29 @@
                                 class="bg-white dark:bg-gray-800 rounded-3xl p-6 w-full max-w-md shadow-2xl border border-white/10">
                                 <h3 class="text-lg font-bold mb-4 text-gray-800 dark:text-white text-center">Update
                                     Profile Picture</h3>
-                                <form action="{{ route('employees.updatePhoto', $user->employee->id) }}" method="POST"
-                                    enctype="multipart/form-data">
+
+                                @php
+                                    // تحديد المسار الصحيح ديناميكياً لتجنب خطأ null
+                                    $formAction = $user->employee
+                                        ? route('employees.updatePhoto', $user->employee->id)
+                                        : ($user->student
+                                            ? route('students.updatePhoto', $user->student->id)
+                                            : '#');
+                                @endphp
+
+                                <form action="{{ $formAction }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     @method('PATCH')
+
                                     <div class="mb-6 flex justify-center">
                                         <div
                                             class="h-44 w-44 rounded-2xl border-2 border-dashed border-emerald-500/30 dark:border-gray-600 flex items-center justify-center overflow-hidden bg-emerald-50/30 dark:bg-gray-900 relative">
-                                            <template x-if="imageUrl"><img :src="imageUrl"
-                                                    class="h-full w-full object-cover"></template>
+                                            {{-- معاينة الصورة الجديدة المختارة عبر Alpine.js --}}
+                                            <template x-if="imageUrl">
+                                                <img :src="imageUrl" class="h-full w-full object-cover">
+                                            </template>
+
+                                            {{-- الحالة الافتراضية قبل اختيار صورة --}}
                                             <template x-if="!imageUrl">
                                                 <div class="text-center p-4">
                                                     <svg class="mx-auto h-12 w-12 text-gray-300" stroke="currentColor"
@@ -66,6 +89,7 @@
                                             </template>
                                         </div>
                                     </div>
+
                                     <div class="mb-6">
                                         <label
                                             class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Select
@@ -74,12 +98,16 @@
                                             @change="const file = $event.target.files[0]; if (file) { const reader = new FileReader(); reader.onload = (e) => { imageUrl = e.target.result; }; reader.readAsDataURL(file); }"
                                             class="block w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-emerald-600 file:text-white hover:file:bg-emerald-700 cursor-pointer">
                                     </div>
+
                                     <div class="flex gap-3 mt-8">
                                         <button type="submit"
-                                            class="flex-1 bg-emerald-600 text-white py-3 rounded-2xl font-bold hover:bg-emerald-700 transition-all active:scale-95">Save
-                                            Changes</button>
+                                            class="flex-1 bg-emerald-600 text-white py-3 rounded-2xl font-bold hover:bg-emerald-700 transition-all active:scale-95">
+                                            Save Changes
+                                        </button>
                                         <button type="button" @click="open = false; imageUrl = null"
-                                            class="flex-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 py-3 rounded-2xl font-bold hover:bg-gray-200 dark:hover:bg-gray-600 transition-all">Cancel</button>
+                                            class="flex-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 py-3 rounded-2xl font-bold hover:bg-gray-200 dark:hover:bg-gray-600 transition-all">
+                                            Cancel
+                                        </button>
                                     </div>
                                 </form>
                             </div>

@@ -111,8 +111,7 @@
                                         <div>
                                             <p class="text-sm font-bold text-gray-900 dark:text-white">
                                                 {{ $employee->first_name }} {{ $employee->last_name }}</p>
-                                            <p class="text-[11px] text-gray-500 font-mono italic">ID:
-                                                {{ $employee->notional_id }}</p>
+                                         
                                         </div>
                                     </div>
                                 </td>

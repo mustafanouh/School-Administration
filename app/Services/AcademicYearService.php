@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use App\Jobs\ProcessStudentGradesJob;
+use App\Models\AcademicYear;
+use App\Models\Enrollment;
 use App\Models\Semester;
 use App\Repositories\AcademicYearRepository;
 use Illuminate\Support\Facades\DB;
@@ -22,21 +25,21 @@ class AcademicYearService
         return DB::transaction(function () use ($data) {
             $previouslyActiveYear = null;
             if (!empty($data['is_active'])) {
-                $previouslyActiveYear = \App\Models\AcademicYear::where('is_active', true)->first();
+                $previouslyActiveYear = AcademicYear::where('is_active', true)->first();
                 $this->repo->deactivateOthers();
             }
 
-             
+
             Semester::query()->update(['is_active' => false]);
 
-          
+
             $year = $this->repo->create($data);
             $year->semesters()->createMany([
                 ['name' => 'First Semester', 'is_active' => true],
                 ['name' => 'Second Semester', 'is_active' => false],
             ]);
 
-           
+
             if ($previouslyActiveYear) {
                 $this->generateFinalYearReports($previouslyActiveYear);
             }
@@ -45,16 +48,16 @@ class AcademicYearService
         });
     }
 
-   
+
     private function generateFinalYearReports($academicYear)
     {
         $finalSemester = $academicYear->semesters()->where('name', 'Second Semester')->first();
 
         if ($finalSemester) {
-            $enrollments = \App\Models\Enrollment::where('academic_year_id', $academicYear->id)->get();
+            $enrollments = Enrollment::where('academic_year_id', $academicYear->id)->get();
 
             foreach ($enrollments as $enrollment) {
-                \App\Jobs\ProcessStudentGradesJob::dispatchSync($enrollment, $finalSemester);
+                ProcessStudentGradesJob::dispatch($enrollment, $finalSemester);
             }
         }
     }

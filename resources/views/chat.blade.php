@@ -211,7 +211,7 @@
                 </div>`;
 
             container.insertAdjacentHTML('beforeend', html);
-            container.scrollTop = container.scrollHeight;
+           container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
         }
     </script>
 </x-app-layout>

@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Semester::observe(SemesterObserver::class);
         Route::pattern('id', '[0-9]+');
-        Model::preventSilentlyDiscardingAttributes($this->app->isLocal());
+        
         
         // Volt::mount([
         //     resource_path('views/livewire'),
