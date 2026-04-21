@@ -53,6 +53,7 @@ class AttendanceController extends Controller
     {
 
         $request->validated();
+        
         foreach ($request->attendance as $enrollmentId => $status) {
             StudentAttendance::updateOrCreate(
                 [
@@ -116,9 +117,10 @@ class AttendanceController extends Controller
                 [
                     'employee_id' => $employeeId,
                     'attendance_date' => $request->attendance_date,
-                    'semester_id'     => $activeSemester->id,
                 ],
                 [
+                    'semester_id'     => $activeSemester->id,
+
                     'status' => $status,
                     'check_in' => $request->check_in[$employeeId] ?? null,
                     'check_out' => $request->check_out[$employeeId] ?? null,

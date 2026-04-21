@@ -18,12 +18,14 @@ class ExamController extends Controller
     public function index()
     {
         $exams = $this->examService->getIndexData();
+
+
         return view('admin.exams.index', compact('exams'));
     }
 
     public function create()
     {
-      
+
         $data = $this->examService->getFormData();
         return view('admin.exams.create', $data);
     }
@@ -53,7 +55,7 @@ class ExamController extends Controller
             $this->examService->deleteExam($exam);
             return redirect()->route('exams.index')->with('success', 'Exam deleted successfully.');
         } catch (\Exception $e) {
-          
+
             return back()->with('error', $e->getMessage());
         }
     }

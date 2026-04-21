@@ -23,6 +23,7 @@ class AcademicYearService
     public function storeYearWithSemesters(array $data)
     {
         return DB::transaction(function () use ($data) {
+            
             $previouslyActiveYear = null;
             if (!empty($data['is_active'])) {
                 $previouslyActiveYear = AcademicYear::where('is_active', true)->first();

@@ -128,10 +128,7 @@
                                 class="inline-flex items-center px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase rounded-full w-fit">
                                 {{ $roleName }}
                             </span>
-                            <span
-                                class="inline-flex items-center px-3 py-1 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 text-[10px] font-black uppercase rounded-full w-fit">
-                                {{ $roleName === 'student' ? 'Academic Record' : $user->employee->job_title ?? 'Staff Member' }}
-                            </span>
+                           
                         </div>
                         <p class="text-sm text-gray-400 mt-1">{{ $user->email }}</p>
                     </div>

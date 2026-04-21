@@ -67,6 +67,7 @@ class AcademicProcessService
             if ($average > 0) {
                 $sumOfAverages += $average;
                 $semesterCount++;
+                
             }
         }
 

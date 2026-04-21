@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="py-12 bg-[#F9FBFE] dark:bg-gray-950 min-h-screen font-sans text-slate-800 dark:text-gray-200 max-w-6xl mx-auto sm:px-6 lg:px-8  rounded-2xl "
+    <div class="py-12 bg-[#F9FBFE] dark:bg-gray-950 min-h-screen font-sans text-slate-800 dark:text-gray-200 max-w-5xl mx-auto sm:px-6 lg:px-8  rounded-2xl "
         dir="ltr">
         <div class=" max-w-6xl mx-auto sm:px-6 lg:px-8  space-y-6">
 

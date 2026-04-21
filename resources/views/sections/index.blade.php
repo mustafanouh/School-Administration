@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="p-6 bg-gray-50 dark:bg-[#0f111a] max-w-6xl mx-auto sm:px-6 lg:px-8 min-h-screen rounded-2xl text-left" dir="ltr">
+    <div class="p-6 bg-gray-50 dark:bg-[#0f111a] max-w-5xl mx-auto sm:px-6 lg:px-8 min-h-screen rounded-2xl text-left" dir="ltr">
 
         {{-- Header Section --}}
         <div class="flex justify-between items-center mb-8">

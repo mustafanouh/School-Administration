@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="p-6 bg-gray-50 dark:bg-[#0f111a] max-w-6xl mx-auto sm:px-6 lg:px-8 min-h-screen rounded-2xl">
+    <div class="p-6 bg-gray-50 dark:bg-[#0f111a] max-w-5xl mx-auto sm:px-6 lg:px-8 min-h-screen rounded-2xl">
 
         {{-- Header Section --}}
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-8">

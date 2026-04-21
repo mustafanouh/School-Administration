@@ -72,8 +72,7 @@
                                         <div>
                                             <span
                                                 class="block font-bold text-gray-800 dark:text-white">{{ $section->name }}</span>
-                                            <span class="text-[10px] text-gray-400 uppercase tracking-tight">ID:
-                                                #SECT-{{ $section->id }}</span>
+                                          
                                         </div>
                                     </div>
                                 </td>

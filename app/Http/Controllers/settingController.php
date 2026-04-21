@@ -40,5 +40,6 @@ class settingController extends Controller
         $settings = $setting ? $setting : $default;
 
         return view('settings.edit', compact('settings'));
+        
     }
 }

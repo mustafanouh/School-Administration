@@ -113,12 +113,12 @@
                                             </td>
                                             <td class="py-5 px-4">
                                                 <span
-                                                    class="text-xs font-medium text-slate-500 italic">{{ $mark->exam->name }}</span>
+                                                    class="text-xs font-medium text-slate-500 italic">{{ $mark->exam->exam_type }}</span>
                                             </td>
                                             <td class="py-5 px-8 text-right">
                                                 <span
                                                     class="inline-block px-4 py-1.5 rounded-xl bg-slate-50 border border-slate-100 text-indigo-600 font-black text-sm group-hover:bg-white group-hover:border-indigo-100 transition-all">
-                                                    {{ $mark->mark_obtained }} <span
+                                                    {{ $mark->score }} <span
                                                         class="text-[10px] text-slate-300 mx-1">/</span>
                                                     {{ $mark->exam->max_mark }}
                                                 </span>
@@ -144,7 +144,7 @@
                     <div class="side-card opacity-0 space-y-8">
                         <div
                             class="bg-white p-8 rounded-[3rem] border border-slate-100 shadow-sm relative overflow-hidden">
-                            <div class="absolute top-0 left-0 w-1.5 h-full bg-emerald-400"></div>
+                          
                             <h3 class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] mb-8 italic">
                                 Attendance Log</h3>
 
@@ -170,7 +170,7 @@
                         </div>
 
                         {{-- Quick Action / Support Widget --}}
-                        <div class="bg-slate-950 p-10 rounded-[3.5rem] shadow-2xl relative overflow-hidden group">
+                        <div class="bg-slate-600 p-10 rounded-[3.5rem] shadow-2xl relative overflow-hidden group">
                             <div
                                 class="absolute -right-8 -top-8 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-1000">
                             </div>
